@@ -1,0 +1,212 @@
+,PLANC_aquaria_name,SampleID,X,Sample.Name,Concentration,Treatment.x,Bottle,Timepoint..h.,Temp,origin,Treatment.y,Sample.Type,Timepoint.x,Hours,Bottle_NR,Notes,sym_total,sym_total..no.outliers.,SA,SA_no_outliers,sym.SA.normalized.no.outliers,sym.SA.normalized,Aquaria_timepoint_heat,Aquaria,Timepoint.y,Heat,Coral_Health,abcDOM_Treatment,Coral_Health_Heat,Timepoint_Heat,sym.group1,log10.sym.SA.normalized.no.outliers,sym.group1.1,sym.group2,sym.group3,bleaching_trajectory,Collection_Bleaching_Level1,Bleaching_Susceptability,Treatment
+1,,ABC_152,44,D5,312.47,HotWaterControl,8,8,Hot,control,Hot Water Control,FCM,T8,8,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+2,,ABC_153,45,D6,254.78,HotWaterControl,9,8,Hot,control,Hot Water Control,FCM,T8,8,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+3,,ABC_196,75,G11,771.28,Water Control,16,16,Ambient,control,Water Control,FCM,T16,16,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+4,,ABC_197,76,G12,687.69,Water Control,17,16,Ambient,control,Water Control,FCM,T16,16,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+5,,ABC_198,85,H1,1608.8,Water Control,18,16,Ambient,control,Water Control,FCM,T16,16,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+6,,ABC_115,9,A6,125.59,HotWaterControl,7,0,Hot,control,Hot Water Control,FCM,T0,0,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+7,,ABC_116,10,A7,119.71,HotWaterControl,8,0,Hot,control,Hot Water Control,FCM,T0,0,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+8,,ABC_117,11,A8,134.71,HotWaterControl,9,0,Hot,control,Hot Water Control,FCM,T0,0,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+9,,ABC_160,49,E1,287.49,Water Control,16,8,Ambient,control,Water Control,FCM,T8,8,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+10,,ABC_161,53,E2,272.84,Water Control,17,8,Ambient,control,Water Control,FCM,T8,8,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+11,,ABC_162,54,E3,242.59,Water Control,18,8,Ambient,control,Water Control,FCM,T8,8,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+12,,ABC_206,99,A3,710.86,HotWaterControl,8,20,Hot,control,Hot Water Control,FCM,T,20,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+13,,ABC_207,100,A4,549.73,HotWaterControl,9,20,Hot,control,Hot Water Control,FCM,T,20,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+14,,ABC_249,141,D9,921.29,Water Control,16,32,Ambient,control,Water Control,FCM,T,32,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+15,,ABC_124,18,B3,131.18,Water Control,16,0,Ambient,control,Water Control,FCM,T0,0,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+16,,ABC_125,19,B4,129.94,Water Control,17,0,Ambient,control,Water Control,FCM,T0,0,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+17,,ABC_126,20,B5,139.06,Water Control,18,0,Ambient,control,Water Control,FCM,T0,0,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+18,,ABC_170,50,E10,549.12,HotWaterControl,8,12,Hot,control,Hot Water Control,FCM,T12,12,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+19,,ABC_171,51,E11,389.65,HotWaterControl,9,12,Hot,control,Hot Water Control,FCM,T12,12,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+20,,ABC_214,96,A11,956.66,Water Control,16,20,Ambient,control,Water Control,FCM,T,20,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+21,,ABC_215,97,A12,922.1,Water Control,17,20,Ambient,control,Water Control,FCM,T,20,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+22,,ABC_216,106,B1,1788.9,Water Control,18,20,Ambient,control,Water Control,FCM,T,20,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+23,,ABC_133,15,B11,132.47,HotWaterControl,7,2,Hot,control,Hot Water Control,FCM,T2,2,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+24,,ABC_134,16,B12,143.18,HotWaterControl,8,2,Hot,control,Hot Water Control,FCM,T2,2,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+25,,ABC_135,25,C1,167.14,HotWaterControl,9,2,Hot,control,Hot Water Control,FCM,T2,2,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+26,,ABC_178,69,F6,629.52,Water Control,16,12,Ambient,control,Water Control,FCM,T12,12,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+27,,ABC_179,70,F7,428.44,Water Control,17,12,Ambient,control,Water Control,FCM,T12,12,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+28,,ABC_180,71,F8,1126.1,Water Control,18,12,Ambient,control,Water Control,FCM,T12,12,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+29,,ABC_224,116,B8,733.22,HotWaterControl,8,24,Hot,control,Hot Water Control,FCM,T,24,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+30,,ABC_225,117,B9,611.88,HotWaterControl,9,24,Hot,control,Hot Water Control,FCM,T,24,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+31,,ABC_266,155,F2,787.78,Water Control,16,36,Ambient,control,Water Control,FCM,T,36,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+32,,ABC_142,35,C8,144.41,Water Control,16,2,Ambient,control,Water Control,FCM,T2,2,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+33,,ABC_143,36,C9,146.04,Water Control,17,2,Ambient,control,Water Control,FCM,T2,2,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+34,,ABC_144,26,C10,145.37,Water Control,18,2,Ambient,control,Water Control,FCM,T2,2,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+35,,ABC_188,78,G3,595.06,HotWaterControl,8,16,Hot,control,Hot Water Control,FCM,T16,16,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+36,,ABC_189,79,G4,413.02,HotWaterControl,9,16,Hot,control,Hot Water Control,FCM,T16,16,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+37,,ABC_232,124,C4,922.16,Water Control,16,24,Ambient,control,Water Control,FCM,T,24,16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+38,,ABC_233,125,C5,894.52,Water Control,17,24,Ambient,control,Water Control,FCM,T,24,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+39,,ABC_234,126,C6,1802.28,Water Control,18,24,Ambient,control,Water Control,FCM,T,24,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+40,,ABC_151,43,D4,296.9,HotWaterControl,7,8,Hot,control,Hot Water Control,FCM,T8,8,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+41,,ABC_240,121,C12,782.96,HotWaterControl,7,32,Hot,control,Hot Water Control,FCM,T,32,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+42,,ABC_250,131,D10,922.04,Water Control,17,32,Ambient,control,Water Control,FCM,T,32,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+43,,ABC_251,132,D11,1726.86,Water Control,18,32,Ambient,control,Water Control,FCM,T,32,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+44,,ABC_169,60,E9,503.37,HotWaterControl,7,12,Hot,control,Hot Water Control,FCM,T12,12,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+45,,ABC_257,149,E5,731.78,HotWaterControl,7,36,Hot,control,Hot Water Control,FCM,T,36,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+46,,ABC_241,130,D1,758.14,HotWaterControl,8,32,Hot,control,Hot Water Control,FCM,T,32,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+47,,ABC_242,134,D2,645.47,HotWaterControl,9,32,Hot,control,Hot Water Control,FCM,T,32,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+48,,ABC_187,77,G2,622.04,HotWaterControl,7,16,Hot,control,Hot Water Control,FCM,T16,16,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+49,,ABC_258,150,E6,727.32,HotWaterControl,8,36,Hot,control,Hot Water Control,FCM,T,36,8,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+50,,ABC_205,98,A2,651.18,HotWaterControl,7,20,Hot,control,Hot Water Control,FCM,T,20,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+51,,ABC_268,157,F4,1563.08,Water Control,18,36,Ambient,control,Water Control,FCM,T,36,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+52,,ABC_223,115,B7,736.49,HotWaterControl,7,24,Hot,control,Hot Water Control,FCM,T,24,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+53,,ABC_259,151,E7,650.62,HotWaterControl,9,36,Hot,control,Hot Water Control,FCM,T,36,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,HotWaterControl
+54,,ABC_267,156,F3,830.12,Water Control,17,36,Ambient,control,Water Control,FCM,T,36,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Water Control
+55,BL1_T7C,ABC_208,101,A5,1508.47,Bleaching-Recovering,10,20,Ambient,Bleached,Recovering,FCM,T,20,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+56,BL1_T7C,ABC_136,29,C2,139.43,Bleaching-Recovering,10,2,Ambient,Bleached,Recovering,FCM,T2,2,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+57,BL1_T7C,ABC_154,46,D7,433.68,Bleaching-Recovering,10,8,Ambient,Bleached,Recovering,FCM,T8,8,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+58,BL1_T7C,ABC_226,107,B10,1276.04,Bleaching-Recovering,10,24,Ambient,Bleached,Recovering,FCM,T,24,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+59,BL1_T7C,ABC_260,152,E8,1334.32,Bleaching-Recovering,10,36,Ambient,Bleached,Recovering,FCM,T,36,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+60,BL1_T7C,ABC_190,80,G5,1271.9,Bleaching-Recovering,10,16,Ambient,Bleached,Recovering,FCM,T16,16,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+61,BL1_T7C,ABC_243,135,D3,1403.56,Bleaching-Recovering,10,32,Ambient,Bleached,Recovering,FCM,T,32,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+62,BL1_T7C,ABC_118,12,A9,118.98,Bleaching-Recovering,10,0,Ambient,Bleached,Recovering,FCM,T0,0,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+63,BL1_T7C,ABC_172,52,E12,1123.08,Bleaching-Recovering,10,12,Ambient,Bleached,Recovering,FCM,T12,12,10,NA,2562000,2558800,90.69088957,75.51699705,33883.76259,28249.8056,BL1_T7C,BL1,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,28249.8056,4.52999163,Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+64,BL2_T7C,ABC_119,2,A10,140.94,Bleaching-Recovering,11,0,Ambient,Bleached,Recovering,FCM,T0,0,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+65,BL2_T7C,ABC_209,102,A6,1823.68,Bleaching-Recovering,11,20,Ambient,Bleached,Recovering,FCM,T,20,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+66,BL2_T7C,ABC_191,81,G6,1464.24,Bleaching-Recovering,11,16,Ambient,Bleached,Recovering,FCM,T16,16,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+67,BL2_T7C,ABC_261,153,E9,1764.8,Bleaching-Recovering,11,36,Ambient,Bleached,Recovering,FCM,T,36,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+68,BL2_T7C,ABC_244,136,D4,1900.84,Bleaching-Recovering,11,32,Ambient,Bleached,Recovering,FCM,T,32,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+69,BL2_T7C,ABC_227,108,B11,1508.14,Bleaching-Recovering,11,24,Ambient,Bleached,Recovering,FCM,T,24,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+70,BL2_T7C,ABC_137,30,C3,135.2,Bleaching-Recovering,11,2,Ambient,Bleached,Recovering,FCM,T2,2,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+71,BL2_T7C,ABC_155,47,D8,589.33,Bleaching-Recovering,11,8,Ambient,Bleached,Recovering,FCM,T8,8,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+72,BL2_T7C,ABC_173,61,F1,1202.71,Bleaching-Recovering,11,12,Ambient,Bleached,Recovering,FCM,T12,12,11,NA,2069800,2049000,81.26320882,45.66896405,44866.35602,25470.32083,BL2_T7C,BL2,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,25470.32083,4.651920798,Low Sym,Medium Sym,Medium Sym,Recovering,BL,Susceptible,Bleached
+73,BL3_T7C,ABC_120,3,A11,174.02,Bleaching-Recovering,12,0,Ambient,Bleached,Recovering,FCM,T0,0,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+74,BL3_T7C,ABC_192,82,G7,1925.62,Bleaching-Recovering,12,16,Ambient,Bleached,Recovering,FCM,T16,16,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+75,BL3_T7C,ABC_210,103,A7,2506.26,Bleaching-Recovering,12,20,Ambient,Bleached,Recovering,FCM,T,20,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+76,BL3_T7C,ABC_262,143,E10,2448.2,Bleaching-Recovering,12,36,Ambient,Bleached,Recovering,FCM,T,36,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+77,BL3_T7C,ABC_245,137,D5,2463.12,Bleaching-Recovering,12,32,Ambient,Bleached,Recovering,FCM,T,32,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+78,BL3_T7C,ABC_138,31,C4,166.24,Bleaching-Recovering,12,2,Ambient,Bleached,Recovering,FCM,T2,2,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+79,BL3_T7C,ABC_156,48,D9,1155.56,Bleaching-Recovering,12,8,Ambient,Bleached,Recovering,FCM,T8,8,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+80,BL3_T7C,ABC_174,65,F2,1834.58,Bleaching-Recovering,12,12,Ambient,Bleached,Recovering,FCM,T12,12,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+81,BL3_T7C,ABC_228,109,B12,2533.58,Bleaching-Recovering,12,24,Ambient,Bleached,Recovering,FCM,T,24,12,NA,826045,712820,93.56955321,58.54831582,12174.90187,8828.138766,BL3_T7C,BL3,T7,C,Bleaching,Bleaching-Recovering,Bleaching_C,T7_C,8828.138766,4.08546547,Very Low Sym,Low Sym,Low Sym,Recovering,BL,Susceptible,Bleached
+82,HE1_T7C,ABC_121,4,A12,148.72,Healthy,13,0,Ambient,Healthy,Coral Control,FCM,T0,0,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+83,HE1_T7C,ABC_263,144,E11,1699.76,Healthy,13,36,Ambient,Healthy,Coral Control,FCM,T,36,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+84,HE1_T7C,ABC_193,83,G8,1684.12,Healthy,13,16,Ambient,Healthy,Coral Control,FCM,T16,16,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+85,HE1_T7C,ABC_139,32,C5,189.1,Healthy,13,2,Ambient,Healthy,Coral Control,FCM,T2,2,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+86,HE1_T7C,ABC_157,38,D10,498.04,Healthy,13,8,Ambient,Healthy,Coral Control,FCM,T8,8,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+87,HE1_T7C,ABC_246,138,D6,1771.49,Healthy,13,32,Ambient,Healthy,Coral Control,FCM,T,32,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+88,HE1_T7C,ABC_211,104,A8,1899.43,Healthy,13,20,Ambient,Healthy,Coral Control,FCM,T,20,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+89,HE1_T7C,ABC_175,66,F3,1040.18,Healthy,13,12,Ambient,Healthy,Coral Control,FCM,T12,12,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+90,HE1_T7C,ABC_229,118,C1,1827.12,Healthy,13,24,Ambient,Healthy,Coral Control,FCM,T,24,13,NA,13360205,8019100,128.5730032,75.3544236,106418.4373,103911.433,HE1_T7C,HE1,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.027016877,High Sym,High Sym,High Sym,Bleaching,HE,Resistant,Control
+91,HE2_T7C,ABC_194,84,G9,1194.96,Healthy,14,16,Ambient,Healthy,Coral Control,FCM,T16,16,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+92,HE2_T7C,ABC_247,139,D7,1289.06,Healthy,14,32,Ambient,Healthy,Coral Control,FCM,T,32,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+93,HE2_T7C,ABC_212,105,A9,1374.54,Healthy,14,20,Ambient,Healthy,Coral Control,FCM,T,20,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+94,HE2_T7C,ABC_122,13,B1,145.06,Healthy,14,0,Ambient,Healthy,Coral Control,FCM,T0,0,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+95,HE2_T7C,ABC_140,33,C6,169.04,Healthy,14,2,Ambient,Healthy,Coral Control,FCM,T2,2,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+96,HE2_T7C,ABC_264,145,E12,1087.14,Healthy,14,36,Ambient,Healthy,Coral Control,FCM,T,36,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+97,HE2_T7C,ABC_230,122,C2,1367.45,Healthy,14,24,Ambient,Healthy,Coral Control,FCM,T,24,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+98,HE2_T7C,ABC_158,39,D11,437.96,Healthy,14,8,Ambient,Healthy,Coral Control,FCM,T8,8,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+99,HE2_T7C,ABC_176,67,F4,907.88,Healthy,14,12,Ambient,Healthy,Coral Control,FCM,T12,12,14,NA,13294780,13273680,139.4142319,127.4742319,104128.3387,95361.71319,HE2_T7C,HE2,T7,C,Healthy,Healthy,Healthy_C,T7_C,High Sym,5.01756894,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Control
+100,HE2_T7H,ABC_203,89,H5,4045.38,Bleaching,5,20,Hot,Healthy,Bleaching,FCM,T,20,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+101,HE2_T7H,ABC_221,113,B5,3950.33,Bleaching,5,24,Hot,Healthy,Bleaching,FCM,T,24,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+102,HE2_T7H,ABC_255,147,E3,3415.04,Bleaching,5,36,Hot,Healthy,Bleaching,FCM,T,36,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+103,HE2_T7H,ABC_113,7,A4,332.55,Bleaching,5,0,Hot,Healthy,Bleaching,FCM,T0,0,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+104,HE2_T7H,ABC_238,119,C10,3912.34,Bleaching,5,32,Hot,Healthy,Bleaching,FCM,T,32,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+105,HE2_T7H,ABC_149,41,D2,1602.74,Bleaching,5,8,Hot,Healthy,Bleaching,FCM,T8,8,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+106,HE2_T7H,ABC_131,24,B9,177.78,Bleaching,5,2,Hot,Healthy,Bleaching,FCM,T2,2,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+107,HE2_T7H,ABC_185,64,F12,2859.9,Bleaching,5,16,Hot,Healthy,Bleaching,FCM,T16,16,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+108,HE2_T7H,ABC_167,58,E7,2744.33,Bleaching,5,12,Hot,Healthy,Bleaching,FCM,T12,12,5,NA,12254100,12254100,110.7376261,110.7376261,110658.8649,110658.8649,HE2_T7H,HE2,T7,H,Healthy,Bleaching,Healthy_H,T7_H,High Sym,5.043986211,High Sym,High Sym,High Sym,Recovering,HE,Resistant,Thermal Stress
+109,HE3_T7C,ABC_248,140,D8,1263.24,Healthy,15,32,Ambient,Healthy,Coral Control,FCM,T,32,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+110,HE3_T7C,ABC_195,74,G10,1335.02,Healthy,15,16,Ambient,Healthy,Coral Control,FCM,T16,16,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+111,HE3_T7C,ABC_265,154,F1,1027,Healthy,15,36,Ambient,Healthy,Coral Control,FCM,T,36,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+112,HE3_T7C,ABC_123,17,B2,207.84,Healthy,15,0,Ambient,Healthy,Coral Control,FCM,T0,0,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+113,HE3_T7C,ABC_213,95,A10,1771.64,Healthy,15,20,Ambient,Healthy,Coral Control,FCM,T,20,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+114,HE3_T7C,ABC_159,40,D12,516.94,Healthy,15,8,Ambient,Healthy,Coral Control,FCM,T8,8,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+115,HE3_T7C,ABC_141,34,C7,192.69,Healthy,15,2,Ambient,Healthy,Coral Control,FCM,T2,2,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+116,HE3_T7C,ABC_231,123,C3,1491.38,Healthy,15,24,Ambient,Healthy,Coral Control,FCM,T,24,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+117,HE3_T7C,ABC_177,68,F5,1309.68,Healthy,15,12,Ambient,Healthy,Coral Control,FCM,T12,12,15,NA,9616700,9616700,162.0466647,162.0466647,59345.25107,59345.25107,HE3_T7C,HE3,T7,C,Healthy,Healthy,Healthy_C,T7_C,Medium Sym,4.773385972,Medium Sym,Medium Sym,Medium Sym,Bleaching,HE,Resistant,Control
+118,HE3_T7H,ABC_204,94,A1,2133.76,Bleaching,6,20,Hot,Healthy,Bleaching,FCM,T,20,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+119,HE3_T7H,ABC_239,120,C11,2101.94,Bleaching,6,32,Hot,Healthy,Bleaching,FCM,T,32,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+120,HE3_T7H,ABC_114,8,A5,159.96,Bleaching,6,0,Hot,Healthy,Bleaching,FCM,T0,0,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+121,HE3_T7H,ABC_256,148,E4,1683.52,Bleaching,6,36,Hot,Healthy,Bleaching,FCM,T,36,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+122,HE3_T7H,ABC_132,14,B10,179.8,Bleaching,6,2,Hot,Healthy,Bleaching,FCM,T2,2,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+123,HE3_T7H,ABC_222,114,B6,2369.8,Bleaching,6,24,Hot,Healthy,Bleaching,FCM,T,24,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+124,HE3_T7H,ABC_186,73,G1,2034.06,Bleaching,6,16,Hot,Healthy,Bleaching,FCM,T16,16,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+125,HE3_T7H,ABC_150,42,D3,618.88,Bleaching,6,8,Hot,Healthy,Bleaching,FCM,T8,8,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+126,HE3_T7H,ABC_168,59,E8,1631.2,Bleaching,6,12,Hot,Healthy,Bleaching,FCM,T12,12,6,NA,14215345,14215345,200.6876984,200.6876984,70833.16572,70833.16572,HE3_T7H,HE3,T7,H,Healthy,Bleaching,Healthy_H,T7_H,Medium Sym,4.850236652,Medium Sym,High Sym,Medium Sym,Bleaching,HE,Resistant,Thermal Stress
+127,PB1_T7H,ABC_109,1,A1,167.29,Bleaching-Dying,1,0,Hot,Partially Bleached,Dying,FCM,T0,0,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+128,PB1_T7H,ABC_199,86,H2,2062,Bleaching-Dying,1,20,Hot,Partially Bleached,Dying,FCM,T,20,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+129,PB1_T7H,ABC_235,127,C7,1984.29,Bleaching-Dying,1,32,Hot,Partially Bleached,Dying,FCM,T,32,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+130,PB1_T7H,ABC_163,55,E4,1369.26,Bleaching-Dying,1,12,Hot,Partially Bleached,Dying,FCM,T12,12,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+131,PB1_T7H,ABC_127,21,B6,139.72,Bleaching-Dying,1,2,Hot,Partially Bleached,Dying,FCM,T2,2,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+132,PB1_T7H,ABC_181,72,F9,1875.1,Bleaching-Dying,1,16,Hot,Partially Bleached,Dying,FCM,T16,16,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+133,PB1_T7H,ABC_217,110,B2,2199.37,Bleaching-Dying,1,24,Hot,Partially Bleached,Dying,FCM,T,24,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+134,PB1_T7H,ABC_145,27,C11,679.66,Bleaching-Dying,1,8,Hot,Partially Bleached,Dying,FCM,T8,8,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+135,PB1_T7H,ABC_252,133,D12,1641.14,Bleaching-Dying,1,36,Hot,Partially Bleached,Dying,FCM,T,36,1,NA,4023655,4023655,170.1446111,170.1446111,23648.44219,23648.44219,PB1_T7H,PB1,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,23648.44219,4.373802537,Very Low Sym,Low Sym,Low Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+136,PB2_T7H,ABC_164,56,E5,1723.76,Bleaching-Dying,2,12,Hot,Partially Bleached,Dying,FCM,T12,12,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+137,PB2_T7H,ABC_182,62,F10,2057.38,Bleaching-Dying,2,16,Hot,Partially Bleached,Dying,FCM,T16,16,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+138,PB2_T7H,ABC_200,87,H3,2012.5,Bleaching-Dying,2,20,Hot,Partially Bleached,Dying,FCM,T,20,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+139,PB2_T7H,ABC_110,5,A2,163.1,Bleaching-Dying,2,0,Hot,Partially Bleached,Dying,FCM,T0,0,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+140,PB2_T7H,ABC_218,111,B3,2129.42,Bleaching-Dying,2,24,Hot,Partially Bleached,Dying,FCM,T,24,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+141,PB2_T7H,ABC_146,28,C12,862.52,Bleaching-Dying,2,8,Hot,Partially Bleached,Dying,FCM,T8,8,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+142,PB2_T7H,ABC_128,22,B7,171.29,Bleaching-Dying,2,2,Hot,Partially Bleached,Dying,FCM,T2,2,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+143,PB2_T7H,ABC_236,128,C8,1963.76,Bleaching-Dying,2,32,Hot,Partially Bleached,Dying,FCM,T,32,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+144,PB2_T7H,ABC_253,142,E1,1653.68,Bleaching-Dying,2,36,Hot,Partially Bleached,Dying,FCM,T,36,2,NA,5720085,5720085,133.9929001,133.9929001,42689.46337,42689.46337,PB2_T7H,PB2,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,42689.46337,4.630320695,Low Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+145,PB3_T7H,ABC_201,88,H4,2170.9,Bleaching-Dying,3,20,Hot,Partially Bleached,Dying,FCM,T,20,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+146,PB3_T7H,ABC_219,112,B4,2116.62,Bleaching-Dying,3,24,Hot,Partially Bleached,Dying,FCM,T,24,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+147,PB3_T7H,ABC_237,129,C9,2079.2,Bleaching-Dying,3,32,Hot,Partially Bleached,Dying,FCM,T,32,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+148,PB3_T7H,ABC_165,57,E6,1640.41,Bleaching-Dying,3,12,Hot,Partially Bleached,Dying,FCM,T12,12,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+149,PB3_T7H,ABC_183,63,F11,1877,Bleaching-Dying,3,16,Hot,Partially Bleached,Dying,FCM,T16,16,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+150,PB3_T7H,ABC_129,23,B8,196.66,Bleaching-Dying,3,2,Hot,Partially Bleached,Dying,FCM,T2,2,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+151,PB3_T7H,ABC_147,37,D1,522.04,Bleaching-Dying,3,8,Hot,Partially Bleached,Dying,FCM,T8,8,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+152,PB3_T7H,ABC_111,6,A3,174.86,Bleaching-Dying,3,0,Hot,Partially Bleached,Dying,FCM,T0,0,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+153,PB3_T7H,ABC_254,146,E2,1678.3,Bleaching-Dying,3,36,Hot,Partially Bleached,Dying,FCM,T,36,3,NA,8073710,7970300,158.8353897,140.7653897,56621.16246,50830.67453,PB3_T7H,PB3,T7,H,Partially_Bleaching,Bleaching-Dying,Partially_Bleaching_H,T7_H,Medium Sym,4.752978781,Medium Sym,Medium Sym,Medium Sym,Recovering,BL,SemiResistant,"Bleached
++
+Thermal Stress"
+154,NA,Q+SYBR,91,H7,2.6,,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+155,NA,FOCUS+SYBR,93,H9,5.41,,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+156,NA,Q,90,H6,23.29,,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+157,NA,FOCUS,92,H8,3.1,,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
