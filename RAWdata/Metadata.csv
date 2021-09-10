@@ -1,4 +1,4 @@
-Sample_ID,Temp,Origin_PlanC,Field_Treatment,Bleaching_Status,Bleaching_Susceptability,Stress_status,Treatment,Possible_treatment_name,Sample_Type,Timepoint_char,Timepoint,Bottle_NR,Notes
+Sample Name,Temp,Origin_PlanC,Field_Treatment,Bleaching_Status,Bleaching_Susceptability,Stress_status,Treatment,Possible_treatment_name,Sample_Type,Timepoint_char,Timepoint,Bottle_NR,Notes
 ABC_001,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Thermal Stress,Bleached + Thermal Stress,Sterivex,T0,0,1,
 ABC_002,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Thermal Stress,Bleached + Thermal Stress,Sterivex,T0,0,2,
 ABC_003,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Thermal Stress,Bleached + Thermal Stress,Sterivex,T0,0,3,
