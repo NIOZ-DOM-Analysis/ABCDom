@@ -1,0 +1,35 @@
+Sample,Sample ID,µMC,Stdev
+Dying bottle 1 T0,MO19-ABC_37,225.7,2.0
+Dying bottle 2 T0,MO19-ABC_38,89.2,1.5
+Dying bottle 3 T0,MO19-ABC_39,106.0,2.4
+Bleaching bottle 5 T0,MO19-ABC_41,191.4,0.9
+Bleaching bottle 6 T0,MO19-ABC_42,120.2,0.9
+Hot water control Bottle 7 T0,MO19-ABC_43,97.0,1.0
+Hot water control Bottle 8 T0,MO19-ABC_44,106.7,1.1
+Hot water control Bottle 9 T0,MO19-ABC_45,96.4,1.7
+Recovering Bottle 10 T0,MO19-ABC_46,104.1,0.2
+Recovering Bottle 11 T0,MO19-ABC_47,114.1,1.4
+Recovering Bottle 12 T0,MO19-ABC_48,206.1,2.4
+Coral control Bottle 13 T0,MO19-ABC_49,109.5,0.4
+Coral control Bottle 14 T0,MO19-ABC_50,109.2,2.0
+Coral control Bottle 15 T0,MO19-ABC_51,180.9,3.6
+Water Control Bottle 16 T0,MO19-ABC_52,93.4,1.2
+Water Control Bottle 17 T0,MO19-ABC_53,95.0,1.8
+Water Control Bottle 18 T0,MO19-ABC_54,76.8,1.5
+Dying bottle 1 TF,MO19-ABC_91,101.3,0.2
+Dying bottle 2 TF,MO19-ABC_92,97.8,1.0
+Dying bottle 3 TF,MO19-ABC_93,96.6,1.3
+Bleaching bottle 5 TF,MO19-ABC_95,148.4,2.1
+Bleaching bottle 6 TF,MO19-ABC_96,95.7,1.6
+Hot water control Bottle 7 TF,MO19-ABC_97,185.8,0.7
+Hot water control Bottle 8 TF,MO19-ABC_98,81.7,0.9
+Hot water control Bottle 9 TF,MO19-ABC_99,83.9,1.2
+Recovering Bottle 10 TF,MO19-ABC_100,91.2,1.2
+Recovering Bottle 11 TF,MO19-ABC_101,93.1,1.0
+Recovering Bottle 12 TF,MO19-ABC_102,112.3,2.0
+Coral control Bottle 13 TF,MO19-ABC_103,95.5,1.8
+Coral control Bottle 14 TF,MO19-ABC_104,95.1,1.2
+Coral control Bottle 15 TF,MO19-ABC_105,91.6,0.8
+Water Control Bottle 16 TF,MO19-ABC_106,83.3,1.3
+Water Control Bottle 17 TF,MO19-ABC_107,83.4,1.2
+Water Control Bottle 18 TF,MO19-ABC_108,94.2,1.5
