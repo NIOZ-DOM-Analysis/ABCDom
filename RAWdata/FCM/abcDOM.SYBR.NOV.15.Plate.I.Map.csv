@@ -1,0 +1,97 @@
+SampleID,Treatment,Bottle,Timepoint (h),Well
+ABC109,Dying,1,0,A1
+ABC110,Dying,2,0,A2
+ABC111,Dying,3,0,A3
+ABC113,Bleaching,5,0,A4
+ABC114,Bleaching,6,0,A5
+ABC115,HotWaterControl,7,0,A6
+ABC116,HotWaterControl,8,0,A7
+ABC117,HotWaterControl,9,0,A8
+ABC118,Recovering,10,0,A9
+ABC119,Recovering,11,0,A10
+ABC120,Recovering,12,0,A11
+ABC121,Coral Control,13,0,A12
+ABC122,Coral Control,14,0,B1
+ABC123,Coral Control,15,0,B2
+ABC124,Water Control,16,0,B3
+ABC125,Water Control,17,0,B4
+ABC126,Water Control,18,0,B5
+ABC127,Dying,1,2,B6
+ABC128,Dying,2,2,B7
+ABC129,Dying,3,2,B8
+ABC131,Bleaching,5,2,B9
+ABC132,Bleaching,6,2,B10
+ABC133,HotWaterControl,7,2,B11
+ABC134,HotWaterControl,8,2,B12
+ABC135,HotWaterControl,9,2,C1
+ABC136,Recovering,10,2,C2
+ABC137,Recovering,11,2,C3
+ABC138,Recovering,12,2,C4
+ABC139,Coral Control,13,2,C5
+ABC140,Coral Control,14,2,C6
+ABC141,Coral Control,15,2,C7
+ABC142,Water Control,16,2,C8
+ABC143,Water Control,17,2,C9
+ABC144,Water Control,18,2,C10
+ABC145,Dying,1,8,C11
+ABC146,Dying,2,8,C12
+ABC147,Dying,3,8,D1
+ABC149,Bleaching,5,8,D2
+ABC150,Bleaching,6,8,D3
+ABC151,HotWaterControl,7,8,D4
+ABC152,HotWaterControl,8,8,D5
+ABC153,HotWaterControl,9,8,D6
+ABC154,Recovering,10,8,D7
+ABC155,Recovering,11,8,D8
+ABC156,Recovering,12,8,D9
+ABC157,Coral Control,13,8,D10
+ABC158,Coral Control,14,8,D11
+ABC159,Coral Control,15,8,D12
+ABC160,Water Control,16,8,E1
+ABC161,Water Control,17,8,E2
+ABC162,Water Control,18,8,E3
+ABC163,Dying,1,12,E4
+ABC164,Dying,2,12,E5
+ABC165,Dying,3,12,E6
+ABC167,Bleaching,5,12,E7
+ABC168,Bleaching,6,12,E8
+ABC169,HotWaterControl,7,12,E9
+ABC170,HotWaterControl,8,12,E10
+ABC171,HotWaterControl,9,12,E11
+ABC172,Recovering,10,12,E12
+ABC173,Recovering,11,12,F1
+ABC174,Recovering,12,12,F2
+ABC175,Coral Control,13,12,F3
+ABC176,Coral Control,14,12,F4
+ABC177,Coral Control,15,12,F5
+ABC178,Water Control,16,12,F6
+ABC179,Water Control,17,12,F7
+ABC180,Water Control,18,12,F8
+ABC181,Dying,1,16,F9
+ABC182,Dying,2,16,F10
+ABC183,Dying,3,16,F11
+ABC185,Bleaching,5,16,F12
+ABC186,Bleaching,6,16,G1
+ABC187,HotWaterControl,7,16,G2
+ABC188,HotWaterControl,8,16,G3
+ABC189,HotWaterControl,9,16,G4
+ABC190,Recovering,10,16,G5
+ABC191,Recovering,11,16,G6
+ABC192,Recovering,12,16,G7
+ABC193,Coral Control,13,16,G8
+ABC194,Coral Control,14,16,G9
+ABC195,Coral Control,15,16,G10
+ABC196,Water Control,16,16,G11
+ABC197,Water Control,17,16,G12
+ABC198,Water Control,18,16,H1
+ABC199,Dying,1,20,H2
+ABC200,Dying,2,20,H3
+ABC201,Dying,3,20,H4
+ABC203,Bleaching,5,20,H5
+Q,,,,H6
+Q+SYBR,,,,H7
+FOCUS,,,,H8
+FOCUS+SYBR,,,,H9
+IS,,,,H10
+IS,,,,H11
+IS,,,,H12
