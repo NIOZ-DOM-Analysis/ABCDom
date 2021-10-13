@@ -53,3 +53,9 @@ sym_dat$sym.SA=sym_dat$sym.total/sym_dat$SA
 sym_dat$log10.sym.SA=log10(sym_dat$sym.SA)
 ```
 
+Export as CSV to output directory.
+
+```{r}
+write.csv(sym_dat, file.path(dirOutput, "sym_dat.csv"), )
+```
+
