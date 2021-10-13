@@ -11,13 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Goal: Process raw FCM sym data (remove outliers), then calculate sym density for each PLANC coral nubbin.
 
-Load libraries and read in data.
+Read in data.
 
 ```{r}
-#load libraries
-library(ggplot2)
-library(cowplot)
-library(FSA)
 
 PLANC_Blastate_FCM <- read.csv(file.path(dirRAW, "Sym_Counts", "PLANC_Blastate_FCM.csv"), ) #load the raw FCM data
 PLANC_Blastate_FCM_Sample_Map <- read.csv(file.path(dirRAW, "Sym_Counts", "PLANC_Blastate_FCM_Sample_Map.csv"), ) #load the FCM sample map data

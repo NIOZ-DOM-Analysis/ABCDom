@@ -1,0 +1,63 @@
+---
+title: "Symbiodiniaceae_analysis"
+author: "Wesley Sparagon"
+date: "10/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+Goal: Analyze and visualize the differences in nubbin symbiodiniaceae between treatments and timepoints.
+
+Load libraries and read in data.
+
+```{r}
+#load libraries
+library(ggplot2)
+library(cowplot)
+library(FSA)
+
+sym_dat <- read.csv(file.path(dirRAW, "Sym_Counts_Processed", "sym_dat.csv"), ) #load the processed symbiodiniaceae data
+```
+
+
+Visualize the t0 corals sym densities excluding stringent outliers (outliers) and relaxed outliers (outliers1).
+
+```{r}
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
+  geom_boxplot()+
+  ggtitle("Stringent Outliers")
+
+ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
+  geom_boxplot()+
+  ggtitle("Relaxed Outliers")
+```
+
+Sym densities at T0 behave as you would expect.
+
+Visualize with BL and PB lumped as BL treatment.
+
+```{r}
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
+  geom_boxplot(size=3)+
+  ggtitle("Stringent Outliers")
+
+ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
+  geom_boxplot()+
+  ggtitle("Relaxed Outliers")
+```
+
+Visualize the sym densities per coral by Collection_Bleaching_Level1 at T7.
+
+```{r}
+
+```
+
