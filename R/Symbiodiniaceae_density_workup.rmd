@@ -55,3 +55,60 @@ Export as CSV to output directory.
 write.csv(sym_dat, file.path(dirOutput, "sym_dat.csv"), )
 ```
 
+Calculate the average sym density for each aquaria and visualize.
+
+```{r}
+#next, sum the sym counts by aquaria and timepoint, without "Outlier1"
+sym_dat_aquaria=sym_dat[c(-1:-2,-14),] #remove NA samples
+sym_dat_aquaria_v1=sym_dat_aquaria[sym_dat_aquaria$Outlier1!="Y",] #first remove outliers
+sym_dat_aquaria_sum=aggregate(sym_dat_aquaria_v1$sym.total,by=list(sym_dat_aquaria_v1$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(sym_dat_aquaria_sum)[2]="sym_total (no outliers1)" #rename column x
+
+#next, sum the coral SA values by aquaria and timepoint without outlier1
+SA_dat_aquaria_sum=aggregate(sym_dat_aquaria_v1$SA,by=list(sym_dat_aquaria_v1$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(SA_dat_aquaria_sum)[2]="SA (no outliers1)"
+
+#next, sum the sym counts by aquaria and timepoint, without outliers.
+sym_dat_aquaria_v2=sym_dat_aquaria[sym_dat_aquaria$Outlier!="Y",] #first remove outliers
+sym_dat_aquaria_sum_v2=aggregate(sym_dat_aquaria_v2$sym.total,by=list(sym_dat_aquaria_v2$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(sym_dat_aquaria_sum_v2)[2]="sym_total (no outliers)" #rename column x
+
+#next, sum the coral SA values by aquaria and timepoint without outliers
+SA_dat_aquaria_sum_v1=aggregate(sym_dat_aquaria_v2$SA,by=list(sym_dat_aquaria_v2$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(SA_dat_aquaria_sum_v1)[2]="SA_no_outliers"
+
+#combine the 2 sym total dfs
+sym_dat_aquaria_sum_v3=merge(sym_dat_aquaria_sum,sym_dat_aquaria_sum_v2)
+
+#combine the 2 SA dfs
+SA_dat_aquaria_sum_v2=merge(SA_dat_aquaria_sum,SA_dat_aquaria_sum_v1)
+
+#combine these 2 dfs
+sym_dat_aquaria_v4=merge(sym_dat_aquaria_sum_v3,SA_dat_aquaria_sum_v2)
+
+#calculate sym counts normalized to SA per aquaria
+sym_dat_aquaria_v4$sym.SA.normalized.no.outliers=sym_dat_aquaria_v4$`sym_total (no outliers)`/sym_dat_aquaria_v4$SA_no_outliers #no outliers
+sym_dat_aquaria_v4$sym.SA.normalized.no.outliers1=sym_dat_aquaria_v4$`sym_total (no outliers1)`/sym_dat_aquaria_v4$`SA (no outliers1)` #no outliers1
+
+#merge sym_dat_aquaria_v4 with metadata.
+metadata.subset=metadata[metadata$Sample_Type=="Sterivex",] #subset for just sterivex
+metadata.subset.t0=metadata.subset[metadata.subset$Timepoint==0,] #subset for t0
+sym_dat_aquaria_final=merge(sym_dat_aquaria_v4,metadata.subset.t0,by.x="Group.1",by.y="PLANC_aquaria",all.x=T,all.y=F)
+
+#remove unnecessary columns
+sym_dat_aquaria_final=sym_dat_aquaria_final[,c(-17,-19)]
+
+#add timepoints to Timepoint_char column
+sym_dat_aquaria_final$Timepoint_char=rep(c("T0","T7","T7"),times=9)
+
+#add all treatments, including aquaria not used in abcdom, to Treatment_v1 column
+sym_dat_aquaria_final$Treatment_v1=c(rep(c("Bleached + Ambient", "Bleached + Ambient", "Bleached + Heated"),times=3),rep(c("Non-bleached + Ambient","Non-bleached + Ambient","Non-bleached + Heated"),times=3),rep(c("Bleached + Ambient", "Bleached + Ambient", "Bleached + Heated"),times=3))
+
+```
+
+Export as CSV to output directory.
+
+```{r}
+write.csv(sym_dat_aquaria_final, file.path(dirOutput, "sym_dat_aquaria_final.csv"), )
+```
+

@@ -25,7 +25,8 @@ library(ggplot2)
 library(cowplot)
 library(FSA)
 
-sym_dat <- read.csv(file.path(dirRAW, "Sym_Counts_Processed", "sym_dat.csv"), ) #load the processed symbiodiniaceae data
+sym_dat <- read.csv(file.path(dirOutput, "sym_dat.csv"), ) #load the processed symbiodiniaceae data
+metadata <- read.csv(file.path(dirRAW, "Metadata.csv"), ) #load in metadata
 ```
 
 
