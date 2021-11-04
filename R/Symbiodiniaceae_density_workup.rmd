@@ -104,6 +104,9 @@ sym_dat_aquaria_final$Timepoint_char=rep(c("T0","T7","T7"),times=9)
 #add all treatments, including aquaria not used in abcdom, to Treatment_v1 column
 sym_dat_aquaria_final$Treatment_v1=c(rep(c("Bleached + Ambient", "Bleached + Ambient", "Bleached + Heated"),times=3),rep(c("Non-bleached + Ambient","Non-bleached + Ambient","Non-bleached + Heated"),times=3),rep(c("Bleached + Ambient", "Bleached + Ambient", "Bleached + Heated"),times=3))
 
+#add a new column for all t0 aquaria corresponding to bleaching status at collection
+sym_dat_aquaria_final$Bleaching_Status_at_Collection=c(rep(c("Bleached","",""),times=3),rep(c("Healthy","",""),times=3),rep(c("Bleached","",""),times=3))
+
 ```
 
 Export as CSV to output directory.

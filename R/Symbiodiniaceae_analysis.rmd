@@ -26,11 +26,12 @@ library(cowplot)
 library(FSA)
 
 sym_dat <- read.csv(file.path(dirOutput, "sym_dat.csv"), ) #load the processed symbiodiniaceae data
+sym_dat_aquaria_final <- read.csv(file.path(dirOutput, "sym_dat_aquaria_final.csv")) #load in the processed symbiodiniaceae data by aquaria
 metadata <- read.csv(file.path(dirRAW, "Metadata.csv"), ) #load in metadata
 ```
 
 
-Visualize the t0 corals sym densities excluding stringent outliers (outliers) and relaxed outliers (outliers1).
+Visualize the t0 corals sym densities (SA normalized) excluding stringent outliers (outliers) and relaxed outliers (outliers1).
 
 ```{r}
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
@@ -54,11 +55,103 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collectio
 ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
   geom_boxplot()+
   ggtitle("Relaxed Outliers")
+
+ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=sym.SA,color=Collection_Bleaching_Level1)))+
+  geom_boxplot()+
+  ggtitle("Relaxed Outliers and not log transformed")
+
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=sym.SA,color=Collection_Bleaching_Level1)))+
+  geom_boxplot()+
+  ggtitle("Stringent Outliers and not log transformed")
 ```
 
-Visualize the sym densities per coral by Collection_Bleaching_Level1 at T7.
+Next, visualize the t0 aquaria aggregated sym densities.
 
 ```{r}
+ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",],aes(x=Bleaching_Status_at_Collection,y=sym.SA.normalized.no.outliers,color=Bleaching_Status_at_Collection,fill=Bleaching_Status_at_Collection))+
+         geom_boxplot(size=2)+
+         geom_point(size=3)+
+         scale_color_manual(values=c("#00BFC4","#00BFC4"))+
+         scale_fill_manual(values=c("dodgerblue3","NA"))+
+         theme_classic()+
+         ggtitle("A")+
+         theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"))+
+         labs(y="Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
+#save and use as panel A for Fig 1. Add posthoc values manually
 
+#try with log10 transformed data
+ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",],aes(x=Bleaching_Status_at_Collection,y=log10(sym.SA.normalized.no.outliers1),color=Bleaching_Status_at_Collection,fill=Bleaching_Status_at_Collection))+
+         geom_boxplot(size=2)+
+         geom_point(size=3)+
+         scale_color_manual(values=c("#00BFC4","#00BFC4"))+
+         scale_fill_manual(values=c("dodgerblue3","NA"))+
+         theme_classic()+
+         ggtitle("A")+
+         theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"))+
+         labs(y="log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
+
+```
+
+Now, visualize the distribution and run the statistics on the t0 aquaria data.
+
+```{r}
+hist(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",]$sym.SA.normalized.no.outliers) #not normal
+hist(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",]$sym.SA.normalized.no.outliers1) #try with the other outlier criteria. still not normal
+hist(log10(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",]$sym.SA.normalized.no.outliers)) #not normal
+hist(log10(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",]$sym.SA.normalized.no.outliers1)) #not normal
+```
+
+Since the data are not normal, test the effect of Bleaching_Status_at_Collection using a k-w test.
+
+```{r}
+kruskal.test(sym.SA.normalized.no.outliers ~ Bleaching_Status_at_Collection, sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",]) #significant
+```
+
+Check with ANOVA,
+
+```{r}
+mod.t0.sym=aov(sym.SA.normalized.no.outliers ~ Bleaching_Status_at_Collection, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",])
+summary(mod.t0.sym) #significant.
+
+#try with log 10 data
+mod.t0.sym.log=aov(log10(sym.SA.normalized.no.outliers) ~ Bleaching_Status_at_Collection, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",])
+summary(mod.t0.sym.log) #significant
+```
+
+Next, plot the sym densities (SA normalized) for the T7 aquaria.
+
+```{r}
+#reorder levels
+sym_dat_aquaria_final$Treatment_v1=factor(sym_dat_aquaria_final$Treatment_v1, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated"))
+
+ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=sym.SA.normalized.no.outliers,color=Treatment_v1,fill=Treatment_v1))+
+  geom_boxplot(size=2)+
+  geom_point(size=3)+
+  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D"))+
+  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA"))+
+  theme_classic()+
+  ggtitle("B")+
+  theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"))+
+  labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+#save and use as panel B for Figure 1.
+```
+
+Now, visualize the distribution and run the statistics on the t7 aquaria data.
+
+```{r}
+hist(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",]$sym.SA.normalized.no.outliers) #normal-ish
+hist(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",]$sym.SA.normalized.no.outliers1) #a little less normal looking
+hist(log10(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",]$sym.SA.normalized.no.outliers)) #normal ish
+hist(log10(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",]$sym.SA.normalized.no.outliers1)) #more normal.
+```
+
+Since the data look normal enough, test the effect of Treatment_v1 using an ANOVA.
+
+```{r}
+mod.t7.sym=aov(sym.SA.normalized.no.outliers ~ Treatment_v1, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",])
+summary(mod.t7.sym) #significant
+
+#run tukey posthoc
+TukeyHSD(mod.t7.sym)
 ```
 
