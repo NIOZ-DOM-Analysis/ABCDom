@@ -1,0 +1,40 @@
+---
+title: "DOC Workup"
+author: "Wesley Sparagon"
+date: "11/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load libraries and read in metadata and raw DOC data.
+
+```{r}
+DOC_raw <- read.csv(file.path(dirRAW, "DOC", "DOC_with_SampleName.csv"))
+metadata <- read.csv(file.path(dirRAW, "Metadata.csv"))
+```
+
+Remove outlier samples, as identified from the DOC sample notes in the "MO19_ABC_NPOC.2020.01.22_summary_with_notes.xlsx" raw data document.
+
+```{r}
+dat <- DOC_raw[c(-1,-2,-11,-14,-17,-19,-23,-34),]
+```
+
+Merge with metadata.
+
+```{r}
+#subset for only DOC metadata
+metadata.doc <- metadata[metadata$Sample_Type=="DOC",]
+
+#merge with DOC dat
+DOC_dat <- merge(dat, metadata.doc, by.x="Sample.Name", by.y="Sample.Name", all.x=T, all.y=F)
+```
+
+Export.
+
+```{r}
+write.csv(DOC_dat, file.path(dirOutput, "DOC_dat.csv"), )
+```
+
