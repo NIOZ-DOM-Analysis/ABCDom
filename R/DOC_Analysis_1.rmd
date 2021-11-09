@@ -110,6 +110,22 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Con
   scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA"))+
   theme(axis.text=element_text(size=18),axis.title=element_text(size=18))+
   labs(y="Surface Area Normalized DOC (uM cm-2)")
+#Use as panel A for Figure 2
+
+```
+
+Next, run stats on the control corrected SA normalized DOC data.
+
+```{r}
+#first check the distribution of the data.
+hist(DOC_dat_t0$Control_Corrected_DOC_SA_Normalized) #kind of normal looking
+
+#run a K-W test.
+kruskal.test(DOC_dat_t0$Control_Corrected_DOC_SA_Normalized, DOC_dat_t0$Treatment) #not significant.
+
+#run an ANOVA
+mod.DOC.t0.corrected.SA.normalized = aov(Control_Corrected_DOC_SA_Normalized ~ Treatment, data=DOC_dat_t0)
+summary(mod.DOC.t0.corrected.SA.normalized) #still not significant.
 
 ```
 
