@@ -9,9 +9,15 @@ wd.project<-getwd()
 # activate packages
 source(paste0(dirR,'/packages.R'))
 
-#import metadata
-metadata <- read.csv(paste0(dirRAW, '/Metadata.csv'), check.names = F)
 
-#first analyze DOC values
-source(paste0(dirR, '/DOC_Analysis.R')) # have to make this
+#first workup DOC data and symbiondiniacae
+source(paste0(dirR, '/DOC_workup.R'))
+source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
+source(paste0(dirR, '/FCM_workup.R'))
 
+#then analyze data
+source(paste0(dirR, '/DOC_analysis.R'))
+source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
+source(paste0(dirR, '/FCM_analysis.R'))
+
+#metabolite data cleanup
