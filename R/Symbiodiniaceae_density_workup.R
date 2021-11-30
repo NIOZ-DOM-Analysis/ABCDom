@@ -1,0 +1,95 @@
+'Symbiodiniaceae_density_workup.R'
+
+# Read in data.
+PLANC_Blastate_FCM <- read.csv(file.path(dirRAW, "Sym_Counts", "PLANC_Blastate_FCM.csv"), ) #load the raw FCM data
+PLANC_Blastate_FCM_Sample_Map <- read.csv(file.path(dirRAW, "Sym_Counts", "PLANC_Blastate_FCM_Sample_Map.csv"), ) #load the FCM sample map data
+PLANC_nubbin_sizing_notes <- read.csv(file.path(dirRAW, "Sym_Counts", "PLANC_nubbin_sizing_notes.csv"), ) #load the nubbin size notes
+
+
+# Merge the three data frames.
+
+#merge PLANC_Blastate_FCM and PLANC_Blastate_FCM_Sample_Map
+dat <- merge(PLANC_Blastate_FCM,PLANC_Blastate_FCM_Sample_Map,by.x="ï..Tube.Name.",by.y="Plate_Well")
+
+#merge dat and PLANC_nubbin_sizing_notes
+sym_dat=merge(dat,PLANC_nubbin_sizing_notes,by.x="Sample",by.y="Code",all=T)
+
+# Calculate sym density per unit surface area for each nubbin.
+
+
+#work up the data
+sym_dat$Notes.x[is.na(sym_dat$Notes.x)]="" #subset notes column for NAs and replace with ""
+sym_dat$sym.conc=sym_dat$Sym.FSC.Events.Î.L.V. #make a new column corresponding to sym concentration. We will replace FSC concentration values with SSC concentration values in this column
+sym_dat$sym.events=sym_dat$Sym.FSC.Events #make a new column corresponding to sym events. We will replace FSC events values with SSC events values in this column
+sym_dat$sym.conc[sym_dat$Notes.x=="Use Sym-SSC Sym-SSC Events/Î¼L(V)"]=sym_dat$Sym.SSC.Events.Î.L.V.[sym_dat$Notes.x=="Use Sym-SSC Sym-SSC Events/Î¼L(V)"] #subset the sym.conc column for only values who correspond to the note suggestion to use SSC, and then replace those values with the corresponding SSC concentration.
+sym_dat$sym.events[sym_dat$Notes.x=="Use Sym-SSC Sym-SSC Events/Î¼L(V)"]=sym_dat$Sym.SSC.Events[sym_dat$Notes.x=="Use Sym-SSC Sym-SSC Events/Î¼L(V)"] #subset the sym.events column for only values who correspond to the note suggestion to use SSC, and then replace those values with the corresponding SSC events.
+
+#calculate total sym counts by multiplying sym.conc by "Vol" column (mL).
+sym_dat$sym.total=sym_dat$sym.conc*sym_dat$Vol*1000
+
+#calculate sym counts normalized to SA.
+sym_dat$sym.SA=sym_dat$sym.total/sym_dat$SA
+sym_dat$log10.sym.SA=log10(sym_dat$sym.SA)
+
+
+# Export as CSV to output directory.
+
+write.csv(sym_dat, file.path(dirOutput, "sym_dat.csv"), )
+
+
+# Calculate the average sym density for each aquaria and visualize.
+
+#next, sum the sym counts by aquaria and timepoint, without "Outlier1"
+sym_dat_aquaria=sym_dat[c(-1:-2,-14),] #remove NA samples
+sym_dat_aquaria_v1=sym_dat_aquaria[sym_dat_aquaria$Outlier1!="Y",] #first remove outliers
+sym_dat_aquaria_sum=aggregate(sym_dat_aquaria_v1$sym.total,by=list(sym_dat_aquaria_v1$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(sym_dat_aquaria_sum)[2]="sym_total (no outliers1)" #rename column x
+
+#next, sum the coral SA values by aquaria and timepoint without outlier1
+SA_dat_aquaria_sum=aggregate(sym_dat_aquaria_v1$SA,by=list(sym_dat_aquaria_v1$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(SA_dat_aquaria_sum)[2]="SA (no outliers1)"
+
+#next, sum the sym counts by aquaria and timepoint, without outliers.
+sym_dat_aquaria_v2=sym_dat_aquaria[sym_dat_aquaria$Outlier!="Y",] #first remove outliers
+sym_dat_aquaria_sum_v2=aggregate(sym_dat_aquaria_v2$sym.total,by=list(sym_dat_aquaria_v2$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(sym_dat_aquaria_sum_v2)[2]="sym_total (no outliers)" #rename column x
+
+#next, sum the coral SA values by aquaria and timepoint without outliers
+SA_dat_aquaria_sum_v1=aggregate(sym_dat_aquaria_v2$SA,by=list(sym_dat_aquaria_v2$Aquaria_Timepoint_Heat),FUN=sum,na.rm=T)
+colnames(SA_dat_aquaria_sum_v1)[2]="SA_no_outliers"
+
+#combine the 2 sym total dfs
+sym_dat_aquaria_sum_v3=merge(sym_dat_aquaria_sum,sym_dat_aquaria_sum_v2)
+
+#combine the 2 SA dfs
+SA_dat_aquaria_sum_v2=merge(SA_dat_aquaria_sum,SA_dat_aquaria_sum_v1)
+
+#combine these 2 dfs
+sym_dat_aquaria_v4=merge(sym_dat_aquaria_sum_v3,SA_dat_aquaria_sum_v2)
+
+#calculate sym counts normalized to SA per aquaria
+sym_dat_aquaria_v4$sym.SA.normalized.no.outliers=sym_dat_aquaria_v4$`sym_total (no outliers)`/sym_dat_aquaria_v4$SA_no_outliers #no outliers
+sym_dat_aquaria_v4$sym.SA.normalized.no.outliers1=sym_dat_aquaria_v4$`sym_total (no outliers1)`/sym_dat_aquaria_v4$`SA (no outliers1)` #no outliers1
+
+#merge sym_dat_aquaria_v4 with metadata.
+metadata.subset=metadata[metadata$Sample_Type=="Sterivex",] #subset for just sterivex
+metadata.subset.t0=metadata.subset[metadata.subset$Timepoint==0,] #subset for t0
+sym_dat_aquaria_final=merge(sym_dat_aquaria_v4,metadata.subset.t0,by.x="Group.1",by.y="PLANC_aquaria",all.x=T,all.y=F)
+
+#remove unnecessary columns
+sym_dat_aquaria_final=sym_dat_aquaria_final[,c(-17,-19)]
+
+#add timepoints to Timepoint_char column
+sym_dat_aquaria_final$Timepoint_char=rep(c("T0","T7","T7"),times=9)
+
+#add all treatments, including aquaria not used in abcdom, to Treatment_v1 column
+sym_dat_aquaria_final$Treatment_v1=c(rep(c("Bleached + Ambient", "Bleached + Ambient", "Bleached + Heated"),times=3),rep(c("Non-bleached + Ambient","Non-bleached + Ambient","Non-bleached + Heated"),times=3),rep(c("Bleached + Ambient", "Bleached + Ambient", "Bleached + Heated"),times=3))
+
+#add a new column for all t0 aquaria corresponding to bleaching status at collection
+sym_dat_aquaria_final$Bleaching_Status_at_Collection=c(rep(c("Bleached","",""),times=3),rep(c("Healthy","",""),times=3),rep(c("Bleached","",""),times=3))
+
+
+# Export as CSV to output directory.
+
+write.csv(sym_dat_aquaria_final, file.path(dirOutput, "sym_dat_aquaria_final.csv"), )
+

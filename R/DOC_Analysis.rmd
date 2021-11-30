@@ -18,10 +18,10 @@ When you click the **Knit** button a document will be generated that includes bo
 Load libraries, read in data and metadata.
 
 ```{r}
-library(ggplot2)
-library(cowplot)
+#library(ggplot2) are already in the package list that you should activate at the beginning
+#library(cowplot)
 
-DOC_dat <- read.csv(file.path(dirOutput, "DOC_dat.csv"))
+# DOC_dat <- read.csv(file.path(dirOutput, "DOC_dat.csv")) only if not in work environment
 sym_dat_aquaria_final <- read.csv(file.path(dirOutput, "sym_dat_aquaria_final.csv"))
 ```
 
