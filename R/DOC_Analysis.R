@@ -29,10 +29,10 @@ ggplot(DOC_dat_t0,aes(x=Treatment,y=uMC,color=Treatment,fill=Treatment))+
   geom_point(size=4)+
   scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray"))+
   scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA","NA","NA"))+
-  theme(axis.text=element_text(size=18),axis.title=element_text(size=18))+
+  theme(axis.text=element_text(size=18),axis.title=element_text(size=18), axis.text.x=element_text(size=16), legend.text=element_text(size=16), legend.key.height=unit(1.75,"cm"))+
   labs(y="DOC (uM)")
 #use this figure for a potential supplement
-ggsave('DOC_per treatment.jpeg', path = dirFigs, dpi = 300)
+ggsave('DOC_per treatment.jpeg', path = dirFigs, dpi = 300, height=14, width=20)
 
 
 #Check the distribution of raw DOC values.
