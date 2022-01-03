@@ -15,9 +15,17 @@ source(paste0(dirR, '/DOC_workup.R'))
 source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
 source(paste0(dirR, '/FCM_workup.R'))
 
+<<<<<<< Updated upstream
 #then analyze data
 source(paste0(dirR, '/DOC_analysis.R'))
 source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 source(paste0(dirR, '/FCM_analysis.R'))
 
 #metabolite data cleanup
+=======
+
+#Symbiodiniaceae scripts
+source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
+
+source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
+>>>>>>> Stashed changes
