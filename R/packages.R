@@ -57,7 +57,8 @@ package_list <- c(
   "pdftools",
   "png",
   "magick",
-  "devtools")
+  "devtools",
+  "FSA")
 
 
 
