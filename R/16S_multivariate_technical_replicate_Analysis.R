@@ -7,37 +7,37 @@ source(file="generate.square.dist.script.07.27.2020.R") #need to update this
 
 #load metadata and data
 unifrac <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "otu_repr_100.tre1.wsummary.csv"))
-metadata <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "metadata_tech_replicates.csv"))
-metadata1 <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "metadata1.csv"))
+metadata_16S <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "metadata_tech_replicates.csv"))
+metadata <- read.csv(file.path(dirRAW, "Metadata.csv")) #only include metadata workup if global environment is cleared
+metadata_subset <- subset(metadata, Sample_Type == "Sterivex") #only include metadata workup if global environment is cleared
 
 #Work up the abcDOM tech replicate metadata.
 #subset for just abc and pcr pos/neg samples
-metadata_abc_replicate=metadata[metadata$Experiment!="ROBO" & metadata$Experiment!="ASRAMP" & metadata$Experiment!="UNKNOWN",]
+metadata_abc_replicate=metadata_16S[metadata_16S$Experiment!="ROBO" & metadata_16S$Experiment!="ASRAMP" & metadata_16S$Experiment!="UNKNOWN",]
 
 #subset for just abc samples
 metadata_abc_replicate1=metadata_abc_replicate[metadata_abc_replicate$Experiment=="ABC",]
 
-#merge metadata_abc_replicate1 with metadata1
-metadata_abc_replicate2=merge(metadata_abc_replicate1,metadata1,by.x="Sample_Name",by.y="Sample_NR",all.x=T,all.y=F)
+#merge metadata_abc_replicate1 with metadata
+metadata_abc_replicate2=merge(metadata_abc_replicate1,metadata_subset,by.x="Sample_Name",by.y="Sample.Name",all.x=T,all.y=T)
+metadata_abc_replicate2 <- metadata_abc_replicate2[-71:-72,] #remove samples that weren't collected
 
 #subset for just tend
-metadata_abc_replicate_tend=metadata_abc_replicate2[metadata_abc_replicate2$Timepoint.x=="Tend",]
-metadata_abc_replicate_tend=metadata_abc_replicate_tend[-35:-36,]
+metadata_abc_replicate_tend=metadata_abc_replicate2[metadata_abc_replicate2$Timepoint_char=="Tend",]
+metadata_abc_replicate_tend=metadata_abc_replicate_tend[-35:-37,] #remove NA rows
 
 #Work up unifrac data.
 #work up abc_replicate data
 generate.square.dist.matrix(unifrac,metadata_abc_replicate,1)
-
 #store outputs in new dfs
 abc_replicate_unifrac.dist.matrix=dist.matrix1
 abc_replicate_unifrac.dist=square.dist.matrix
 
-#work up abc_replicate1 data
-generate.square.dist.matrix(unifrac,metadata_abc_replicate1,1)
-
+#work up abc_replicate2 data
+generate.square.dist.matrix(unifrac,metadata_abc_replicate2,2)
 #store outputs in new dfs
-abc_replicate1_unifrac.dist.matrix=dist.matrix1
-abc_replicate1_unifrac.dist=square.dist.matrix
+abc_replicate2_unifrac.dist.matrix=dist.matrix1
+abc_replicate2_unifrac.dist=square.dist.matrix
 
 #work up abc_replicate_tend data
 generate.square.dist.matrix(unifrac,metadata_abc_replicate_tend,2)
@@ -47,7 +47,7 @@ abc_replicate_tend_unifrac.dist=square.dist.matrix
 #Work up NMDS objects from the unifrac square dist matrices.
 nmds.abc.replicate=metaMDS(abc_replicate_unifrac.dist,k=2,trymax=100) #very low stress, probably cause PCR controls are leveraging the ordination
 
-nmds.abc.replicate1=metaMDS(abc_replicate1_unifrac.dist,k=2,trymax=100) #still pretty low stress
+nmds.abc.replicate2=metaMDS(abc_replicate2_unifrac.dist,k=2,trymax=100) #still pretty low stress
 
 nmds.abc.tend=metaMDS(abc_replicate_tend_unifrac.dist,k=2,trymax=100)
 
@@ -63,26 +63,28 @@ legend("topleft",legend=c(levels(metadata_abc_replicate$Experiment)),pch=c(16,16
 #Now, visualize just the abcDOM samples, colored by replicate with replicates connected by an arrow.
 colvec2=c("blue","red")
 
-plot(nmds.abc.replicate1,type="n")
-points(nmds.abc.replicate1,display="sites",
-       col=colvec2[metadata_abc_replicate1$Replicate],
+plot(nmds.abc.replicate2,type="n")
+points(nmds.abc.replicate2,display="sites",
+       col=colvec2[metadata_abc_replicate2$Replicate],
        pch=16)
-ordiarrows(nmds.abc.replicate1,groups=metadata_abc_replicate1$Sample_Name)
+ordiarrows(nmds.abc.replicate2,groups=metadata_abc_replicate2$Sample_Name)
 #The left hand cluster corresponds to the T0 samples, which seem to group nicely. The right hand cluster corresponds to the Tfinal samples, for which some technical replicates do not group together.
 
 #Test the effect of replicate on community structure.
-permanova.replicate=adonis2(abc_replicate1_unifrac.dist~Replicate,data=metadata_abc_replicate1,by="margin",permutations=999)
+permanova.replicate=adonis2(abc_replicate2_unifrac.dist~Replicate,data=metadata_abc_replicate2,by="margin",permutations=999)
 permanova.replicate #No effect and very low R2 for technical replicates.
 
 #Now visualize just the tend samples. Save output for potential supplement.
-colvec3=c("orange","red","yellow","green","gray","black")
-pointvec=c(16,17)
+colvec3=c("black","#00BFC4","#F8766D","gray","#00BFC4","#00BFC4")
+fillvec <- c("NA","dodgerblue3","NA","NA","NA","firebrick3")
+pointvec=c(21,24)
 
 
 jpeg("../figures/16S_technical_replicate_tfinal_nmds.jpg",width=2100, height=1500, res=300)
 plot(nmds.abc.tend,type="n")
 points(nmds.abc.tend,display="sites",
        col=colvec3[metadata_abc_replicate_tend$Treatment],
+       bg=fillvec[metadata_abc_replicate_tend$Treatment],
        pch=pointvec[metadata_abc_replicate_tend$PCR_setting],
        cex=2)
 ordiarrows(nmds.abc.tend,groups=metadata_abc_replicate_tend$Sample_Name)
