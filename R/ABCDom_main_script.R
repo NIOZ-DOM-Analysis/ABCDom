@@ -22,7 +22,8 @@ source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 source(paste0(dirR, '/FCM_analysis.R'))
 
 #metabolite data cleanup
-=======
+#will open new script that needs user input.
+file.edit(paste0(Data.cleanup.folder, '/DataCleanup.R'))
 
 #Symbiodiniaceae scripts
 source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))

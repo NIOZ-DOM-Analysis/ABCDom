@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<parameters>
+<parameter name="database">dmisam</parameter>
+<parameter name="desc">220107_ABCDom_PlanC_prelim_derep</parameter>
+<parameter name="email">milou.arts@nioz.nl</parameter>
+<parameter name="isotope">0</parameter>
+<parameter name="max_charge">2</parameter>
+<parameter name="max_mod">150</parameter>
+<parameter name="min_num_comp">5</parameter>
+<parameter name="min_shared_peaks">5</parameter>
+<parameter name="pm_thresh">0.02</parameter>
+<parameter name="product_ion_thresh">0.02</parameter>
+<parameter name="spec_on_server">f.MilouArts/DOM/2019/ABCDom_PlanC_prelim/211222_ABCDomPlanC_IIN_GNPS.mgf;</parameter>
+<parameter name="task">4b403d40b280471599846918e4ed8ee6</parameter>
+<parameter name="upload_file_mapping">spectra-00000.mgf|MilouArts/DOM/2019/ABCDom_PlanC_prelim/211222_ABCDomPlanC_IIN_GNPS.mgf</parameter>
+<parameter name="user">MilouArts</parameter>
+<parameter name="uuid">1E493B63-DFFF-0001-6A97-24BB1BF51EA0</parameter>
+<parameter name="varquest">on</parameter>
+<parameter name="workflow">DEREPLICATOR</parameter>
+<parameter name="workflow_version">1.2.8</parameter>
+</parameters>
