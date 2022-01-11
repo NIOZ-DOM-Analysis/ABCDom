@@ -8,8 +8,8 @@ source(file="generate.square.dist.script.07.27.2020.R") #need to update this
 #load metadata and data
 unifrac <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "otu_repr_100.tre1.wsummary.csv"))
 metadata_16S <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "metadata_tech_replicates.csv"))
-metadata <- read.csv(file.path(dirRAW, "Metadata.csv")) #only include metadata workup if global environment is cleared
-metadata_subset <- subset(metadata, Sample_Type == "Sterivex") #only include metadata workup if global environment is cleared
+#metadata <- read.csv(file.path(dirRAW, "Metadata.csv")) #only include metadata workup if global environment is cleared
+#metadata_subset <- subset(metadata, Sample_Type == "Sterivex") #only include metadata workup if global environment is cleared
 
 #Work up the abcDOM tech replicate metadata.
 #subset for just abc and pcr pos/neg samples
@@ -19,8 +19,11 @@ metadata_abc_replicate=metadata_16S[metadata_16S$Experiment!="ROBO" & metadata_1
 metadata_abc_replicate1=metadata_abc_replicate[metadata_abc_replicate$Experiment=="ABC",]
 
 #merge metadata_abc_replicate1 with metadata
-metadata_abc_replicate2=merge(metadata_abc_replicate1,metadata_subset,by.x="Sample_Name",by.y="Sample.Name",all.x=T,all.y=T)
+metadata_abc_replicate2=merge(metadata_abc_replicate1,metadata.subset,by.x="Sample_Name",by.y="Sample.Name",all.x=T,all.y=T)
 metadata_abc_replicate2 <- metadata_abc_replicate2[-71:-72,] #remove samples that weren't collected
+
+#export metadata_abc_replicate2
+write.csv(metadata_abc_replicate2, file.path(dirOutput, "metadata_16S_abcDOM.csv"), )
 
 #subset for just tend
 metadata_abc_replicate_tend=metadata_abc_replicate2[metadata_abc_replicate2$Timepoint_char=="Tend",]
