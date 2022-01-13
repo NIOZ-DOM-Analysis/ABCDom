@@ -32,4 +32,5 @@ source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 #will open new script that needs user input.
 file.edit(paste0(Data.cleanup.folder, '/DataCleanup.R'))
 
-#ordination of metabolite data
+# open the ordination of metabolite data here
+file.edit(paste0(dirR, '/ordination.R'))
