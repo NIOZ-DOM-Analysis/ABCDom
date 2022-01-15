@@ -1,6 +1,6 @@
 #ordination of data
 library(BiodiversityR)
-library(openxlsx)
+library(scales)
 
 # first make everything for df.area, later we can repeat everything for the normalized and logtransformed data.
 # frist all, then we split the dataset in two
@@ -10,10 +10,6 @@ ord.mod.area<- metaMDS(df.area[M:ncol(df.area)], distance = 'bray', k = 2)
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
 sites.long1<-sites.long(ordi.plot1.1, env.data = df.area[1:(M-1)])
 
-#create object/list to store the sites.lists in.
-ordi.data <- list()
-ordi.data$NMDS.all.data <- sites.long1
-
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
   geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
@@ -21,7 +17,7 @@ ggplot() +
   ylab("NMDS2") +
   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
-  geom_point(data=sites.long1,
+  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area[1:(M-1)]),
              aes(x=axis1, y=axis2, colour=Treatment, shape=Experiment),
              size=5) +
   coord_fixed(ratio=1)
@@ -29,10 +25,12 @@ ggsave("NMDS_all_data.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "
 
 #non metric multidimentional scaling, PlanC
 df.area.planC <- df.area %>% filter(Experiment == "PLANC")
-ord.mod.area<- metaMDS(df.area.planC[M:ncol(df.area.planC)], distance = 'bray', k = 2)
+df.area.planC_1 <- subset(df.area.planC, Field_Treatment != "Dead" & Treatment != "not applicable") #remove PLANC aquaria that weren't used in abcDOM
+
+ord.mod.area<- metaMDS(df.area.planC_1[M:ncol(df.area.planC_1)], distance = 'bray', k = 2)
+ord.mod.area.planc <- ord.mod.area #save as new nmds object for procrustes
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
-sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.planC[1:(M-1)])
-ordi.data$NMDS.PlanC <- sites.long1
+sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.planC_1[1:(M-1)])
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
@@ -41,10 +39,10 @@ ggplot() +
   ylab("NMDS2") +
   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
-  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area.planC[1:(M-1)]),
+  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area.planC_1[1:(M-1)]),
              aes(x=axis1, y=axis2, colour=Treatment, shape=Experiment),
              size=5) +
-  coord_fixed(ratio=1)
+  coord_fixed(ratio=1) +
 ggsave("NMDS_PlanC.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "in", dpi = 320)
 
 
@@ -53,7 +51,6 @@ df.area.ABC <- df.area %>% filter(Experiment == "ABCDOM")
 ord.mod.area<- metaMDS(df.area.ABC[M:ncol(df.area.ABC)], distance = 'bray', k = 2)
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
 sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.ABC[1:(M-1)])
-ordi.data$NMDS.ABCDom <- sites.long1
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
@@ -70,10 +67,10 @@ ggsave("NMDS_ABCDom.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "in
 
 #non metric multidimentional scaling, ABCDom T0 and PLanC
 df.area.T0 <- df.area %>% filter(Timepoint == 0)
-ord.mod.area<- metaMDS(df.area.T0[M:ncol(df.area.T0)], distance = 'bray', k = 2)
+df.area.T0_1 <- subset(df.area.T0, Field_Treatment != "Dead" & Treatment != "not applicable") #remove PLANC aquaria that weren't used in abcDOM
+ord.mod.area<- metaMDS(df.area.T0_1[M:ncol(df.area.T0_1)], distance = 'bray', k = 2)
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
-sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.T0[1:(M-1)])
-ordi.data$NMDS.ABCDom.PlanC.T0 <- sites.long1
+sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.T0_1[1:(M-1)])
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
@@ -82,18 +79,20 @@ ggplot() +
   ylab("NMDS2") +
   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
-  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area.T0[1:(M-1)]),
+  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area.T0_1[1:(M-1)]),
              aes(x=axis1, y=axis2, colour=Treatment, shape=Experiment),
              size=5) +
-  coord_fixed(ratio=1)
+  coord_fixed(ratio=1) +
+  stat_ellipse(level=.5)
 ggsave("NMDS_T0_PlanC_ABCDom.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "in", dpi = 320)
 
 #non metric multidimentional scaling, ABCT0Dom T0
 df.area.ABCT0 <- df.area %>% filter(Experiment == "ABCDOM", Timepoint_char == "T0")
-ord.mod.area<- metaMDS(df.area.ABCT0[M:ncol(df.area.ABCT0)], distance = 'bray', k = 2)
+df.area.ABCT0_1 <- df.area.ABCT0[-19,] #remove abc inoc sample
+ord.mod.area<- metaMDS(df.area.ABCT0_1[M:ncol(df.area.ABCT0_1)], distance = 'bray', k = 2)
+ord.mod.area.abcdom.t0 <- ord.mod.area #save as new NMDS object for procrustes
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
-sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.ABCT0[1:(M-1)])
-ordi.data$NMDS.ABCDom.T0 <- sites.long1
+sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.ABCT0_1[1:(M-1)])
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
@@ -102,12 +101,33 @@ ggplot() +
   ylab("NMDS2") +
   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
-  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area.ABCT0[1:(M-1)]),
+  geom_point(data=sites.long(ordi.plot1.1, env.data=df.area.ABCT0_1[1:(M-1)]),
              aes(x=axis1, y=axis2, colour=Treatment, shape=Timepoint_char),
              size=5) +
   coord_fixed(ratio=1)
 ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "in", dpi = 320)
 
+#Run procrustes between abcdom.t0 and PLANC
+procrust <- procrustes(ord.mod.area.abcdom.t0, ord.mod.area.planc, scale=FALSE, symmetric=TRUE, scores="sites")
+summary(procrust)
+
+protest(ord.mod.area.abcdom.t0, ord.mod.area.planc, scores="sites") #significant correlation
+
+procrust.colvec <- hue_pal()(6)
+
+plot(procrust,kind=1,lwd=1.5,len=.06)
+points(procrust, display="rotated",#plot each sample as a point
+       cex=2,
+       pch=16, #point shape corresponds to fish Species
+       col=procrust.colvec[as.factor(df.area.ABCT0_1$Treatment)]
+       )
+points(procrust, display="target",#plot each sample as a point
+       cex=2,
+       pch=17, #point shape corresponds to fishSpecies
+       col=procrust.colvec[as.factor(df.area.planC_1$Treatment)]
+       )
+
+plot(procrust, kind=1)
 
 ############################
 # redundancy analyis all data
@@ -119,8 +139,6 @@ ordi.plot2<-ordiplot(ord.mod.area2, choices = c(1,2))
 sites.long2<- sites.long(ordi.plot2, env.data = df.area[1:(M-1)])
 species.long2<-species.long(ordi.plot2)
 axis.long2<-axis.long(ord.mod.area2, choices = c(1,2))
-
-
 # ggplot() +
 #   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
 #   geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
@@ -129,7 +147,7 @@ axis.long2<-axis.long(ord.mod.area2, choices = c(1,2))
 #   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
 #   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
 #   geom_point(data=sites.long2,
-#              aes(x=axis1, y=axis2, colour=Treatment, shape=Experiment),
+#              aes(x=axis1, y=axis2, colour=Treatment, shape=Timepoint_char),
 #              size=5) +
 #   geom_point(data=species.long2,
 #              aes(x=axis1, y=axis2)) +
@@ -139,8 +157,6 @@ spec.envfit<-envfit(ordi.plot2, env = all.data.hellinger, silent = TRUE)
 spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
 species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
 species.long3 <- species.long2[species.long2$r >= 0.8, ]
-ordi.data$Redun.all.data <- sites.long2
-ordi.data$drivers.redund.all.data <- species.long2
 
 ggplot()+
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
@@ -182,8 +198,6 @@ spec.envfit<-envfit(ordi.plot2, env = ABCD.hellinger, silent = TRUE)
 spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
 species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
 species.long3 <- species.long2[species.long2$r >= 0.9, ]
-ordi.data$Redun.ABCDom <- sites.long2
-ordi.data$drivers.redund.ABCDom <- species.long2
 
 ggplot()+
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
@@ -226,8 +240,6 @@ spec.envfit<-envfit(ordi.plot2, env = PlanC.hellinger, silent = TRUE)
 spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
 species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
 species.long3 <- species.long2[species.long2$r >= 0.8, ]
-ordi.data$Redun.PlanC <- sites.long2
-ordi.data$drivers.redund.PlanC <- species.long2
 
 ggplot()+
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
@@ -270,8 +282,6 @@ spec.envfit<-envfit(ordi.plot2, env = T0.hellinger, silent = TRUE)
 spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
 species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
 species.long3 <- species.long2[species.long2$r >= 0.8, ]
-ordi.data$Redun.ABCDom.PlanC.T0 <- sites.long2
-ordi.data$drivers.redund.ABCDom.PlanC.T0 <- species.long2
 
 ggplot()+
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
@@ -313,8 +323,6 @@ spec.envfit<-envfit(ordi.plot2, env = ABCDT0.hellinger, silent = TRUE)
 spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
 species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
 species.long3 <- species.long2[species.long2$r >= 0.7, ]
-ordi.data$Redun.ABCDom.T0 <- sites.long2
-ordi.data$drivers.redund.ABCDom.T0 <- species.long2
 
 ggplot()+
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
@@ -329,7 +337,5 @@ ggplot()+
   coord_fixed(ratio=1)
 ggsave("redundancy_ABCDom_T0_Treatment.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "in", dpi = 320)
 
-
-write.xlsx(ordi.data, paste0(dirOutput,"/ordination_data.xlsx"), overwrite = TRUE)
 
 rm(ordi.plot1.1, ordi.plot2, species.long2, species.long3, spec.data.envit, spec.envfit, axis.long2, sites.long1, sites.long2, ord.mod.area, ord.mod.area2, ABCD.hellinger, ABCDT0.hellinger, T0.hellinger, PlanC.hellinger, all.data.hellinger, df.area.ABC, df.area.ABCT0, df.area.planC, df.area.T0)
