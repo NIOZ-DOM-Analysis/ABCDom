@@ -1,6 +1,7 @@
 #ordination of data
 library(BiodiversityR)
 library(scales)
+library(dplyr)
 
 # first make everything for df.area, later we can repeat everything for the normalized and logtransformed data.
 # frist all, then we split the dataset in two
@@ -26,7 +27,6 @@ ggsave("NMDS_all_data.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "
 #non metric multidimentional scaling, PlanC
 df.area.planC <- df.area %>% filter(Experiment == "PLANC")
 df.area.planC_1 <- subset(df.area.planC, Field_Treatment != "Dead" & Treatment != "not applicable") #remove PLANC aquaria that weren't used in abcDOM
-
 ord.mod.area<- metaMDS(df.area.planC_1[M:ncol(df.area.planC_1)], distance = 'bray', k = 2)
 ord.mod.area.planc <- ord.mod.area #save as new nmds object for procrustes
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
@@ -44,7 +44,6 @@ ggplot() +
              size=5) +
   coord_fixed(ratio=1) +
 ggsave("NMDS_PlanC.jpg", path = dirFigs, width = 8.5, height = 6.5, units = "in", dpi = 320)
-
 
 #non metric multidimentional scaling, ABCDom
 df.area.ABC <- df.area %>% filter(Experiment == "ABCDOM")
@@ -89,6 +88,7 @@ ggsave("NMDS_T0_PlanC_ABCDom.jpg", path = dirFigs, width = 8.5, height = 6.5, un
 #non metric multidimentional scaling, ABCT0Dom T0
 df.area.ABCT0 <- df.area %>% filter(Experiment == "ABCDOM", Timepoint_char == "T0")
 df.area.ABCT0_1 <- df.area.ABCT0[-19,] #remove abc inoc sample
+df.area.ABCT0_1 <- df.area.ABCT0_1[match(df.area.ABCT0_1$PLANC_aquaria, df.area.planC_1$PLANC_aquaria),] #reorder so that samples from PLANC aquaria match corresponding abcDOM samples. This will be useful for procrustes.
 ord.mod.area<- metaMDS(df.area.ABCT0_1[M:ncol(df.area.ABCT0_1)], distance = 'bray', k = 2)
 ord.mod.area.abcdom.t0 <- ord.mod.area #save as new NMDS object for procrustes
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
@@ -115,19 +115,22 @@ protest(ord.mod.area.abcdom.t0, ord.mod.area.planc, scores="sites") #significant
 
 procrust.colvec <- hue_pal()(6)
 
-plot(procrust,kind=1,lwd=1.5,len=.06)
+dev.off()
+jpeg("../figures/16S_mb_procrustes.jpg", width=2100, height=1500, res=300)
+plot(procrust,kind=1,lwd=2,len=.06,ar.col=procrust.colvec[as.factor(df.area.ABCT0_1$Treatment)])
 points(procrust, display="rotated",#plot each sample as a point
        cex=2,
-       pch=16, #point shape corresponds to fish Species
+       pch=16,
        col=procrust.colvec[as.factor(df.area.ABCT0_1$Treatment)]
        )
 points(procrust, display="target",#plot each sample as a point
        cex=2,
-       pch=17, #point shape corresponds to fishSpecies
+       pch=17,
        col=procrust.colvec[as.factor(df.area.planC_1$Treatment)]
        )
+legend(.45, .5, legend=c(levels(df.area.planC_1$Treatment)[1:6], "PLANC", "ABCDOM"), cex=.65, col=c(procrust.colvec,"black","black"), pch=c(16,16,16,16,16,16,16,17), y.intersp=.8)
+dev.off()
 
-plot(procrust, kind=1)
 
 ############################
 # redundancy analyis all data
