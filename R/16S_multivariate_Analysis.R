@@ -111,10 +111,10 @@ fgvec <- c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray")
 bgvec <- c("dodgerblue3","firebrick3","NA","NA","NA","NA")
 
 #plot heirarchical clustering plot, save as jpeg
-jpeg("../figures/16S_dendogram.jpg",width=1500, height=2100, res=300)
-plot(clust.tend1, xlab=NA, sub=NA, hang=-1,)#+
-#legend("topleft",legend=levels(metadata.tend$Treatment1), col=c("#F8766D","#00BFC4","#F8766D","#00BFC4","black","gray"), pt.bg=c("firebrick3","dodgerblue3","NA","NA","NA","NA"), pch=21, pt.cex=.5, cex=.5, bty='n')
-symbols(1:15, rep(0,15), circles=rep(1,15), add=T, fg=fgvec[metadata.tend$Treatment][clust.tend1$order], bg=bgvec[metadata.tend$Treatment][clust.tend1$order], inches=.09, xpd=T, lwd=3)
+jpeg("../figures/16S_dendogram_v1.jpg",width=2100, height=2100, res=300)
+clust.tend2 <- as.dendrogram(clust.tend1, hang=-1) #convert to dendrogram
+plot(clust.tend2, type="rectangle", dLeaf=.1, ylim=c(-.5,1))
+symbols(1:15, rep(-.05,15), circles=rep(1,15), add=T, fg=fgvec[metadata.tend$Treatment][clust.tend1$order], bg=bgvec[metadata.tend$Treatment][clust.tend1$order], inches=.09, xpd=T, lwd=3)
 dev.off()
 
 #Test statistical effects using permanova.
