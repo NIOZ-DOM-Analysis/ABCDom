@@ -62,6 +62,9 @@ metadata1 <- metadata.outliers[c(-26,-34),]
 #update treatment factor levels
 metadata1$Treatment <- factor(metadata1$Treatment, levels=c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
 
+#export 16s metadata
+write.csv(metadata1, file.path(dirOutput, "metadata1_16S.csv"))
+
 #subset for various treatments/timepoints.
 metadata.t0=metadata1[metadata1$Timepoint_char=="T0",] #subset for only t0 samples
 metadata.tend=metadata1[metadata1$Timepoint_char=="Tend",] #subset for only the tend samples
