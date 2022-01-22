@@ -29,7 +29,7 @@ metadata.tend <- subset(metadata1_16S, Timepoint_char=="Tend")
 metadata.coral.tend <- subset(metadata.tend, Origin_PlanC!="control")
 
 #Subset abund df to correspond to the associated metadata.
-abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_Name,]
+abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_Name_Unique,]
 
 #Cull low abundance ASVs
 #Format adbund df for culling.
@@ -37,7 +37,7 @@ rownames(abund.coral.tend) <- abund.coral.tend$Group #update rownames
 abund.coral.tend.1 <- abund.coral.tend[,-1:-3] #remove unnecessary columns
 
 #cull ASVs
-cull.otu(abund.coral.tend.1,3,12,120) #minimum number of reads = 12 (corresponds to relabund .001) in 3 samples or 120 (relabund = .01) in 1 sample. 121 ASVs remain.
+cull.otu(abund.coral.tend.1,3,12,120) #minimum number of reads = 12 (corresponds to relabund .001) in 3 samples or 120 (relabund = .01) in 1 sample. 117 ASVs remain.
 abund.coral.tend.1.cull <- relabund.df.cull #save as new df
 abund.coral.tend.1.cull.t <- as.data.frame(t(abund.coral.tend.1.cull)) #transpose
 
@@ -55,12 +55,12 @@ hist(sd.abund.coral.tend.1.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check distr
 
 #determine appropriate CV cutoff threshold
 #mean and sd of CV
-mean(sd.abund.coral.tend.1.cull$CV) #.56
-sd(sd.abund.coral.tend.1.cull$CV) #.37
-mean(sd.abund.coral.tend.1.cull$CV) + sd(sd.abund.coral.tend.1.cull$CV) #threshold = mean CV + one SD = .93
+mean(sd.abund.coral.tend.1.cull$CV) #.54
+sd(sd.abund.coral.tend.1.cull$CV) #.36
+mean(sd.abund.coral.tend.1.cull$CV) + sd(sd.abund.coral.tend.1.cull$CV) #threshold = mean CV + one SD = .9
 
 #cull ASVS who's CV in control is above this threshold
-abund.coral.tend.1.cull1 <- abund.coral.tend.1.cull[,sd.abund.coral.tend.1.cull$CV <= 0.9316542] #that leaves 103 ASVs.
+abund.coral.tend.1.cull1 <- abund.coral.tend.1.cull[,sd.abund.coral.tend.1.cull$CV <= 0.9030586] #that leaves 100 ASVs.
 
 abund.coral.tend.1.cull1.t <- as.data.frame(t(abund.coral.tend.1.cull1))#transpose
 
@@ -75,8 +75,8 @@ taxonomy1.cull=taxonomy1[taxonomy1$OTUNumber %in% colnames(abund.coral.tend.1.cu
 rownames(taxonomy1.cull)=taxonomy1.cull$OTUNumber #adjust rownames
 
 #generat longformat of abund data
-colnames(metadata.coral.tend)[3] <- "Sample_ID" #prep colnames
-rownames(metadata.coral.tend)=metadata.coral.tend$Sample_Name #prep rownames
+colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
+rownames(metadata.coral.tend)=metadata.coral.tend$Sample_ID #prep rownames
 abund.raw.longformat <- generate.long.format(abund.coral.tend.1.cull1.t,metadata.coral.tend,taxonomy1.cull)
 
 #Convert dfs to phyloseq object for use in DESeq2.
@@ -103,6 +103,55 @@ mod.deseq2.bleached <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha
 mod.deseq2.bleach.thermal=as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
 
 #check distributions of pvals
-hist(mod.deseq2.heated$padj, breaks=seq(from=0,to=1,by=.05)) #2 sig ASVs
-hist(mod.deseq2.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
-hist(mod.deseq2.bleach.thermal$padj, breaks=seq(from=0,to=1,by=.05)) #0 sig ASV
+hist(mod.deseq2.heated$padj, breaks=seq(from=0,to=1,by=.05)) #4 sig ASVs
+hist(mod.deseq2.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #many sig ASVs
+hist(mod.deseq2.bleach.thermal$padj, breaks=seq(from=0,to=1,by=.05)) #1 sig ASV
+
+#Manually generate l2fc values.
+#workup data for log2foldchange function.
+abund.coral.tend.1.cull1$Treatment=metadata.coral.tend$Treatment #add treatment column.
+
+log2.fold.change(abund.coral.tend.1.cull1,101,"Non-bleached + Ambient",100) #run the function
+
+hist(unlist(log2.fold.df1[,-101])) #check the distribution of log2foldchange data.
+
+#Generate longformat of log2FC data.
+log2.fold.df1.t=as.data.frame(t(log2.fold.df1[,-101])) #work up data
+
+abund.lfc.longformat=generate.long.format(log2.fold.df1.t,metadata.coral.tend,taxonomy1.cull) #generate longformat
+colnames(abund.lfc.longformat)[3]="Log2FoldChange" #rename columns
+
+#Merge the two abund/l2fc longformat dfs.
+#work up the dfs.
+abund.raw.longformat$Sample_OTU=paste(abund.raw.longformat$Sample,abund.raw.longformat$OTU)
+abund.lfc.longformat$Sample_OTU=paste(abund.lfc.longformat$Sample,abund.lfc.longformat$OTU)
+
+abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sample_OTU",by.y="Sample_OTU") #merge
+
+#Visualize ASVs
+#Heirarchical cluster l2fc values
+lfc.clustering <- pheatmap(log2.fold.df1[-8:-10,-101])
+lfc.clustering1 <- pheatmap(log2.fold.df1[-8:-10,-101],cluster_rows = FALSE)
+
+#work up clustering values
+cluster.OTUs=lfc.clustering$tree_col$labels[lfc.clustering$tree_col$order]
+cluster.samples=lfc.clustering$tree_row$labels[lfc.clustering$tree_row$order]
+cluster.Genus=taxonomy1.cull$Genus[lfc.clustering$tree_col$order]
+cluster.Genus_OTUs=paste(cluster.Genus,cluster.OTUs,sep="_")
+
+#reorder OTUs in abund.longformat.merged
+abund.longformat.merged$OTU.x=factor(abund.longformat.merged$OTU.x,levels=cluster.OTUs)
+
+#add a new column correspondong to Genus_OTU
+abund.longformat.merged$Genus_OTU=paste(abund.longformat.merged$Genus.x,abund.longformat.merged$OTU.x,sep="_")
+abund.longformat.merged$Genus_OTU=factor(abund.longformat.merged$Genus_OTU,levels=cluster.Genus_OTUs)
+
+#Visualize
+ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  #facet_wrap(.~Family.x,scales="free")+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  scale_x_discrete(labels=metadata.coral.tend$Sample_ID)
+#theme_bw()
+ggsave('ASV_l2fc.jpg', path = dirFigs, width=6, height=16, dpi = 1200)

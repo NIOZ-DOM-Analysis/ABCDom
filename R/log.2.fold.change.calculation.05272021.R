@@ -12,7 +12,7 @@ log2.fold.change = function(df,col.num,control.name,col.range) {
   
   controlvec=df[,col.num]==control.name #subset df for column = col.num, which corresponds to treatment column. Then generate a logical string for only elements that == control.name, a character string corresponding to the name of the control treatment. This now generates a logical string that selects for only the positions corresponding to the control treatments.
   
-  for (j in 1:w) { #for each column in df that corresponds to an OTU/feature, ranging from 1 to col.range,
+  for (j in 1:col.range) { #for each column in df that corresponds to an OTU/feature, ranging from 1 to col.range,
     
     column=df[,j] #subset df for column j, save as new vector "column"
     
@@ -20,7 +20,7 @@ log2.fold.change = function(df,col.num,control.name,col.range) {
     
     for (i in 1:length(column)) { #for each element in column
       
-      column.log2.fold[i] = log2(column[i]/mean(column[controlvec])) # calculate the log2fold ratio of the element to the mean control value (calculated by subsetting column by controlvec and calculating the mean). Add this value into the output vector "column.log2.fold" at the corresponding position.
+      column.log2.fold[i] = log2((column[i]+1*10^-1)/mean((column[controlvec])+1*10^-1)) # calculate the log2fold ratio of the element plus a very small number (to avoid -inf vlaues) to the mean control value (calculated by subsetting column by controlvec and calculating the mean). Add this value into the output vector "column.log2.fold" at the corresponding position.
       
     }
     
