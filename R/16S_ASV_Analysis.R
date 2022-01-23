@@ -84,13 +84,12 @@ physeq.abund.coral.tend.1.cull1=otu_table(abund.coral.tend.1.cull1,taxa_are_rows
 
 physeq.tax.abund.coral.tend.1.cull1=tax_table(as.matrix(taxonomy1.cull[,-1:-3])) #remove fasta, OTUNumber, and mothur taxonomy string from df, convert to matrix prior to converting to physeq object.
 
-rownames(metadata.coral.tend)=metadata.coral.tend$Sample_ID #convert rownames to sample names
 physeq.metadata.coral.tend=sample_data(metadata.coral.tend) #convert to physeq object
 
 physeq.coral.tend.cull1=phyloseq(physeq.abund.coral.tend.1.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
 
 #Run DESeq2
-mod.deseq2 <- phyloseq_to_deseq2(physeq.coral.tend.cull1, ~ Treatment)
+mod.deseq2 <- phyloseq_to_deseq2(physeq.coral.tend.cull1,~ Treatment)
 
 mod.deseq2 <- estimateSizeFactors(mod.deseq2,type="poscounts")
 
@@ -100,40 +99,61 @@ mod.deseq2 <- nbinomWaldTest(mod.deseq2)
 
 mod.deseq2.heated <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
 mod.deseq2.bleached <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
-mod.deseq2.bleach.thermal=as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
+mod.deseq2.bleach.heated=as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
 
 #check distributions of pvals
 hist(mod.deseq2.heated$padj, breaks=seq(from=0,to=1,by=.05)) #4 sig ASVs
 hist(mod.deseq2.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #many sig ASVs
-hist(mod.deseq2.bleach.thermal$padj, breaks=seq(from=0,to=1,by=.05)) #1 sig ASV
+hist(mod.deseq2.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #1 sig ASV
 
-#Manually generate l2fc values.
+#extract pvalues and add to new df
+sig.asvs <- as.data.frame(rownames(as.data.frame(mod.deseq2.bleached))) #add asv names
+colnames(sig.asvs) <- "ASV" #change colnames
+sig.asvs$heated.p <- mod.deseq2.heated$pvalue
+sig.asvs$heated.padj <- mod.deseq2.heated$padj
+sig.asvs$bleached.p <- mod.deseq2.bleached$pvalue
+sig.asvs$bleached.padj <- mod.deseq2.bleached$padj
+sig.asvs$bleached.heated.p <- mod.deseq2.bleach.heated$pvalue
+sig.asvs$bleached.heated.padj <- mod.deseq2.bleach.heated$padj
+
+#add new columns indicating significance Y/N
+sig.asvs$heated.sig <- sig.asvs$heated.padj #duplicate padj
+sig.asvs$heated.sig[sig.asvs$heated.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs$heated.sig[sig.asvs$heated.sig <=.05] <- "Y"
+sig.asvs$bleached.sig <- sig.asvs$bleached.padj #duplicate padj
+sig.asvs$bleached.sig[sig.asvs$bleached.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs$bleached.sig[sig.asvs$bleached.sig <=.05] <- "Y"
+sig.asvs$bleached.heated.sig <- sig.asvs$bleached.heated.padj #duplicate padj
+sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig <=.05] <- "Y"
+
+#Manually calculate log2fold change and visualize.
 #workup data for log2foldchange function.
-abund.coral.tend.1.cull1$Treatment=metadata.coral.tend$Treatment #add treatment column.
+abund.coral.tend.1.cull1$Treatment <- metadata.coral.tend$Treatment #add treatment column.
 
 log2.fold.change(abund.coral.tend.1.cull1,101,"Non-bleached + Ambient",100) #run the function
 
-hist(unlist(log2.fold.df1[,-101])) #check the distribution of log2foldchange data.
+hist(unlist(log2.fold.df1[,-101]))#check the distribution of log2foldchange data.
 
 #Generate longformat of log2FC data.
-log2.fold.df1.t=as.data.frame(t(log2.fold.df1[,-101])) #work up data
+log2.fold.df1.t=as.data.frame(t(log2.fold.df1[,-101])) #work up the data
 
 abund.lfc.longformat=generate.long.format(log2.fold.df1.t,metadata.coral.tend,taxonomy1.cull) #generate longformat
-colnames(abund.lfc.longformat)[3]="Log2FoldChange" #rename columns
+colnames(abund.lfc.longformat)[3]="Log2FoldChange" #rename column
 
-#Merge the two abund/l2fc longformat dfs.
+#Merge the two abund/lfc longformat dfs.
 #work up the dfs.
 abund.raw.longformat$Sample_OTU=paste(abund.raw.longformat$Sample,abund.raw.longformat$OTU)
 abund.lfc.longformat$Sample_OTU=paste(abund.lfc.longformat$Sample,abund.lfc.longformat$OTU)
 
 abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sample_OTU",by.y="Sample_OTU") #merge
 
-#Visualize ASVs
-#Heirarchical cluster l2fc values
-lfc.clustering <- pheatmap(log2.fold.df1[-8:-10,-101])
-lfc.clustering1 <- pheatmap(log2.fold.df1[-8:-10,-101],cluster_rows = FALSE)
+#Visualize
+#First, perform heirarchical clustering on the l2fc values
+lfc.clustering=pheatmap(log2.fold.df1[-8:-10,-101])
 
-#work up clustering values
+lfc.clustering1=pheatmap(log2.fold.df1[-8:-10,-101],cluster_rows = FALSE)
+
 cluster.OTUs=lfc.clustering$tree_col$labels[lfc.clustering$tree_col$order]
 cluster.samples=lfc.clustering$tree_row$labels[lfc.clustering$tree_row$order]
 cluster.Genus=taxonomy1.cull$Genus[lfc.clustering$tree_col$order]
@@ -142,16 +162,30 @@ cluster.Genus_OTUs=paste(cluster.Genus,cluster.OTUs,sep="_")
 #reorder OTUs in abund.longformat.merged
 abund.longformat.merged$OTU.x=factor(abund.longformat.merged$OTU.x,levels=cluster.OTUs)
 
-#add a new column correspondong to Genus_OTU
+#add a new column correspondong to family_OTU
 abund.longformat.merged$Genus_OTU=paste(abund.longformat.merged$Genus.x,abund.longformat.merged$OTU.x,sep="_")
 abund.longformat.merged$Genus_OTU=factor(abund.longformat.merged$Genus_OTU,levels=cluster.Genus_OTUs)
 
 #Visualize
 ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
   geom_point()+
-  #facet_wrap(.~Family.x,scales="free")+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
   theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=metadata.coral.tend$Sample_ID)
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  xlab(label="Sample")+
+  labs(size="Abundance")
 #theme_bw()
-ggsave('ASV_l2fc.jpg', path = dirFigs, width=6, height=16, dpi = 1200)
+ggsave('ASV_l2fc.jpg', path=dirFigs, width=6, height=16, dpi = 1200)
+
+#Visualize, faceting by Family
+ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  facet_wrap(.~Family.x,scales="free")+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  xlab(label="Sample")+
+  labs(size="Abundance")
+#theme_bw()
+
+ggsave('ASV_l2fc_family.jpg', path=dirFigs, width=28, height=26, dpi = 600)
