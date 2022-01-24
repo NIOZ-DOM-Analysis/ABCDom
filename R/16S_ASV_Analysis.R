@@ -127,6 +127,12 @@ sig.asvs$bleached.heated.sig <- sig.asvs$bleached.heated.padj #duplicate padj
 sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
 sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig <=.05] <- "Y"
 
+#merge in taxonomy
+sig.asvs1 <- cbind(sig.asvs, taxonomy1.cull)
+
+#export
+write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
+
 #Manually calculate log2fold change and visualize.
 #workup data for log2foldchange function.
 abund.coral.tend.1.cull1$Treatment <- metadata.coral.tend$Treatment #add treatment column.
@@ -187,5 +193,16 @@ ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" 
   xlab(label="Sample")+
   labs(size="Abundance")
 #theme_bw()
-
 ggsave('ASV_l2fc_family.jpg', path=dirFigs, width=28, height=26, dpi = 600)
+
+#Visualize, faceting by class
+ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  facet_wrap(.~Class.x,scales="free")+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  xlab(label="Sample")+
+  labs(size="Abundance")
+#theme_bw()
+ggsave('ASV_l2fc_class.jpg', path=dirFigs, width=20, height=26, dpi = 600)
