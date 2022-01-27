@@ -126,12 +126,17 @@ permanova.t0 <- adonis2(unifrac.dist.t0~Treatment, by="margin", permutations=999
 permanova.t0 #Treatment1 is significant.
 
 #now test tend data for all treatments.
-permanova.tend=adonis2(unifrac.dist.tend~Treatment, by="margin", permutations=999, data=metadata.tend)
+permanova.tend <- adonis2(unifrac.dist.tend~Treatment, by="margin", permutations=999, data=metadata.tend)
 permanova.tend #treatment is significant, with very high R2 and medium F values.
-pairwsie.adonis.tend <- pairwise.adonis(unifrac.dist.tend,factors=metadata.tend$Treatment) #no significant differences because sample size is too small
+pairwise.adonis.tend <- pairwise.adonis(unifrac.dist.tend,factors=metadata.tend$Treatment) #no significant differences because sample size is too small
+
+#work up pairwise.adonis.tend for export
+pairwise.adonis.tend1 <- cbind(pairwise.adonis.tend, t(as.data.frame(strsplit(as.character(pairwise.adonis.tend$pairs), "vs")))) #split the "pairs" into the two seperate treatments, add as new columns
+colnames(pairwise.adonis.tend1)[9] <- "Treatment1" #update colnames
+colnames(pairwise.adonis.tend1)[10] <- "Treatment2" #update colnames
 
 #export pairwise adonis tend for visualization in JMP
-write.csv(pairwsie.adonis.tend, file.path(dirOutput, "pairwise.adonis.tend.csv"), )
+write.csv(pairwise.adonis.tend1, file.path(dirOutput, "pairwise.adonis.tend1.csv"), )
 
 #now test tend coral data for all treatments
 permanova.coral.tend=adonis2(unifrac.dist.coral.tend~Treatment, by="margin", permutations=999, data=metadata.coral.tend)

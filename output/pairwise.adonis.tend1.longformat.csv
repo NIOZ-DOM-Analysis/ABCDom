@@ -1,0 +1,37 @@
+Treatment1,Treatment2,R2
+Ambient Water Control,Ambient Water Control,0
+Heated Water Control,Ambient Water Control,0.398712856
+Non-bleached + Ambient,Ambient Water Control,0.702895045
+Non-bleached + Heated ,Ambient Water Control,0.754189924
+Bleached + Ambient,Ambient Water Control,0.707681517
+Bleached + Heated ,Ambient Water Control,0.792994054
+Ambient Water Control,Heated Water Control,0.398712856
+Heated Water Control,Heated Water Control,0
+Non-bleached + Ambient,Heated Water Control,0.548705493
+Non-bleached + Heated ,Heated Water Control,0.671558594
+Bleached + Ambient,Heated Water Control,0.61607127
+Bleached + Heated ,Heated Water Control,0.674090896
+Ambient Water Control,Non-bleached + Ambient,0.702895045
+Heated Water Control,Non-bleached + Ambient,0.548705493
+Non-bleached + Ambient,Non-bleached + Ambient,0
+Non-bleached + Heated ,Non-bleached + Ambient,0.627725846
+Bleached + Ambient,Non-bleached + Ambient,0.553004819
+Bleached + Heated ,Non-bleached + Ambient,0.586991191
+Ambient Water Control,Non-bleached + Heated ,0.754189924
+Heated Water Control,Non-bleached + Heated ,0.671558594
+Non-bleached + Ambient,Non-bleached + Heated ,0.627725846
+Non-bleached + Heated ,Non-bleached + Heated ,0
+Bleached + Ambient,Non-bleached + Heated ,0.207502106
+Bleached + Heated ,Non-bleached + Heated ,0.351991534
+Ambient Water Control,Bleached + Ambient,0.707681517
+Heated Water Control,Bleached + Ambient,0.61607127
+Non-bleached + Ambient,Bleached + Ambient,0.553004819
+Non-bleached + Heated ,Bleached + Ambient,0.207502106
+Bleached + Ambient,Bleached + Ambient,0
+Bleached + Heated ,Bleached + Ambient,0.331949052
+Ambient Water Control,Bleached + Heated ,0.792994054
+Heated Water Control,Bleached + Heated ,0.674090896
+Non-bleached + Ambient,Bleached + Heated ,0.586991191
+Non-bleached + Heated ,Bleached + Heated ,0.351991534
+Bleached + Ambient,Bleached + Heated ,0.331949052
+Bleached + Heated ,Bleached + Heated ,0
