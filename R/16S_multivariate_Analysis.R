@@ -8,6 +8,8 @@ library(scales)
 library(FSA)
 library(graphics)
 library(grDevices)
+library(pheatmap)
+library(viridis)
 
 #source custom functions
 source(file="generate.square.dist.script.07.27.2020.R")
@@ -137,6 +139,18 @@ colnames(pairwise.adonis.tend1)[10] <- "Treatment2" #update colnames
 
 #export pairwise adonis tend for visualization in JMP
 write.csv(pairwise.adonis.tend1, file.path(dirOutput, "pairwise.adonis.tend1.csv"), )
+
+#read in and work up pairwise.adonis.tend1.square.matrix.csv for visualization
+pairwise.adonis.tend1.square.matrix <- read.csv(file.path(dirOutput, "pairwise.adonis.tend1.square.matrix.csv"))
+rownames(pairwise.adonis.tend1.square.matrix) <- pairwise.adonis.tend1.square.matrix$X #update rownames
+colnames(pairwise.adonis.tend1.square.matrix)[2:7] <- as.vector(pairwise.adonis.tend1.square.matrix$X) #update colnames
+pairwise.adonis.tend1.square.matrix1 <- pairwise.adonis.tend1.square.matrix[,-1] #remove extra column
+
+#visualize with pheatmap
+jpeg("../figures/16S_pairwise_adonis_clust.jpg",width=2100, height=2000, res=300)
+pheatmap(pairwise.adonis.tend1.square.matrix1, color=viridis(n=256, alpha = 1, begin = 0, end = 1, direction = 1, option="B")
+)
+dev.off()
 
 #now test tend coral data for all treatments
 permanova.coral.tend=adonis2(unifrac.dist.coral.tend~Treatment, by="margin", permutations=999, data=metadata.coral.tend)
