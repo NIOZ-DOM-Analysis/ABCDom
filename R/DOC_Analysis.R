@@ -23,16 +23,36 @@ DOC_dat1$Treatment.x = factor(DOC_dat1$Treatment.x, levels=c("Non-bleached + Amb
 DOC_dat_t0 <- subset(DOC_dat1, Timepoint==0)
 DOC_dat_t0$Treatment = DOC_dat_t0$Treatment.x
 
+#create manual
+cost.col.fill<-c("dodgerblue3","firebrick3", "white", "white", "grey70", "grey70", "grey70")
+cost.col.line<-c("dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "lightgrey")
+fact.all.treat<-factor(DOC_dat_t0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control", "not applicable"))
+cost.shape <- c(21,24)
+
 #visualize
 ggplot(DOC_dat_t0,aes(x=Treatment,y=uMC,color=Treatment,fill=Treatment))+
-  geom_boxplot(size=2)+
-  geom_point(size=4)+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA","NA","NA"))+
-  theme(axis.text=element_text(size=18),axis.title=element_text(size=18), axis.text.x=element_text(size=16), legend.text=element_text(size=16), legend.key.height=unit(1.75,"cm"))+
-  labs(y="DOC (uM)")
+  geom_boxplot(size = 1.2)+
+  geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab("DOC (uM)")+
+  xlab("")
 #use this figure for a potential supplement
-ggsave('DOC_per treatment.jpeg', path = dirFigs, dpi = 300, height=14, width=20)
+ggsave('DOC_per treatment.jpeg', path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+
+# old plot
+# ggplot(DOC_dat_t0,aes(x=Treatment,y=uMC,color=Treatment,fill=Treatment))+
+#   geom_boxplot(size=2)+
+#   geom_point(size=4)+
+#   scale_color_manual(values=cost.col.line)+
+#   scale_fill_manual(values=cost.col.fill )+
+#   theme(axis.text=element_text(size=12),axis.title=element_text(size=12), axis.text.x=element_text(size=12), legend.text=element_text(size=12), legend.key.height=unit(0.8,"in"))+
+#   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+#   labs(y="DOC (uM)")
+# #use this figure for a potential supplement
+# ggsave('DOC_per treatment.jpeg', path = dirFigs, width = 8, height = 5, units = "in", dpi = 320)
 
 
 #Check the distribution of raw DOC values.
@@ -49,32 +69,39 @@ summary(mod.DOC.t0) #not significant
 
 # Next, plot raw control corrected DOC values.
 ggplot(DOC_dat_t0,aes(x=Treatment,y=Control_Corrected_DOC,color=Treatment,fill=Treatment))+
-  geom_boxplot(size=2)+
-  geom_point(size=4)+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA","NA","NA"))+
-  theme(axis.text=element_text(size=18),axis.title=element_text(size=18))+
-  labs(y="Control Corrected DOC (uM)")
-ggsave('DOC_control corrected_per treatment.jpeg', path = dirFigs, dpi = 300)
+  geom_boxplot(size = 1.2)+
+  geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab("Control Corrected DOC (uM)")+
+  xlab("")
+ggsave('DOC_control corrected_per treatment.jpeg', path = dirFigs, width = 6.75, height = 5, dpi = 300)
 
 #Next plot coral specifc DOC values, first SA normalized DOC and then SA normalized control corrected DOC.
-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=DOC_SA_Normalized,color=Treatment,fill=Treatment))+
-  geom_boxplot(size=2)+
-  geom_point(size=4)+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA"))+
-  theme(axis.text=element_text(size=18),axis.title=element_text(size=18))+
-  labs(y="Surface Area Normalized DOC (uM cm-2)")
-ggsave('DOC_Surface area normalized_per treatment.jpeg', path = dirFigs, dpi = 300)
+ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],
+       aes(x=Treatment,y=DOC_SA_Normalized,color=Treatment,fill=Treatment))+
+  geom_boxplot(size = 1.2)+
+  geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab ("Surface Area Normalized DOC (uM cm-2)")+
+  xlab ("")
+ggsave('DOC_Surface area normalized_per treatment.jpeg', path = dirFigs, width = 6.75, height = 5, dpi = 300)
 
 ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_SA_Normalized,color=Treatment,fill=Treatment))+
-  geom_boxplot(size=2)+
-  geom_point(size=4)+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA"))+
-  theme(axis.text=element_text(size=18),axis.title=element_text(size=18))+
-  labs(y="Surface Area Normalized DOC (uM cm-2)")
-ggsave('DOC_Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, dpi = 300)
+  geom_boxplot(size = 1.2)+
+  geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab ("Surface Area Normalized DOC (uM cm-2)")+
+  xlab("")
+ggsave('DOC_Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 6.75, height = 5, dpi = 300)
 #Use as panel A for Figure 2
 
 #Next, run stats on the control corrected SA normalized DOC data.

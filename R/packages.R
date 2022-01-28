@@ -12,6 +12,7 @@ List of alterations:
 "
 # Specify your packages
 package_list <- c(
+  "ggplot2",
   "textclean",
   "rmarkdown",
   "knitr",
@@ -58,18 +59,20 @@ package_list <- c(
   "png",
   "magick",
   "devtools",
-  "FSA")
+  "FSA",
+  "openxlsx",
+  "BiodiversityR")
 
 
 
 
 
 
-# not_installed <- package_list[!(package_list %in% installed.packages()[ , "Package"])]    # Extract not installed packages
-# if(length(not_installed)) install.packages(not_installed)                               # Install not installed packages
-# if(length(not_installed)>1){
-#   print(paste(length(not_installed), "packages had to be installed."))                    # Print information to console if packages had to be installed.
-# }
+not_installed <- package_list[!(package_list %in% installed.packages()[ , "Package"])]    # Extract not installed packages
+if(length(not_installed)) install.packages(not_installed)                               # Install not installed packages
+if(length(not_installed)>1){
+  print(paste(length(not_installed), "packages had to be installed."))                    # Print information to console if packages had to be installed.
+}
 
 #unpack all packages to use
 lapply(package_list, library, character.only = TRUE)
