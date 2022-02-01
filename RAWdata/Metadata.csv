@@ -267,7 +267,7 @@ ABC_265,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non
 ABC_266,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,Tend,36,16,,,ABCDOM
 ABC_267,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,Tend,36,17,,,ABCDOM
 ABC_268,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,Tend,36,18,,,ABCDOM
-ABC_inoculum B_T0,Ambient,Inoculum,Inoculum,NA,NA,NA,NA,NA,PPL,T0,0,19,,,ABCDOM
+ABC_inoculum B_T0,Ambient,Inoculum,Inoculum,Inoculum,Inoculum,Inoculum,Inoculum,Inoculum,PPL,T0,0,19,,,ABCDOM
 PC_WA1_T7C,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,0,0,,,PLANC
 PC_WA2_T7C,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,0,0,,,PLANC
 PC_WA3_T7C,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,0,0,,,PLANC
