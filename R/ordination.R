@@ -107,6 +107,7 @@ ggplot() +
   geom_point(data=ordi.data$NMDS.ABCDom,
              aes(x=axis1, y=axis2, fill = fact.all.treat, colour=fact.all.treat, shape = Timepoint_char),
              size=5, stroke=1.5) +
+  # geom_text(data = ordi.data$NMDS.ABCDom, aes(x=axis1, y=axis2, label = Sample.Name))+
   scale_shape_manual(values = cost.shape, name = "Timepoint")+
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+

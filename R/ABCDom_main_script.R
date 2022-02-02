@@ -34,3 +34,7 @@ file.edit(paste0(Data.cleanup.folder, '/DataCleanup.R'))
 
 # open the ordination of metabolite data here
 file.edit(paste0(dirR, '/ordination.R'))
+
+
+#ABCDOM 2 analysis
+# analyze the difference over time in the metabolite data

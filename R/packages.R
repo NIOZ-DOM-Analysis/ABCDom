@@ -60,6 +60,13 @@ package_list <- c(
   "magick",
   "devtools",
   "FSA",
+  "pairwiseAdonis",
+  "stats",
+  "dendextend",
+  "scales",
+  "phyloseq",
+  "DESeq2",
+  "pheatmap",
   "openxlsx",
   "BiodiversityR")
 
