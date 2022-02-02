@@ -130,9 +130,7 @@ sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig <=.05] <- "Y"
 #merge in taxonomy
 sig.asvs1 <- cbind(sig.asvs, taxonomy1.cull)
 
-#export
-write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
-
+#add in mean l2fc values for each ASV in each treatment
 #Manually calculate log2fold change and visualize.
 #workup data for log2foldchange function.
 abund.coral.tend.1.cull1$Treatment <- metadata.coral.tend$Treatment #add treatment column.
@@ -153,6 +151,31 @@ abund.raw.longformat$Sample_OTU=paste(abund.raw.longformat$Sample,abund.raw.long
 abund.lfc.longformat$Sample_OTU=paste(abund.lfc.longformat$Sample,abund.lfc.longformat$OTU)
 
 abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sample_OTU",by.y="Sample_OTU") #merge
+
+abund.longformat.merged$Treatment_OTU <- paste(abund.longformat.merged$Treatment.x, abund.longformat.merged$OTU.x, sep="_") #add a treatment_OTU column
+
+#calculate mean relabund and l2fc for each treatment_OTU
+mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,c(4,66)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
+mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,c(36,66)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
+mean.abund.l2fc2 <- mean.abund.l2fc1[,c(-3,-4,-6)] #remove unnecessary columns
+colnames(mean.abund.l2fc2) <- c("Treatment_OTU", "Mean Abundance", "Mean Log2 Fold Change") #rename columns
+mean.abund.l2fc3 <- cbind(mean.abund.l2fc2, t(as.data.frame(strsplit(mean.abund.l2fc2$Treatment_OTU, split="_")))) #split Treatment_OTU
+colnames(mean.abund.l2fc3)[4:5] <- c("Treatment", "OTU") #update colnames
+
+#combine mean.abund.l2fc3 values with sig.asvs1
+#first for abundance
+sig.asvs1$mean.abund.heated <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
+sig.asvs1$mean.abund.bleached <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
+sig.asvs1$mean.abund.bleached.heated <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
+sig.asvs1$mean.abund.ambient <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Non-bleached + Ambient"]
+
+#then for l2fc
+sig.asvs1$mean.l2fc.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
+sig.asvs1$mean.l2fc.bleached <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
+sig.asvs1$mean.l2fc.bleached.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
+
+#export
+write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
 
 #Visualize
 #First, perform heirarchical clustering on the l2fc values
@@ -183,17 +206,17 @@ ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" 
 #theme_bw()
 ggsave('ASV_l2fc.jpg', path=dirFigs, width=6, height=16, dpi = 1200)
 
-#Visualize, faceting by Family
+#Visualize, faceting by Order
 ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
   geom_point()+
-  facet_wrap(.~Family.x,scales="free")+
+  facet_wrap(.~Order.x,scales="free")+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
   theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
   scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
   xlab(label="Sample")+
   labs(size="Abundance")
 #theme_bw()
-ggsave('ASV_l2fc_family.jpg', path=dirFigs, width=28, height=26, dpi = 600)
+ggsave('ASV_l2fc_order.jpg', path=dirFigs, width=28, height=26, dpi = 600)
 
 #Visualize, faceting by class
 ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
