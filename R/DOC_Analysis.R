@@ -26,7 +26,7 @@ DOC_dat_t0$Treatment = DOC_dat_t0$Treatment.x
 #create manual
 cost.col.fill<-c("dodgerblue3","firebrick3", "white", "white", "grey70", "grey70", "grey70")
 cost.col.line<-c("dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "lightgrey")
-fact.all.treat<-factor(DOC_dat_t0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control", "not applicable"))
+fact.all.treat<-factor(DOC_dat_t0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control", "not applicable"))
 cost.shape <- c(21,24)
 
 #visualize

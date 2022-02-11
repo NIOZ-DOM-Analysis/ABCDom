@@ -82,3 +82,21 @@ summary(mod.24) #treatment is significant
 #run a tukey HSD on mod.24
 TukeyHSD(mod.24, "Treatment.y")
 #For now we will stick with these stats since in the post hoc there are significant differences within the coral treatment.
+
+#visualize T0 vs Tmax(24h) cell concentrations for Fig 1
+FCM_dat_24_0 <- subset(FCM_dat, Timepoint..h. == 0 | Timepoint..h. == 24) #subset for the appropriate timepoints
+
+FCM_dat_24_0$Treatment <- FCM_dat_24_0$Treatment.y #duplicate Treatment.y
+
+FCM_dat_24_0$Treatment <- fact.all.treat #set as correct factor levels
+
+ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  ylab(label="Concentration (cells per uL)")+
+  xlab(label="Time of dark incubations (hours)")+
+  theme_classic()+
+  theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)
+ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
+
