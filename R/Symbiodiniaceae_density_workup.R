@@ -93,3 +93,7 @@ sym_dat_aquaria_final$Bleaching_Status_at_Collection=c(rep(c("Bleached","",""),t
 
 write.csv(sym_dat_aquaria_final, file.path(dirOutput, "sym_dat_aquaria_final.csv"), )
 
+rm(metadata.subset, metadata.subset.t0, sym_dat_aquaria_v4, sym_dat_aquaria_sum_v3,
+   sym_dat_aquaria_sum_v2, sym_dat_aquaria_sum, sym_dat_aquaria_v2, sym_dat_aquaria_v1,
+   sym_dat_aquaria, sym.SA.normalized.no.outliers1, sym.SA.normalized.no.outliers,
+   SA_dat_aquaria_sum, SA_dat_aquaria_sum_v1, SA_dat_aquaria_sum_v2, dat)

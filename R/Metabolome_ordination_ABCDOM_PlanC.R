@@ -146,7 +146,7 @@ ggsave("NMDS_T0_PlanC_ABCDom.jpg", path = dirFigs, width = 6.75, height = 5, uni
 
 #non metric multidimentional scaling, ABCT0Dom T0
 df.area.ABCT0 <- df.area %>% filter(Experiment == "ABCDOM", Timepoint_char == "T0")
-ord.mod.area<- metaMDS(df.area.ABCT0[M:ncol(df.area.ABCT0)], distance = 'bray', k = 2)
+ord.mod.area<- metaMDS(df.area.ABCT0[M:ncol(df.area.ABCT0)], distance = 'bray', k = 3)
 ordi.plot1.1<-ordiplot(ord.mod.area, choices = c(1,2))
 sites.long1<-sites.long(ordi.plot1.1, env.data = df.area.ABCT0[1:(M-1)])
 ordi.data$NMDS.ABCDom.T0 <- sites.long1

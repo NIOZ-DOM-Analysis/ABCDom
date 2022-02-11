@@ -9,32 +9,37 @@ wd.project<-getwd()
 # activate packages
 source(paste0(dirR,'/packages.R'))
 
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("phyloseq")
+
+#metabolite data cleanup
+#will open new script that needs user input.
+file.edit(paste0(Data.cleanup.folder, '/DataCleanup.R'))
+#additional cleaning of global environment
+rm(tmp, tmp2, split_pregap, flagged, df1.trans.feat, df1.filtered, df1.filtered_noblanks, df.filtered, derep_hits, ClassyFire_hits, ASIN_sqrt_smpl)
 
 #first workup DOC data and symbiondiniacae
 source(paste0(dirR, '/DOC_workup.R'))
 source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
 source(paste0(dirR, '/FCM_workup.R'))
 
-<<<<<<< Updated upstream
+
 #then analyze data
 source(paste0(dirR, '/DOC_analysis.R'))
 source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 source(paste0(dirR, '/FCM_analysis.R'))
 
-#Symbiodiniaceae scripts
-source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
 
-source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
->>>>>>> Stashed changes
+# #Symbiodiniaceae scripts
+# source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
+# source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 
-
-#metabolite data cleanup
-#will open new script that needs user input.
-file.edit(paste0(Data.cleanup.folder, '/DataCleanup.R'))
 
 # open the ordination of metabolite data here
-file.edit(paste0(dirR, '/ordination.R'))
+file.edit(paste0(dirR, '/metabolite_ordination.R'))
 
+file.edit(paste0(dirR, '/metabolite_diversity.R'))
 
 #ABCDOM 2 analysis
 # analyze the difference over time in the metabolite data

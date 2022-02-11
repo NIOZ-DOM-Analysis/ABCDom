@@ -18,8 +18,8 @@ FCM.dat$Concentration <- as.numeric(as.character(sub(",","",FCM.dat$Concentratio
 
 #merge FCM.dat with metadata
 metadata.fcm <- subset(metadata, Sample_Type == "FCM")
-FCM_dat <- merge(FCM.dat, metadata.fcm, by.x="SampleID", by.y="Sample.Name", all.x=T, all.y=F)
+FCM_dat <- merge(FCM.dat, metadata.fcm, by.x="SampleID", by.y="Sample Name", all.x=T, all.y=F)
 
 write.csv(FCM_dat, file.path(dirOutput, "FCM_dat.csv"), )
 
-
+rm(PlateI, PlateII,PlateI.Map,PlateII.Map, FCM.dat,FCM.I,FCM.II)

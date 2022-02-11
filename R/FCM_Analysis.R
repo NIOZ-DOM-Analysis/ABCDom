@@ -8,6 +8,12 @@ hist(FCM_dat$Concentration) #not normal, strong right skew
 hist(sqrt(FCM_dat$Concentration)) #more normal
 
 #calculate the mean and SE for bleaching susceptability treatments and timepoint
+# but first create the SE function
+stderror=function(x){
+  se=sd(x)/sqrt(length(x))
+  return(se)
+}
+
 FCM_dat_mean <- as.data.frame(aggregate(FCM_dat$Concentration,by=list(paste(FCM_dat$Treatment.y,FCM_dat$Timepoint..h.,sep="_")),FUN=mean)) #calcualte mean
 
 FCM_dat_mean$SE <- as.data.frame(aggregate(FCM_dat$Concentration,by=list(paste(FCM_dat$Treatment.y,FCM_dat$Timepoint..h.,sep="_")),FUN=stderror))[[2]] #add se data
@@ -91,6 +97,7 @@ FCM_dat_24_0$Treatment <- FCM_dat_24_0$Treatment.y #duplicate Treatment.y
 FCM_dat_24_0$Treatment <- fact.all.treat #set as correct factor levels
 
 ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Treatment, fill=Treatment))+
+  stat_boxplot(geom = 'errorbar')+
   geom_boxplot()+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+

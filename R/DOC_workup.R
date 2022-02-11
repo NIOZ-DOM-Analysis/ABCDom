@@ -1,15 +1,16 @@
 'DOC_workup.R'
 
 DOC_raw <- read.csv(file.path(dirRAW, "DOC", "DOC_with_SampleName.csv"))
-metadata <- read.csv(file.path(dirRAW, "Metadata.csv"))
+if(!exists("metadata") ){
+  metadata <- read.csv(file.path(dirRAW, "Metadata.csv"))}
 
 dat <- DOC_raw[c(-1,-11,-14,-17,-19,-23,-34),]
 
 # subset for only DOC metadata
-metadata.doc <- metadata[metadata$Sample_Type=="DOC",]
+# metadata.doc <- metadata[metadata$Sample_Type=="DOC",]
 
 # merge with DOC dat
-DOC_dat <- merge(dat, metadata.doc, by.x="Sample.Name", by.y="Sample.Name", all.x=T, all.y=F)
+DOC_dat <- merge(dat, metadata, by.x="Sample.Name", by.y="Sample Name", all.x=T, all.y=F)
 
 
 # Calculate the background water control corrected DOC for the t0 samples.
@@ -28,5 +29,5 @@ DOC_dat$Control_Corrected_DOC = DOC_dat$uMC - DOC_dat$Background_DOC
 
 # export to output folder
 write.csv(DOC_dat, file.path(dirOutput, "DOC_dat.csv"), )
-
+rm(dat)
 
