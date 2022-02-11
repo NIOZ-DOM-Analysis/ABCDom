@@ -1,23 +1,29 @@
 #Load libraries
 
-library(ggplot2)
-library(vegan)
-library(pairwiseAdonis)
-library(stats)
-library(dendextend)
-library(dplyr)
-library(scales)
-library(FSA)
-library(phyloseq)
-library(DESeq2)
-library(pheatmap)
+#library(ggplot2)
+#library(vegan)
+#library(pairwiseAdonis)
+#library(stats)
+#library(dendextend)
+#library(dplyr)
+#library(scales)
+#library(FSA)
+#library(phyloseq)
+#library(DESeq2)
+#library(pheatmap)
+#library(cowplot)
+library(ggforce)
+library(grid)
+library(gridExtra)
+library(stringr)
+
 
 #load custom functions
 
-source(file="generate.square.dist.script.07.27.2020.R")
-source(file="generate.long.format.script.R")
-source(file="cull.otu.script.R")
-source(file="log.2.fold.change.calculation.05272021.R")
+#source(file="generate.square.dist.script.07.27.2020.R")
+#source(file="generate.long.format.script.R")
+#source(file="cull.otu.script.R")
+#source(file="log.2.fold.change.calculation.05272021.R")
 
 #Read in data/metadata.
 metadata1_16S <- read.csv(file.path(dirOutput, "metadata1_16S.csv"))
@@ -175,7 +181,7 @@ sig.asvs1$mean.l2fc.bleached <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.ab
 sig.asvs1$mean.l2fc.bleached.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
 
 #export
-write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
+#write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
 
 #Visualize
 #First, perform heirarchical clustering on the l2fc values
@@ -195,8 +201,18 @@ abund.longformat.merged$OTU.x=factor(abund.longformat.merged$OTU.x,levels=cluste
 abund.longformat.merged$Genus_OTU=paste(abund.longformat.merged$Genus.x,abund.longformat.merged$OTU.x,sep="_")
 abund.longformat.merged$Genus_OTU=factor(abund.longformat.merged$Genus_OTU,levels=cluster.Genus_OTUs)
 
+#remove control samples for visualization
+abund.longformat.merged1 <- subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069")
+
+#pad Genus_OTU strings to 42 characters. Need to do this for alignment of faceted plots to work
+abund.longformat.merged1$Genus_OTU1 <- str_pad(abund.longformat.merged1$Genus_OTU, width=42, "left")
+
+#make all lowercase and then pad to see if this resolves the alignment problem
+abund.longformat.merged1$Genus_OTU2 <- tolower(abund.longformat.merged1$Genus_OTU)
+abund.longformat.merged1$Genus_OTU3 <- str_pad(abund.longformat.merged1$Genus_OTU2, width=42, "left", pad="_")
+
 #Visualize
-ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
   geom_point()+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
   theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
@@ -207,7 +223,7 @@ ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" 
 ggsave('ASV_l2fc.jpg', path=dirFigs, width=6, height=16, dpi = 1200)
 
 #Visualize, faceting by Order
-ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
   geom_point()+
   facet_wrap(.~Order.x,scales="free")+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
@@ -219,9 +235,9 @@ ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" 
 ggsave('ASV_l2fc_order.jpg', path=dirFigs, width=28, height=26, dpi = 600)
 
 #Visualize, faceting by class
-ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
   geom_point()+
-  facet_wrap(.~Class.x,scales="free")+
+  facet_grid(row=vars(Class.x), scales="free_y", space="fre")+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
   theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
   scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
@@ -229,3 +245,61 @@ ggplot(subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" 
   labs(size="Abundance")
 #theme_bw()
 ggsave('ASV_l2fc_class.jpg', path=dirFigs, width=20, height=26, dpi = 600)
+
+#for class, facet out the abundant classes (aprot, gprot, bacteroi) and the not abundantclasses (oxy, prot_unclass, dprot, bact_unclass)
+bubbleplot_class1 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU1,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  facet_wrap(.~Class.x,scales="free_y")+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+  theme(axis.text.y=element_text(family="mono"), axis.text.x=element_blank(), axis.title.x=element_blank())+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  labs(size="Abundance")
+
+bubbleplot_class2 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaproteobacteria" | Class.x=="Oxyphotobacteria" | Class.x=="Proteobacteria_unclassified" | Class.x=="Bacteria_unclassified"),aes(y=Genus_OTU1,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  facet_wrap(.~Class.x,scales="free_y", nrow=2, ncol=3)+
+  scale_size_continuous(limits=c(0,5000))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+  theme(legend.position="none",axis.text.y=element_text(family="mono"),axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  xlab(label="Sample")+
+  labs(size="Abundance")
+
+#combine plots with plot.grid. PROBLEMS WITH ALIGNMENT CUZ OF YAXIS LABELS NEED TO PAD STRINGS
+plot_grid(bubbleplot_class1, bubbleplot_class2, align="v", ncol=1, axis="lr", rel_heights = c(1,.7))
+#8x17 landscape
+
+
+#different method
+bubbleplot_class3 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank())+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  labs(size="Abundance")+
+  facet_col(vars(Class.x), scales="free_y", space="free")
+
+bubbleplot_class3_v1 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  scale_size_continuous(limits=c(0,5000))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  xlab(label="Sample")+
+  labs(size="Abundance")+
+  facet_col(vars(Class.x), scales="free_y", space="free")
+
+bubbleplot_class4 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaproteobacteria" | Class.x=="Oxyphotobacteria" | Class.x=="Proteobacteria_unclassified" | Class.x=="Bacteria_unclassified"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+  geom_point()+
+  scale_size_continuous(limits=c(0,5000))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+  xlab(label="Sample")+
+  labs(size="Abundance")+
+  facet_col(vars(Class.x), scales="free_y", space="free")
+
+#plotgrid
+plot_grid(bubbleplot_class3, bubbleplot_class4, align="v", ncol=1, axis="lr", rel_heights = c(1,.25))
+
+
