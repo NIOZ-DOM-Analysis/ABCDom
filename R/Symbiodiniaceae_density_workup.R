@@ -34,7 +34,7 @@ sym_dat$log10.sym.SA=log10(sym_dat$sym.SA)
 
 # Export as CSV to output directory.
 
-write.csv(sym_dat, file.path(dirOutput, "sym_dat.csv"), )
+#write.csv(sym_dat, file.path(dirOutput, "sym_dat.csv"), )
 
 
 # Calculate the average sym density for each aquaria and visualize.
@@ -91,7 +91,7 @@ sym_dat_aquaria_final$Bleaching_Status_at_Collection=c(rep(c("Bleached","",""),t
 
 # Export as CSV to output directory.
 
-write.csv(sym_dat_aquaria_final, file.path(dirOutput, "sym_dat_aquaria_final.csv"), )
+#write.csv(sym_dat_aquaria_final, file.path(dirOutput, "sym_dat_aquaria_final.csv"), )
 
 rm(metadata.subset, metadata.subset.t0, sym_dat_aquaria_v4, sym_dat_aquaria_sum_v3,
    sym_dat_aquaria_sum_v2, sym_dat_aquaria_sum, sym_dat_aquaria_v2, sym_dat_aquaria_v1,

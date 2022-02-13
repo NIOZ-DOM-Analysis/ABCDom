@@ -12,19 +12,19 @@ library(pheatmap)
 library(viridis)
 
 #source custom functions
-source(file="generate.square.dist.script.07.27.2020.R")
+#source(file="generate.square.dist.script.07.27.2020.R")
 
 #read in metadata and data
 #Read in unifrac.
-unifrac <- read.csv(file.path(dirRAW, "16S", "otu_repr_100.tre1.wsummary.csv"))
+#unifrac <- read.csv(file.path(dirRAW, "16S", "otu_repr_100.tre1.wsummary.csv"))
 
 #read in ASV table
-abund <- read.csv(file.path(dirRAW, "16S", "abundance_table_100.database.csv"))
+#abund <- read.csv(file.path(dirRAW, "16S", "abundance_table_100.database.csv"))
 
 #Read in metadata. Unnecessary since metadata is included in global environment
 #metadata <- read.csv(file="metadata1.csv")
 #Read in the 16S metadata
-metadata_16S <- read.csv(file.path(dirOutput, "metadata_16S_abcDOM.csv"))
+#metadata_16S <- read.csv(file.path(dirOutput, "metadata_16S_abcDOM.csv"))
 
 #Work up metadata and unifrac data.
 #subset metadata for only samples that made it through the 16S pipeline
@@ -65,7 +65,7 @@ metadata1 <- metadata.outliers[c(-26,-34),]
 metadata1$Treatment <- factor(metadata1$Treatment, levels=c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
 
 #export 16s metadata
-write.csv(metadata1, file.path(dirOutput, "metadata1_16S.csv"))
+#write.csv(metadata1, file.path(dirOutput, "metadata1_16S.csv"))
 
 #subset for various treatments/timepoints.
 metadata.t0=metadata1[metadata1$Timepoint_char=="T0",] #subset for only t0 samples
