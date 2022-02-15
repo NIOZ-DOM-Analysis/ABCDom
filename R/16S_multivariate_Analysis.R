@@ -108,19 +108,62 @@ clust.tend1$labels <- metadata.tend$Treatment
 dev.off()
 jpeg("../figures/16S_dendogram_legend.jpg",width=1500, height=2100, res=300)
 plot(NULL, axes=F, bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend(0, .5, legend=levels(metadata.tend$Treatment), col=c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray"), pt.bg=c("dodgerblue3","firebrick3","NA","NA","NA","NA"), pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
+legend(0, .5, legend=levels(metadata.tend$Treatment), col=cost.col.line, pt.bg=cost.col.fill, pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
 dev.off()
-
-#generate outline and fill vectors for heirarchical clustering plot
-fgvec <- c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray")
-bgvec <- c("dodgerblue3","firebrick3","NA","NA","NA","NA")
 
 #plot heirarchical clustering plot, save as jpeg
 jpeg("../figures/16S_dendogram_v1.jpg",width=2100, height=2100, res=300)
 clust.tend2 <- as.dendrogram(clust.tend1, hang=-1) #convert to dendrogram
 plot(clust.tend2, type="rectangle", dLeaf=.1, ylim=c(-.5,1))
-symbols(1:15, rep(-.05,15), circles=rep(1,15), add=T, fg=fgvec[metadata.tend$Treatment][clust.tend1$order], bg=bgvec[metadata.tend$Treatment][clust.tend1$order], inches=.09, xpd=T, lwd=3)
+symbols(1:15, rep(-.05,15), circles=rep(1,15), add=T, fg=cost.col.line[metadata.tend$Treatment][clust.tend1$order], bg=cost.col.fill[metadata.tend$Treatment][clust.tend1$order], inches=.09, xpd=T, lwd=3)
 dev.off()
+
+#plot nmds of t0 and tend samples for supplement
+#First workup nmds
+nmds.16S <- metaMDS(unifrac.dist1, k=2, trymax=100) #generate nmds. stress=.04
+nmds.16S.scores <- as.data.frame(scores(nmds.16S)) #extract scores
+nmds.16S.scores$Sample <- rownames(nmds.16S.scores) #add sample names column
+nmds.16S.scores1 <- merge(nmds.16S.scores, metadata1, by.x="Sample", by.y="Sample_Name_Unique", all.x=T, all.y=F) #merge with metadata
+
+#plot nmds.
+ggplot() +
+  geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
+  geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
+  xlab("NMDS1") +
+  ylab("NMDS2") +
+  scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  geom_point(data=nmds.16S.scores1,
+             aes(x=NMDS1, y=NMDS2, colour=Timepoint_char),
+             size=4, stroke=1.5, shape=16) +
+  scale_color_manual(values = c("black", "orange"), name = "Timepoint")+
+  ggtitle("abcDOM 16S T0-Tfinal")+
+  coord_fixed(ratio=1)
+ggsave("NMDS_16S_all_data.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+
+#plot nmds of tend samples for supplement
+#First workup nmds
+nmds.16S.tend <- metaMDS(unifrac.dist.tend, k=2, trymax=100) #generate nmds. stress=.09
+nmds.16S.tend.scores <- as.data.frame(scores(nmds.16S.tend)) #extract scores
+nmds.16S.tend.scores$Sample <- rownames(nmds.16S.tend.scores) #add sample names column
+nmds.16S.tend.scores1 <- merge(nmds.16S.tend.scores, metadata1, by.x="Sample", by.y="Sample_Name_Unique", all.x=T, all.y=F) #merge with metadata
+
+#plot nmds.
+ggplot() +
+  geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
+  geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
+  xlab("NMDS1") +
+  ylab("NMDS2") +
+  scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  geom_point(data=nmds.16S.tend.scores1,
+             aes(x=NMDS1, y=NMDS2, fill=Treatment, color=Treatment),
+             size=4, stroke=1.5, shape=21) +
+  scale_color_manual(values = cost.col.line, name = "Treatment")+
+  scale_fill_manual(values = cost.col.fill, name = "Treatment")+
+  ggtitle("abcDOM 16S Tfinal")+
+  coord_fixed(ratio=1)
+ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 6.75, height = 5.5, units = "in", dpi = 320)
 
 #Test statistical effects using permanova.
 #first test for an effect of treatment at t0.
