@@ -36,8 +36,8 @@ ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Tr
   geom_line(size=3)+
   scale_shape_manual(values=c(21,21,21,21,21,21))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA","NA","NA"))+
+  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D","gray","gray"))+
+  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA","dodgerblue3","firebrick3"))+
   theme_classic()+
   theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)+
   ylab(label="Concentration (cells per uL)")+
@@ -94,7 +94,7 @@ FCM_dat_24_0 <- subset(FCM_dat, Timepoint..h. == 0 | Timepoint..h. == 24) #subse
 
 FCM_dat_24_0$Treatment <- FCM_dat_24_0$Treatment.y #duplicate Treatment.y
 
-FCM_dat_24_0$Treatment <- fact.all.treat #set as correct factor levels
+FCM_dat_24_0$Treatment <- factor(FCM_dat_24_0$Treatment, levels(fact.all.treat)) #set as correct factor levels
 
 ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Treatment, fill=Treatment))+
   stat_boxplot(geom = 'errorbar')+

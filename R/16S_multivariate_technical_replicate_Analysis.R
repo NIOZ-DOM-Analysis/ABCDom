@@ -3,7 +3,7 @@ library(vegan)
 library(ggplot2)
 
 #load custom functions
-source(file="generate.square.dist.script.07.27.2020.R") #need to update this
+#source(file="generate.square.dist.script.07.27.2020.R") #need to update this
 
 #load metadata and data
 unifrac <- read.csv(file.path(dirRAW, "16S/ASRAAMP_MCR2019_16S_Mar_2021_2k_subsample_04212021", "otu_repr_100.tre1.wsummary.csv"))
@@ -19,11 +19,11 @@ metadata_abc_replicate=metadata_16S[metadata_16S$Experiment!="ROBO" & metadata_1
 metadata_abc_replicate1=metadata_abc_replicate[metadata_abc_replicate$Experiment=="ABC",]
 
 #merge metadata_abc_replicate1 with metadata
-metadata_abc_replicate2=merge(metadata_abc_replicate1,metadata.subset,by.x="Sample_Name",by.y="Sample.Name",all.x=T,all.y=T)
+metadata_abc_replicate2=merge(metadata_abc_replicate1,metadata[metadata$Sample_Type=="Sterivex",],by.x="Sample_Name",by.y="Sample Name",all.x=T,all.y=F)
 metadata_abc_replicate2 <- metadata_abc_replicate2[-71:-72,] #remove samples that weren't collected
 
 #export metadata_abc_replicate2
-write.csv(metadata_abc_replicate2, file.path(dirOutput, "metadata_16S_abcDOM.csv"), )
+#write.csv(metadata_abc_replicate2, file.path(dirOutput, "metadata_16S_abcDOM.csv"), )
 
 #subset for just tend
 metadata_abc_replicate_tend=metadata_abc_replicate2[metadata_abc_replicate2$Timepoint_char=="Tend",]
@@ -82,12 +82,15 @@ colvec3=c("black","#00BFC4","#F8766D","gray","#00BFC4","#00BFC4")
 fillvec <- c("NA","dodgerblue3","NA","NA","NA","firebrick3")
 pointvec=c(21,24)
 
+#convert Treatment to factor
+metadata_abc_replicate_tend$Treatment <- as.factor(metadata_abc_replicate_tend$Treatment)
+metadata_abc_replicate_tend$Treatment <- factor(metadata_abc_replicate_tend$Treatment, levels=levels(fact.all.treat))
 
 jpeg("../figures/16S_technical_replicate_tfinal_nmds.jpg",width=2100, height=1500, res=300)
 plot(nmds.abc.tend,type="n")
 points(nmds.abc.tend,display="sites",
-       col=colvec3[metadata_abc_replicate_tend$Treatment],
-       bg=fillvec[metadata_abc_replicate_tend$Treatment],
+       col=cost.col.line[metadata_abc_replicate_tend$Treatment],
+       bg=cost.col.fill[metadata_abc_replicate_tend$Treatment],
        pch=pointvec[metadata_abc_replicate_tend$PCR_setting],
        cex=2)
 ordiarrows(nmds.abc.tend,groups=metadata_abc_replicate_tend$Sample_Name)
