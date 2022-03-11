@@ -74,6 +74,20 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
 ##save and use as panel A for Fig 1. Add posthoc values manually
 ggsave('Symbiont cells per cm2_Bleaching status at collection_v1.jpeg', path = dirFigs, dpi = 300, width=13, height=8)
 
+#make the same plot but with fixed scales
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
+  facet_wrap(.~Species, scales="fixed")+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size=1.2)+
+  scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
+  scale_fill_manual(values=c("white","dodgerblue3"))+
+  theme_classic()+
+  ggtitle("A")+
+  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
+##save and use as panel A for Fig 1. Add posthoc values manually
+ggsave('Symbiont cells per cm2_Bleaching status at collection_v2.jpeg', path = dirFigs, dpi = 300, width=13, height=8)
+
 
 # Next, visualize the t0 aquaria aggregated sym densities.
 
