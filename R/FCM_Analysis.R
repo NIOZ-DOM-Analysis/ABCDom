@@ -107,3 +107,16 @@ ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Trea
   theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)
 ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
 
+#visualize specific growth rate.
+ggplot(FCM_dat_growth,aes(x=Treatment,y=Specific_Growth_Rate,color=Treatment,fill=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  # geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab ("Specific Growth Rate (log10 cells per hour)")+
+  xlab("")+
+  theme(text=element_text(size=20))
+ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=8, width=15)
