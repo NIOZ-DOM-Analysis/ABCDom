@@ -1,29 +1,30 @@
 #Load libraries
 
-#library(ggplot2)
-#library(vegan)
-#library(pairwiseAdonis)
-#library(stats)
-#library(dendextend)
-#library(dplyr)
-#library(scales)
-#library(FSA)
-#library(phyloseq)
-#library(DESeq2)
-#library(pheatmap)
-#library(cowplot)
+library(ggplot2)
+library(vegan)
+library(pairwiseAdonis)
+library(stats)
+library(dendextend)
+library(dplyr)
+library(scales)
+library(FSA)
+library(phyloseq)
+library(DESeq2)
+library(pheatmap)
+library(cowplot)
 library(ggforce)
 library(grid)
 library(gridExtra)
 library(stringr)
+library(cowplot)
 
 
 #load custom functions
 
-#source(file="generate.square.dist.script.07.27.2020.R")
-#source(file="generate.long.format.script.R")
-#source(file="cull.otu.script.R")
-#source(file="log.2.fold.change.calculation.05272021.R")
+source(file="generate.square.dist.script.07.27.2020.R")
+source(file="generate.long.format.script.R")
+source(file="cull.otu.script.R")
+source(file="log.2.fold.change.calculation.05272021.R")
 
 #Read in data/metadata.
 metadata1_16S <- read.csv(file.path(dirOutput, "metadata1_16S.csv"))
@@ -82,7 +83,8 @@ rownames(taxonomy1.cull)=taxonomy1.cull$OTUNumber #adjust rownames
 
 #generat longformat of abund data
 colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
-rownames(metadata.coral.tend)=metadata.coral.tend$Sample_ID #prep rownames
+rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_Name_Unique #prep rownames
+colnames(metadata.coral.tend)[3:4] <- c("Sample_ID", "Dilution") #prep colnames
 abund.raw.longformat <- generate.long.format(abund.coral.tend.1.cull1.t,metadata.coral.tend,taxonomy1.cull)
 
 #Convert dfs to phyloseq object for use in DESeq2.
@@ -121,6 +123,11 @@ sig.asvs$bleached.p <- mod.deseq2.bleached$pvalue
 sig.asvs$bleached.padj <- mod.deseq2.bleached$padj
 sig.asvs$bleached.heated.p <- mod.deseq2.bleach.heated$pvalue
 sig.asvs$bleached.heated.padj <- mod.deseq2.bleach.heated$padj
+
+#extract l2fc values and add to sig.asvs
+sig.asvs$heated.l2fc <- mod.deseq2.heated$log2FoldChange
+sig.asvs$bleached.l2fc <- mod.deseq2.bleached$log2FoldChange
+sig.asvs$bleached.heated.l2fc <- mod.deseq2.bleach.heated$log2FoldChange
 
 #add new columns indicating significance Y/N
 sig.asvs$heated.sig <- sig.asvs$heated.padj #duplicate padj
@@ -161,8 +168,8 @@ abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sa
 abund.longformat.merged$Treatment_OTU <- paste(abund.longformat.merged$Treatment.x, abund.longformat.merged$OTU.x, sep="_") #add a treatment_OTU column
 
 #calculate mean relabund and l2fc for each treatment_OTU
-mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,c(4,66)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
-mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,c(36,66)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
+mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,c(4,64)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
+mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,c(35,64)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
 mean.abund.l2fc2 <- mean.abund.l2fc1[,c(-3,-4,-6)] #remove unnecessary columns
 colnames(mean.abund.l2fc2) <- c("Treatment_OTU", "Mean Abundance", "Mean Log2 Fold Change") #rename columns
 mean.abund.l2fc3 <- cbind(mean.abund.l2fc2, t(as.data.frame(strsplit(mean.abund.l2fc2$Treatment_OTU, split="_")))) #split Treatment_OTU
@@ -179,6 +186,41 @@ sig.asvs1$mean.abund.ambient <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2f
 sig.asvs1$mean.l2fc.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
 sig.asvs1$mean.l2fc.bleached <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
 sig.asvs1$mean.l2fc.bleached.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
+
+#compare the l2fc means that I calculated from the ones DESeq2 calcualted.
+#First multiply the deseq2 l2fc values by -1 to get the correct sign for comparison.
+sig.asvs1$heated.l2fc.inv <- -1*sig.asvs1$heated.l2fc
+sig.asvs1$bleached.l2fc.inv <- -1*sig.asvs1$bleached.l2fc
+sig.asvs1$bleached.heated.l2fc.inv <- -1*sig.asvs1$bleached.heated.l2fc
+
+#calculate the difference.
+sig.asvs1$l2fc.diff.heated <- sig.asvs1$mean.l2fc.heated - sig.asvs1$heated.l2fc.inv
+sig.asvs1$l2fc.diff.bleached <- sig.asvs1$mean.l2fc.bleached - sig.asvs1$bleached.l2fc.inv
+sig.asvs1$l2fc.diff.bleached.heated <- sig.asvs1$mean.l2fc.bleached.heated - sig.asvs1$bleached.heated.l2fc.inv
+
+#plot a comparison of deseq2 vs. personally calculated l2fc
+bleached.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleached, y=ASV, fill=mean.l2fc.bleached))+
+  geom_bar(stat="identity", color="black")+
+  scale_fill_gradient2(low="blue",mid="white",high="red")+
+  xlab("Caclulated l2fc - DEseq2 l2fc")+
+  ggtitle("Bleached")+
+  theme(axis.text.y=element_blank(), axis.title.y=element_blank())
+
+heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.heated, y=ASV, fill=mean.l2fc.heated))+
+  geom_bar(stat="identity", color="black")+
+  scale_fill_gradient2(low="blue",mid="white",high="red")+
+  xlab("Caclulated l2fc - DEseq2 l2fc")+
+  ggtitle("Heated")+
+  theme(axis.text.y=element_blank(), axis.title.y=element_blank())
+
+bleached.heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleached.heated, y=ASV, fill=mean.l2fc.bleached.heated))+
+  geom_bar(stat="identity", color="black")+
+  scale_fill_gradient2(low="blue",mid="white",high="red")+
+  xlab("Caclulated l2fc - DEseq2 l2fc")+
+  ggtitle("Bleached+Heated")
+
+plot_grid(bleached.heated.l2fc.comparison.plot, heated.l2fc.comparison.plot, bleached.l2fc.comparison.plot, nrow=1, rel_widths = c(1.3,1,1))
+png("l2fc comparison.png", width=1000, height=1500, res=600)
 
 #export
 #write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
