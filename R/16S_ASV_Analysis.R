@@ -83,8 +83,7 @@ rownames(taxonomy1.cull)=taxonomy1.cull$OTUNumber #adjust rownames
 
 #generat longformat of abund data
 colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
-rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_Name_Unique #prep rownames
-colnames(metadata.coral.tend)[3:4] <- c("Sample_ID", "Dilution") #prep colnames
+rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_ID #prep rownames
 abund.raw.longformat <- generate.long.format(abund.coral.tend.1.cull1.t,metadata.coral.tend,taxonomy1.cull)
 
 #Convert dfs to phyloseq object for use in DESeq2.
@@ -168,9 +167,9 @@ abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sa
 abund.longformat.merged$Treatment_OTU <- paste(abund.longformat.merged$Treatment.x, abund.longformat.merged$OTU.x, sep="_") #add a treatment_OTU column
 
 #calculate mean relabund and l2fc for each treatment_OTU
-mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,c(4,64)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
-mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,c(35,64)], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
-mean.abund.l2fc2 <- mean.abund.l2fc1[,c(-3,-4,-6)] #remove unnecessary columns
+mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,4], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
+mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,36], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
+mean.abund.l2fc2 <- mean.abund.l2fc1[,-3] #remove unnecessary columns
 colnames(mean.abund.l2fc2) <- c("Treatment_OTU", "Mean Abundance", "Mean Log2 Fold Change") #rename columns
 mean.abund.l2fc3 <- cbind(mean.abund.l2fc2, t(as.data.frame(strsplit(mean.abund.l2fc2$Treatment_OTU, split="_")))) #split Treatment_OTU
 colnames(mean.abund.l2fc3)[4:5] <- c("Treatment", "OTU") #update colnames
@@ -219,8 +218,17 @@ bleached.heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleach
   xlab("Caclulated l2fc - DEseq2 l2fc")+
   ggtitle("Bleached+Heated")
 
+png(filename="../figures/ASV l2fc comparison.png", width=10000, height=10000, res=600)
 plot_grid(bleached.heated.l2fc.comparison.plot, heated.l2fc.comparison.plot, bleached.l2fc.comparison.plot, nrow=1, rel_widths = c(1.3,1,1))
-png("l2fc comparison.png", width=1000, height=1500, res=600)
+dev.off()
+
+#Next, visualize the deseq2 samples in multivariate space. NEED TO POTENTIALLY REMOVE THIS WHEN I UNDERSTAND IT BETTER.
+vsd <- vst(mod.deseq2, nsub=nrow(mod.deseq2)) #calculate vsd
+plotPCA(vsd, intgroup=c("Treatment"))
+ggsave("DESeq2 ASV PCA.jpg", path=dirFigs, width=8, height=8, dpi=600)
+
+#Next, compare the DESeq2 calculated SEs
+
 
 #export
 #write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
