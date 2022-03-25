@@ -120,3 +120,10 @@ ggplot(FCM_dat_growth,aes(x=Treatment,y=Specific_Growth_Rate,color=Treatment,fil
   xlab("")+
   theme(text=element_text(size=20))
 ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=8, width=15)
+
+#run stats on specific growth rate.
+hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emough.
+
+mod.growth.rate <- aov(Specific_Growth_Rate ~ Treatment, data=FCM_dat_growth) #run model
+summary(mod.growth.rate) #examine model
+TukeyHSD(mod.growth.rate, "Treatment") #run posthoc

@@ -29,7 +29,9 @@ source(file="log.2.fold.change.calculation.05272021.R")
 #Read in data/metadata.
 metadata1_16S <- read.csv(file.path(dirOutput, "metadata1_16S.csv"))
 abund <- read.csv(file.path(dirRAW, "16S", file="abundance_table_100.shared.csv"))
+abund.nosub <- read.csv(file.path(dirRAW, "16S", file="all_multipletonsFilter_100.count_table.csv")) #read in non-subsampled data
 relabund <- read.csv(file.path(dirRAW, "16S", "abundance_table_100.database.csv"))
+nosub.asv.list <- read.csv(file.path(dirRAW, "16S", "all_multipletonsFilter_100.list.csv")) #read in list converting esvs to OTUs
 
 #Work up metadata.
 metadata.tend <- subset(metadata1_16S, Timepoint_char=="Tend")
@@ -87,7 +89,7 @@ rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_ID #prep rownames
 abund.raw.longformat <- generate.long.format(abund.coral.tend.1.cull1.t,metadata.coral.tend,taxonomy1.cull)
 
 #Convert dfs to phyloseq object for use in DESeq2.
-physeq.abund.coral.tend.1.cull1=otu_table(abund.coral.tend.1.cull1,taxa_are_rows=FALSE) #convert abund object
+physeq.abund.coral.tend.1.cull1=otu_table(abund.coral.tend.1.cull1[,-101],taxa_are_rows=FALSE) #convert abund object, be sure to remove treatment column
 
 physeq.tax.abund.coral.tend.1.cull1=tax_table(as.matrix(taxonomy1.cull[,-1:-3])) #remove fasta, OTUNumber, and mothur taxonomy string from df, convert to matrix prior to converting to physeq object.
 
@@ -222,13 +224,40 @@ png(filename="../figures/ASV l2fc comparison.png", width=10000, height=10000, re
 plot_grid(bleached.heated.l2fc.comparison.plot, heated.l2fc.comparison.plot, bleached.l2fc.comparison.plot, nrow=1, rel_widths = c(1.3,1,1))
 dev.off()
 
-#Next, visualize the deseq2 samples in multivariate space. NEED TO POTENTIALLY REMOVE THIS WHEN I UNDERSTAND IT BETTER.
-vsd <- vst(mod.deseq2, nsub=nrow(mod.deseq2)) #calculate vsd
-plotPCA(vsd, intgroup=c("Treatment"))
-ggsave("DESeq2 ASV PCA.jpg", path=dirFigs, width=8, height=8, dpi=600)
+#Next, try DESEq2 on raw, unsubsampled, un-lulu'ed data.
 
-#Next, compare the DESeq2 calculated SEs
+#First, work up abund.nosub so it only contains the ASVs from the prior, culled, abund df.
+abund.nosub1 <- merge(abund.nosub, nosub.asv.list, by.x="Representative_Sequence", by.y="ESV") #merge abund.nosub and the nosub.asv.list
+abund.nosub2 <- abund.nosub1[,-1:-2] #remove unnecessary columns
+abund.nosub.cull <- abund.nosub2[abund.nosub2$OTU %in% taxonomy1.cull$OTUNumber,] #subset rows for only relevant OTUs
 
+#Next, workup abund.nosub.cull so that it only contains the relevant samples.
+rownames(abund.nosub.cull) <- abund.nosub.cull$OTU #update rownames
+abund.nosub.cull1 <- abund.nosub.cull[,colnames(abund.nosub.cull) %in% metadata.coral.tend$Sample_ID] #subset for relevant samples.
+
+#work up in phyloseq for DESEq2
+abund.nosub.cull1.t <- as.data.frame(t(abund.nosub.cull1)) #transpose
+physeq.abund.nosub.cull1=otu_table(abund.nosub.cull1.t,taxa_are_rows=FALSE) #convert abund object
+
+physeq.coral.nosub.cull1=phyloseq(physeq.abund.nosub.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
+
+#Run DESEq2 on this data.
+mod.deseq3 <- phyloseq_to_deseq2(physeq.coral.nosub.cull1,~ Treatment)
+
+mod.deseq3 <- estimateSizeFactors(mod.deseq3,type="poscounts")
+
+mod.deseq3 <- estimateDispersions(mod.deseq3)
+
+mod.deseq3 <- nbinomWaldTest(mod.deseq3)
+
+mod.deseq3.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
+mod.deseq3.bleached <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
+mod.deseq3.bleach.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
+
+#visualize pvalues
+hist(mod.deseq3.heated$padj, breaks=seq(from=0,to=1,by=.05)) #6 sig ASVs
+hist(mod.deseq3.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #13? sig ASVs
+hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
 
 #export
 #write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
