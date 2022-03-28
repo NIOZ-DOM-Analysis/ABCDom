@@ -132,14 +132,14 @@ sig.asvs$bleached.heated.l2fc <- mod.deseq2.bleach.heated$log2FoldChange
 
 #add new columns indicating significance Y/N
 sig.asvs$heated.sig <- sig.asvs$heated.padj #duplicate padj
-sig.asvs$heated.sig[sig.asvs$heated.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs$heated.sig[sig.asvs$heated.sig <=.05] <- "Y"
+sig.asvs$heated.sig[sig.asvs$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs$heated.sig[sig.asvs$heated.padj <=.05] <- "Y"
 sig.asvs$bleached.sig <- sig.asvs$bleached.padj #duplicate padj
-sig.asvs$bleached.sig[sig.asvs$bleached.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs$bleached.sig[sig.asvs$bleached.sig <=.05] <- "Y"
+sig.asvs$bleached.sig[sig.asvs$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs$bleached.sig[sig.asvs$bleached.padj <=.05] <- "Y"
 sig.asvs$bleached.heated.sig <- sig.asvs$bleached.heated.padj #duplicate padj
-sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.sig <=.05] <- "Y"
+sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.padj <=.05] <- "Y"
 
 #merge in taxonomy
 sig.asvs1 <- cbind(sig.asvs, taxonomy1.cull)
@@ -259,8 +259,34 @@ hist(mod.deseq3.heated$padj, breaks=seq(from=0,to=1,by=.05)) #6 sig ASVs
 hist(mod.deseq3.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #13? sig ASVs
 hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
 
+#extract pvalues and add to new df
+sig.asvs2 <- as.data.frame(rownames(as.data.frame(mod.deseq3.bleached))) #add asv names
+colnames(sig.asvs2) <- "ASV" #change colnames
+sig.asvs2$heated.p <- mod.deseq3.heated$pvalue
+sig.asvs2$heated.padj <- mod.deseq3.heated$padj
+sig.asvs2$bleached.p <- mod.deseq3.bleached$pvalue
+sig.asvs2$bleached.padj <- mod.deseq3.bleached$padj
+sig.asvs2$bleached.heated.p <- mod.deseq3.bleach.heated$pvalue
+sig.asvs2$bleached.heated.padj <- mod.deseq3.bleach.heated$padj
+
+#extract l2fc values and add to sig.asvs2
+sig.asvs2$heated.l2fc <- mod.deseq3.heated$log2FoldChange
+sig.asvs2$bleached.l2fc <- mod.deseq3.bleached$log2FoldChange
+sig.asvs2$bleached.heated.l2fc <- mod.deseq3.bleach.heated$log2FoldChange
+
+#add new columns indicating significance Y/N
+sig.asvs2$heated.sig <- sig.asvs2$heated.padj #duplicate padj
+sig.asvs2$heated.sig[sig.asvs2$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs2$heated.sig[sig.asvs2$heated.padj <=.05] <- "Y"
+sig.asvs2$bleached.sig <- sig.asvs2$bleached.padj #duplicate padj
+sig.asvs2$bleached.sig[sig.asvs2$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs2$bleached.sig[sig.asvs2$bleached.padj <=.05] <- "Y"
+sig.asvs2$bleached.heated.sig <- sig.asvs2$bleached.heated.padj #duplicate padj
+sig.asvs2$bleached.heated.sig[sig.asvs2$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs2$bleached.heated.sig[sig.asvs2$bleached.heated.padj <=.05] <- "Y"
+
 #export
-#write.csv(sig.asvs1, file.path(dirOutput, "sig.asvs1.csv"))
+#write.csv(sig.asvs2, file.path(dirOutput, "sig.asvs2.csv"))
 
 #Visualize
 #First, perform heirarchical clustering on the l2fc values
@@ -348,7 +374,6 @@ bubbleplot_class2 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaprot
 plot_grid(bubbleplot_class1, bubbleplot_class2, align="v", ncol=1, axis="lr", rel_heights = c(1,.7))
 #8x17 landscape
 
-
 #different method
 bubbleplot_class3 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
   geom_point()+
@@ -381,4 +406,7 @@ bubbleplot_class4 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaprot
 #plotgrid
 plot_grid(bubbleplot_class3, bubbleplot_class4, align="v", ncol=1, axis="lr", rel_heights = c(1,.25))
 
+#Next, visualize boxplots of sig ASVs from mod.deseq2 and mod.deseq3
+sig.asvs3 <- sig.asvs2[is.na(sig.asvs2$heated.p)==FALSE,] #remove NAs
+sig.asvs3$ASV[sig.asvs3$heated.sig == "Y" | sig.asvs3$bleached.sig == "Y" | sig.asvs3$bleached.heated.sig == "Y"]
 
