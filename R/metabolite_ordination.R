@@ -29,7 +29,7 @@ ggplot() +
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   ggtitle(stress)+
   coord_fixed(ratio=1)
-ggsave("NMDS_ABCDom_T0_axis1vs2.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
 #lets do stats
 adon.results<-adonis(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
