@@ -408,5 +408,14 @@ plot_grid(bubbleplot_class3, bubbleplot_class4, align="v", ncol=1, axis="lr", re
 
 #Next, visualize boxplots of sig ASVs from mod.deseq2 and mod.deseq3
 sig.asvs3 <- sig.asvs2[is.na(sig.asvs2$heated.p)==FALSE,] #remove NAs
-sig.asvs3$ASV[sig.asvs3$heated.sig == "Y" | sig.asvs3$bleached.sig == "Y" | sig.asvs3$bleached.heated.sig == "Y"]
 
+abund.longformat.merged.sig <- abund.longformat.merged[abund.longformat.merged$OTU.x %in% sig.asvs3$ASV[sig.asvs3$heated.sig == "Y" | sig.asvs3$bleached.sig == "Y" | sig.asvs3$bleached.heated.sig == "Y"],] #subset abund.longformat.merged1 for just mod.deseq3 sig asvs.
+abund.longformat.merged.sig$Treatment.x <- factor(abund.longformat.merged.sig$Treatment.x, levels=levels(fact.all.treat)) #adjust factor levels
+
+ggplot(abund.longformat.merged.sig, aes(y=abund, x=Treatment.x, color=Treatment.x, fill=Treatment.x))+
+  geom_boxplot()+
+  facet_wrap(.~Genus_OTU, scales="free")+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+ggsave('Sig ASVs mod.deseq3.jpeg', path = dirFigs, width = 24, height = 18, dpi = 600)

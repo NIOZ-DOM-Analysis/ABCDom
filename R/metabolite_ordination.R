@@ -31,6 +31,30 @@ ggplot() +
   coord_fixed(ratio=1)
 ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
+#visualize as clusterding dendrogram
+df.area.ABCT0.bray <- vegdist(df.area.ABCT0[,M:ncol(df.area.ABCT0)], method="bray") #generate bray curtis dist matrix
+
+clust.metabolites.t0 <- hclust(df.area.ABCT0.bray,method="ward.D") #cluster t0 samples
+
+clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("12","10","11","13","14","15","18","17","16","9","7","8","4","5","6","2","1","3")) #rotate leaves of dendogram
+
+clust.metabolites.t0.1$labels <- df.area.ABCT0$Treatment #adjust labels
+
+#plot legend (seperately) for heirarchical clustering plot and export as jpeg. Can just reuse 16S dendrogram legend.
+#dev.off()
+#jpeg("../figures/metabolomics_dendogram_legend.jpg",width=1500, height=2100, res=300)
+#plot(NULL, axes=F, bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+#legend(0, .5, legend=levels(metadata.tend$Treatment), col=cost.col.line, pt.bg=cost.col.fill, pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
+#dev.off()
+
+#plot heirarchical clustering plot, save as jpeg
+df.area.ABCT0$Treatment <- factor(df.area.ABCT0$Treatment, levels=levels(fact.all.treat)) #make treatment a factor
+jpeg("../figures/metabolomics_dendogram.jpg",width=2100, height=2100, res=300)
+clust.metabolites.t0.2 <- as.dendrogram(clust.metabolites.t0.1, hang=-1) #convert to dendrogram
+plot(clust.metabolites.t0.2, type="rectangle", dLeaf=.1, ylim=c(-1,2.5))
+symbols(1:18, rep(-.1,18), circles=rep(1,18), add=T, fg=cost.col.line[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], bg=cost.col.fill[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], inches=.09, xpd=T, lwd=3)
+dev.off()
+
 #lets do stats
 adon.results<-adonis(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
 print(adon.results)
