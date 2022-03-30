@@ -49,7 +49,8 @@ temp<-full_join(temp, temp.data[[3]], by = "time_local", suffix = c("_FOR4", "_F
 #   geom_line( aes(x=time_local, y=bottom_watercolumn_temperature_sbe39_C_FOR5), color = "red")+
 #   geom_line( aes(x=time_local, y=middle_watercolumn_temperature_sbe39_C_FOR5), color = "blue")+
 #   geom_line( aes(x=time_local, y=temperature_shallow_sbe37_C_FOR5), color = "yellow")+
-#   geom_line( aes(x=time_local, y=temperature_deeper_sbe37_C_FOR5), color = "purple")
+#   geom_line( aes(x=time_local, y=temperature_deeper_sbe37_C_FOR5), color = "purple")+
+#   theme_bw()
 
 
 # lets make the average temp of all

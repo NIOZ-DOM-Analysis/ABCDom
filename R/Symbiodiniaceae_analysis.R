@@ -15,15 +15,17 @@ sym_dat_aquaria_final <- read.csv(file.path(dirOutput, "sym_dat_aquaria_final.cs
 
 
 # Visualize the t0 corals sym densities (SA normalized) excluding stringent outliers (outliers) and relaxed outliers (outliers1).
-ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$Collection_Bleaching_Level),],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot()+
+  theme_classic()+
   ggtitle("Stringent Outliers")
 ggsave('Symbiont density_log10_per collection bleaching level_stringent outliers.jpeg', path = dirFigs, dpi = 300)
 
-ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
+ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$Collection_Bleaching_Level),],(aes(x=Collection_Bleaching_Level,y=log10.sym.SA,color=Collection_Bleaching_Level)))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot()+
+  theme_classic()+
   ggtitle("Relaxed Outliers")
 ggsave('Symbiont density_log10_per collection bleaching level_relaxed outliers.jpeg', path = dirFigs, dpi = 300)
 
@@ -31,30 +33,34 @@ ggsave('Symbiont density_log10_per collection bleaching level_relaxed outliers.j
 # Sym densities at T0 behave as you would expect.
 
 # Visualize with BLEACHED and PARTIALLY BLEACHED lumped as BLEACHED treatment.
-ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$Collection_Bleaching_Level),],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
+  theme_classic()+
   ggtitle("Stringent Outliers")
 ggsave('Symbiont density_log10_Bleached_Healthy_Stringent outliers.jpeg', path = dirFigs, dpi = 300)
 
 
-ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
+ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$Collection_Bleaching_Level),],(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Collection_Bleaching_Level1)))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
+  theme_classic()+
   ggtitle("Relaxed Outliers")
 ggsave('Symbiont density_log10_Bleached_Healthy_Relaxed outliers.jpeg', path = dirFigs, dpi = 300)
 
 
-ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Collection_Bleaching_Level1,y=sym.SA,color=Collection_Bleaching_Level1)))+
+ggplot(sym_dat[sym_dat$Outlier1!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$Collection_Bleaching_Level),],(aes(x=Collection_Bleaching_Level1,y=sym.SA,color=Collection_Bleaching_Level1)))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
+  theme_classic()+
   ggtitle("Relaxed Outliers and not log transformed")
 ggsave('Symbiont density_Bleached_Healthy_Relaxed outliers.jpeg', path = dirFigs, dpi = 300)
 
 
-ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0",],(aes(x=Species,y=sym.SA,color=Collection_Bleaching_Level1)))+
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$Collection_Bleaching_Level),],(aes(x=Species,y=sym.SA,color=Collection_Bleaching_Level1)))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
+  theme_classic()+
   ggtitle("Stringent Outliers and not log transformed")
 
 ggsave('Symbiont density_Bleached_Healthy_Stringent outliers.jpeg', path = dirFigs, dpi = 300)
@@ -68,7 +74,6 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
   scale_fill_manual(values=c("white","dodgerblue3"))+
   theme_classic()+
-  ggtitle("A")+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ##save and use as panel A for Fig 1. Add posthoc values manually
@@ -82,7 +87,6 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
   scale_fill_manual(values=c("white","dodgerblue3"))+
   theme_classic()+
-  ggtitle("A")+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ##save and use as panel A for Fig 1. Add posthoc values manually
@@ -98,7 +102,6 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",],aes(x=
   scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
   scale_fill_manual(values=c("white","dodgerblue3"))+
   theme_classic()+
-  ggtitle("A")+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ggsave('Symbiont cells per cm2_Bleaching status at collection.jpeg', path = dirFigs, dpi = 300)
@@ -112,7 +115,6 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",],aes(x=
   scale_color_manual(values=c("#00BFC4","#00BFC4"))+
   scale_fill_manual(values=c("white", "dodgerblue3"))+
   theme_classic()+
-  ggtitle("A")+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ggsave('Symbiont cells per cm2_logtrans_Bleaching status at collection.jpeg', path = dirFigs, dpi = 300)
@@ -154,7 +156,6 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=
   scale_fill_manual(values=c("dodgerblue3","firebrick3","white","white"))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2), name = "")+
   theme_classic()+
-  ggtitle("B")+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
 #save and use as panel B for Figure 1.

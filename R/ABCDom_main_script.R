@@ -12,6 +12,7 @@ source(paste0(dirR,'/packages.R'))
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install("phyloseq")
+library(phyloseq)
 
 #metabolite data cleanup
 #will open new script that needs user input.

@@ -30,6 +30,7 @@ ggplot() +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   ggtitle(stress)+
+  theme_bw()+
   coord_fixed(ratio=1)
 ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
@@ -123,6 +124,7 @@ ggplot()+
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   ggtitle("ABCDom T0, r>0.8")+
+  theme_bw()+
   coord_fixed(ratio=1)
 ggsave("redundancy_ABCDom_T0_Treatment.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 

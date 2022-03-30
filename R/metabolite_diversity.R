@@ -6,8 +6,8 @@ calculates the H diversity, evenness and number of metabolites from the cleaned 
 # define some things first:
 # determine the dataset you want to use
 ls.diversity <- list()
-ls.diversity$df.div.T0 <- df.area %>% dplyr::filter(Timepoint_char == "T0")
-ls.diversity$df.div.Tend <- df.area %>% dplyr::filter(Timepoint_char == "Tend")
+ls.diversity$df.div.T0 <- df.area %>% dplyr::filter(Timepoint_char == "T0" & Experiment == "ABCDOM" & Treatment != "Inoculum")
+ls.diversity$df.div.Tend <- df.area %>% dplyr::filter(Timepoint_char == "Tend" & Experiment == "ABCDOM")
 
 # what dataset did you use?
 O <- 'area'
@@ -40,33 +40,35 @@ cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodg
 ggplot(ls.diversity$H1_T0, aes(x=U, y=H, group=U, color = U, fill = U))+
   stat_boxplot(geom = 'errorbar')+
   geom_boxplot(aes(), show.legend = TRUE, size = 1.2)+
-  # theme_classic()+
+  theme_classic()+
   theme(legend.position = "right")+
   scale_x_discrete(name="", guide = guide_axis(n.dodge = 2))+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_y_continuous(name = "H' Diveristy")
+ggsave("Metabolome_diversity_T0.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
 
 ggplot(ls.diversity$S1_T0, aes(x=U, y=S, group=U, color = U, fill = U))+
   stat_boxplot(geom = 'errorbar')+
   geom_boxplot(aes(), show.legend = TRUE, size = 1.2)+
-  # theme_classic()+
+  theme_classic()+
   theme(legend.position = "right")+
   scale_x_discrete(name="", guide = guide_axis(n.dodge = 2))+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   scale_color_manual(values = cost.col.line, name = "Treatment")+
-  scale_y_continuous(name = "Number of features")
+  scale_y_continuous(name = "Number of Features")
+ggsave("Metabolome_number_of_features_T0.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
 
 ggplot(ls.diversity$J1_T0, aes(x=U, y=J, group=U, color = U, fill = U))+
   stat_boxplot(geom = 'errorbar')+
   geom_boxplot(aes(), show.legend = TRUE, size = 1.2)+
-  # theme_classic()+
+  theme_classic()+
   theme(legend.position = "right")+
   scale_x_discrete(name="", guide = guide_axis(n.dodge = 2))+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_y_continuous(name = "Pilou's evenness J=H'/log(S)")
-
+ggsave("Metabolome_evenness_T0.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
 
 
 # Now Tend
@@ -91,29 +93,32 @@ cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodg
 ggplot(ls.diversity$H1_Tend, aes(x=U, y=H, group=U, color = U, fill = U))+
   stat_boxplot(geom = 'errorbar')+
   geom_boxplot(aes(), show.legend = TRUE, size = 1.2)+
-  # theme_classic()+
+  theme_classic()+
   theme(legend.position = "right")+
   scale_x_discrete(name="", guide = guide_axis(n.dodge = 2))+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_y_continuous(name = "H' Diveristy")
+ggsave("Metabolome_diversity_Tend.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
 
 ggplot(ls.diversity$S1_Tend, aes(x=U, y=S, group=U, color = U, fill = U))+
   stat_boxplot(geom = 'errorbar')+
   geom_boxplot(aes(), show.legend = TRUE, size = 1.2)+
-  # theme_classic()+
+  theme_classic()+
   theme(legend.position = "right")+
   scale_x_discrete(name="", guide = guide_axis(n.dodge = 2))+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_y_continuous(name = "Number of features")
+ggsave("Metabolome_number_of_features_Tend.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
 
 ggplot(ls.diversity$J1_Tend, aes(x=U, y=J, group=U, color = U, fill = U))+
   stat_boxplot(geom = 'errorbar')+
   geom_boxplot(aes(), show.legend = TRUE, size = 1.2)+
-  # theme_classic()+
+  theme_classic()+
   theme(legend.position = "right")+
   scale_x_discrete(name="", guide = guide_axis(n.dodge = 2))+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_y_continuous(name = "Pilou's evenness J=H'/log(S)")
+ggsave("Metabolome_evenness_Tend.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
