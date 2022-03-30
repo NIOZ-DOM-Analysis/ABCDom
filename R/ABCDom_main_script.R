@@ -9,9 +9,9 @@ wd.project<-getwd()
 # activate packages
 source(paste0(dirR,'/packages.R'))
 
-if (!require("BiocManager", quietly = TRUE))
+if (!require("BiocManager", quietly = TRUE)){
   install.packages("BiocManager")
-BiocManager::install("phyloseq")
+BiocManager::install("phyloseq")}
 library(phyloseq)
 
 #metabolite data cleanup

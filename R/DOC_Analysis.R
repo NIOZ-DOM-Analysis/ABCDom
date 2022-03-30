@@ -36,6 +36,7 @@ ggplot(DOC_dat_t0,aes(x=Treatment,y=uMC,color=Treatment,fill=Treatment))+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme_classic()+
   # theme(legend.key.height=unit(0.5,"in"))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab("DOC (uM)")+
@@ -62,6 +63,7 @@ ggplot(DOC_dat_t0,aes(x=Treatment,y=Control_Corrected_DOC,color=Treatment,fill=T
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme_classic()+
   # theme(legend.key.height=unit(0.5,"in"))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab("Control Corrected DOC (uM)")+
@@ -74,6 +76,7 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
+  theme_classic()+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   # theme(legend.key.height=unit(0.5,"in"))+
@@ -89,6 +92,7 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Con
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   # theme(legend.key.height=unit(0.5,"in"))+
+  theme_classic()+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab ("Surface Area Normalized DOC (uM cm-2)")+
   xlab("")
