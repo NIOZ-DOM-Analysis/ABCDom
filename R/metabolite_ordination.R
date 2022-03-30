@@ -2,6 +2,8 @@
 #ordination of data
 library(BiodiversityR)
 library(openxlsx)
+library(dendextend)
+library(vegan)
 
 df.area.ABCT0 <- df.area %>% filter(Experiment == "ABCDOM", Timepoint_char == "T0") %>% filter(Treatment != "Inoculum")
 ord.mod.area<- metaMDS(df.area.ABCT0[M:ncol(df.area.ABCT0)], distance = 'bray', k = 2)
@@ -51,8 +53,8 @@ clust.metabolites.t0.1$labels <- df.area.ABCT0$Treatment #adjust labels
 df.area.ABCT0$Treatment <- factor(df.area.ABCT0$Treatment, levels=levels(fact.all.treat)) #make treatment a factor
 jpeg("../figures/metabolomics_dendogram.jpg",width=2100, height=2100, res=300)
 clust.metabolites.t0.2 <- as.dendrogram(clust.metabolites.t0.1, hang=-1) #convert to dendrogram
-plot(clust.metabolites.t0.2, type="rectangle", dLeaf=.1, ylim=c(-1,2.5))
-symbols(1:18, rep(-.1,18), circles=rep(1,18), add=T, fg=cost.col.line[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], bg=cost.col.fill[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], inches=.09, xpd=T, lwd=3)
+plot(clust.metabolites.t0.2, type="rectangle", dLeaf=.3, ylim=c(-1.5,2.5))
+symbols(1:18, rep(-.15,18), circles=rep(1,18), add=T, fg=cost.col.line[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], bg=cost.col.fill[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], inches=.09, xpd=T, lwd=3)
 dev.off()
 
 #lets do stats

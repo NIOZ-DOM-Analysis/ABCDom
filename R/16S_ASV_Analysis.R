@@ -40,6 +40,29 @@ metadata.coral.tend <- subset(metadata.tend, Origin_PlanC!="control")
 #Subset abund df to correspond to the associated metadata.
 abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_Name_Unique,]
 
+#RE DO CULLING WITH ABUND.NOSUB ASVS.
+abund.nosub1 <- merge(abund.nosub, nosub.asv.list, by.x="Representative_Sequence", by.y="ESV") #merge abund.nosub and the nosub.asv.list
+abund.nosub2 <- abund.nosub1[,-1:-2] #remove unnecessary columns
+
+#Next, workup abund.nosub.cull so that it only contains the relevant samples.
+rownames(abund.nosub2) <- abund.nosub2$OTU #update rownames
+abund.nosub.coral.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.coral.tend$Sample_ID] #subset for relevant samples.
+
+#Cull ow abundance ASVs
+hist(unlist(abund.nosub.coral.tend)[unlist(abund.nosub.coral.tend)!=0], xlim=c(0,5000), breaks=10000) #visualize distribution of abundance values. After removing zeros, it looks like most ASVs have an abundance < 1000.
+abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose
+
+#cull ASVs
+cull.otu(abund.nosub.coral.tend.t,3,20,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 301 ASVs remain.
+abund.nosub.coral.tend.t.cull <- relabund.df.cull #save as new df
+abund.nosub.coral.tend.cull <- as.data.frame(t(abund.nosub.coral.tend.t.cull)) #transpose
+
+
+
+
+
+
+
 #Cull low abundance ASVs
 #Format adbund df for culling.
 rownames(abund.coral.tend) <- abund.coral.tend$Group #update rownames
@@ -227,13 +250,10 @@ dev.off()
 #Next, try DESEq2 on raw, unsubsampled, un-lulu'ed data.
 
 #First, work up abund.nosub so it only contains the ASVs from the prior, culled, abund df.
-abund.nosub1 <- merge(abund.nosub, nosub.asv.list, by.x="Representative_Sequence", by.y="ESV") #merge abund.nosub and the nosub.asv.list
-abund.nosub2 <- abund.nosub1[,-1:-2] #remove unnecessary columns
+
+
 abund.nosub.cull <- abund.nosub2[abund.nosub2$OTU %in% taxonomy1.cull$OTUNumber,] #subset rows for only relevant OTUs
 
-#Next, workup abund.nosub.cull so that it only contains the relevant samples.
-rownames(abund.nosub.cull) <- abund.nosub.cull$OTU #update rownames
-abund.nosub.cull1 <- abund.nosub.cull[,colnames(abund.nosub.cull) %in% metadata.coral.tend$Sample_ID] #subset for relevant samples.
 
 #work up in phyloseq for DESEq2
 abund.nosub.cull1.t <- as.data.frame(t(abund.nosub.cull1)) #transpose
