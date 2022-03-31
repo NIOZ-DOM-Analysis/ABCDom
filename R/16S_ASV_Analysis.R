@@ -53,9 +53,33 @@ hist(unlist(abund.nosub.coral.tend)[unlist(abund.nosub.coral.tend)!=0], xlim=c(0
 abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose
 
 #cull ASVs
-cull.otu(abund.nosub.coral.tend.t,3,20,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 301 ASVs remain.
+cull.otu(abund.nosub.coral.tend.t,3,90,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 125 ASVs remain.
 abund.nosub.coral.tend.t.cull <- relabund.df.cull #save as new df
 abund.nosub.coral.tend.cull <- as.data.frame(t(abund.nosub.coral.tend.t.cull)) #transpose
+
+#because we will be working with log 2 fold change relative to the control, we need to additionally cull ASVs that exhibit high degrees of variance in the control. To do this we will calculate SD for each ASV in the controls and normalize to the mean abund of that ASV in each control (CV).
+sd.abund.nosub.coral.tend.t.cull <- as.data.frame(apply(abund.nosub.coral.tend.t.cull[8:10,], 2, FUN=sd)) #calculate stderror for each ASV in the controls, save as new df
+colnames(sd.abund.nosub.coral.tend.t.cull) <- "SD"
+
+sd.abund.nosub.coral.tend.t.cull$mean <- apply(abund.nosub.coral.tend.t.cull[8:10,], 2, FUN=mean) #calculate mean
+
+sd.abund.nosub.coral.tend.t.cull$CV <- sd.abund.nosub.coral.tend.t.cull$SD/sd.abund.nosub.coral.tend.t.cull$mean #calculate CV
+
+sd.abund.nosub.coral.tend.t.cull$CV[is.na(sd.abund.nosub.coral.tend.t.cull$CV)] <- 0 #manually replace NAs with 0s.
+
+hist(sd.abund.nosub.coral.tend.t.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check distribution. for starters, .8, .9, and 1 seem like a good threshold.
+
+#determine appropriate CV cutoff threshold
+#mean and sd of CV
+mean(sd.abund.nosub.coral.tend.t.cull$CV) #.46129
+sd(sd.abund.nosub.coral.tend.t.cull$CV) #.32034
+mean(sd.abund.nosub.coral.tend.t.cull$CV) + sd(sd.abund.nosub.coral.tend.t.cull$CV) #threshold = mean CV + one SD =  0.7815713
+
+#cull ASVS who's CV in control is above this threshold
+abund.nosub.coral.tend.t.cull1 <- abund.nosub.coral.tend.t.cull[,sd.abund.nosub.coral.tend.t.cull$CV <=  0.7815713] #that leaves 100
+abund.nosub.coral.tend.cull1 <- as.data.frame(t(abund.nosub.coral.tend.t.cull1)) #transpose
+
+#work up data for deseq2
 
 
 
@@ -65,36 +89,36 @@ abund.nosub.coral.tend.cull <- as.data.frame(t(abund.nosub.coral.tend.t.cull)) #
 
 #Cull low abundance ASVs
 #Format adbund df for culling.
-rownames(abund.coral.tend) <- abund.coral.tend$Group #update rownames
-abund.coral.tend.1 <- abund.coral.tend[,-1:-3] #remove unnecessary columns
+#rownames(abund.coral.tend) <- abund.coral.tend$Group #update rownames
+#abund.coral.tend.1 <- abund.coral.tend[,-1:-3] #remove unnecessary columns
 
 #cull ASVs
-cull.otu(abund.coral.tend.1,3,12,120) #minimum number of reads = 12 (corresponds to relabund .001) in 3 samples or 120 (relabund = .01) in 1 sample. 117 ASVs remain.
-abund.coral.tend.1.cull <- relabund.df.cull #save as new df
-abund.coral.tend.1.cull.t <- as.data.frame(t(abund.coral.tend.1.cull)) #transpose
+#cull.otu(abund.coral.tend.1,3,12,120) #minimum number of reads = 12 (corresponds to relabund .001) in 3 samples or 120 (relabund = .01) in 1 sample. 117 ASVs remain.
+#abund.coral.tend.1.cull <- relabund.df.cull #save as new df
+#abund.coral.tend.1.cull.t <- as.data.frame(t(abund.coral.tend.1.cull)) #transpose
 
 #because we will be working with log 2 fold change relative to the control, we need to additionally cull ASVs that exhibit high degrees of variance in the control. To do this we will calculate SD for each ASV in the controls and normalize to the mean abund of that ASV in each control (CV).
-sd.abund.coral.tend.1.cull <- as.data.frame(apply(abund.coral.tend.1.cull[8:10,], 2, FUN=sd)) #calculate stderror for each ASV in the controls, save as new df
-colnames(sd.abund.coral.tend.1.cull) <- "SD"
+#sd.abund.coral.tend.1.cull <- as.data.frame(apply(abund.coral.tend.1.cull[8:10,], 2, FUN=sd)) #calculate stderror for each ASV in the controls, save as new df
+#colnames(sd.abund.coral.tend.1.cull) <- "SD"
 
-sd.abund.coral.tend.1.cull$mean <- apply(abund.coral.tend.1.cull[8:10,], 2, FUN=mean) #calculate mean
+#sd.abund.coral.tend.1.cull$mean <- apply(abund.coral.tend.1.cull[8:10,], 2, FUN=mean) #calculate mean
 
-sd.abund.coral.tend.1.cull$CV <- sd.abund.coral.tend.1.cull$SD/sd.abund.coral.tend.1.cull$mean #calculate CV
+#sd.abund.coral.tend.1.cull$CV <- sd.abund.coral.tend.1.cull$SD/sd.abund.coral.tend.1.cull$mean #calculate CV
 
-sd.abund.coral.tend.1.cull$CV[is.na(sd.abund.coral.tend.1.cull$CV)] <- 0 #manually replace NAs with 0s.
+#sd.abund.coral.tend.1.cull$CV[is.na(sd.abund.coral.tend.1.cull$CV)] <- 0 #manually replace NAs with 0s.
 
-hist(sd.abund.coral.tend.1.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check distribution. for starters, .9 and 1 seem like a good threshold.
+#hist(sd.abund.coral.tend.1.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check distribution. for starters, .9 and 1 seem like a good threshold.
 
 #determine appropriate CV cutoff threshold
 #mean and sd of CV
-mean(sd.abund.coral.tend.1.cull$CV) #.54
-sd(sd.abund.coral.tend.1.cull$CV) #.36
-mean(sd.abund.coral.tend.1.cull$CV) + sd(sd.abund.coral.tend.1.cull$CV) #threshold = mean CV + one SD = .9
+#mean(sd.abund.coral.tend.1.cull$CV) #.54
+#sd(sd.abund.coral.tend.1.cull$CV) #.36
+#mean(sd.abund.coral.tend.1.cull$CV) + sd(sd.abund.coral.tend.1.cull$CV) #threshold = mean CV + one SD = .9
 
 #cull ASVS who's CV in control is above this threshold
-abund.coral.tend.1.cull1 <- abund.coral.tend.1.cull[,sd.abund.coral.tend.1.cull$CV <= 0.9030586] #that leaves 100 ASVs.
+#abund.coral.tend.1.cull1 <- abund.coral.tend.1.cull[,sd.abund.coral.tend.1.cull$CV <= 0.9030586] #that leaves 100 ASVs.
 
-abund.coral.tend.1.cull1.t <- as.data.frame(t(abund.coral.tend.1.cull1))#transpose
+#abund.coral.tend.1.cull1.t <- as.data.frame(t(abund.coral.tend.1.cull1))#transpose
 
 #Prep taxonomy data for analysis in DESEQ2
 #extract taxonomy columns from relabund df.
@@ -103,22 +127,49 @@ taxonomy1 <- cbind(taxonomy,t(as.data.frame(strsplit(as.character(taxonomy$OTUCo
 colnames(taxonomy1)[c(1,4:9)] <- c("OTUNumber","Domain","Phylum","Class","Order","Family","Genus")
 
 #subset taxonomy for only culled ASVs.
-taxonomy1.cull=taxonomy1[taxonomy1$OTUNumber %in% colnames(abund.coral.tend.1.cull1),]
+taxonomy1.cull=taxonomy1[taxonomy1$OTUNumber %in% colnames(abund.nosub.coral.tend.t.cull1),]
 rownames(taxonomy1.cull)=taxonomy1.cull$OTUNumber #adjust rownames
 
 #generat longformat of abund data
 colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
 rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_ID #prep rownames
-abund.raw.longformat <- generate.long.format(abund.coral.tend.1.cull1.t,metadata.coral.tend,taxonomy1.cull)
+abund.raw.longformat <- generate.long.format(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy1.cull)
 
 #Convert dfs to phyloseq object for use in DESeq2.
-physeq.abund.coral.tend.1.cull1=otu_table(abund.coral.tend.1.cull1[,-101],taxa_are_rows=FALSE) #convert abund object, be sure to remove treatment column
+physeq.abund.nosub.coral.tend.1.cull1=otu_table(abund.nosub.coral.tend.t.cull1,taxa_are_rows=FALSE) #convert abund object, be sure to remove treatment column
 
-physeq.tax.abund.coral.tend.1.cull1=tax_table(as.matrix(taxonomy1.cull[,-1:-3])) #remove fasta, OTUNumber, and mothur taxonomy string from df, convert to matrix prior to converting to physeq object.
+physeq.tax.abund.nosub.coral.tend.1.cull1=tax_table(as.matrix(taxonomy1.cull[,-1:-3])) #remove fasta, OTUNumber, and mothur taxonomy string from df, convert to matrix prior to converting to physeq object.
 
 physeq.metadata.coral.tend=sample_data(metadata.coral.tend) #convert to physeq object
 
-physeq.coral.tend.cull1=phyloseq(physeq.abund.coral.tend.1.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
+physeq.nosub.coral.tend.cull1=phyloseq(physeq.abund.coral.tend.1.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
+
+
+#Run DESEq2 on this data.
+mod.deseq3 <- phyloseq_to_deseq2(physeq.nosub.coral.tend.cull1,~ Treatment)
+
+mod.deseq3 <- estimateSizeFactors(mod.deseq3,type="poscounts")
+
+mod.deseq3 <- estimateDispersions(mod.deseq3)
+
+mod.deseq3 <- nbinomWaldTest(mod.deseq3)
+
+mod.deseq3.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
+mod.deseq3.bleached <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
+mod.deseq3.bleach.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
+
+#visualize pvalues
+hist(mod.deseq3.heated$padj, breaks=seq(from=0,to=1,by=.05)) #6 sig ASVs
+hist(mod.deseq3.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #10? sig ASVs
+hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
+
+
+
+
+
+
+
+
 
 #Run DESeq2
 mod.deseq2 <- phyloseq_to_deseq2(physeq.coral.tend.cull1,~ Treatment)
