@@ -13,6 +13,7 @@ if (!require("BiocManager", quietly = TRUE)){
   install.packages("BiocManager")
 BiocManager::install("phyloseq")}
 library(phyloseq)
+install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
 
 #metabolite data cleanup
 #will open new script that needs user input.

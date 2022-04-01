@@ -40,6 +40,17 @@ plot(pro.m2, kind = 2)
 protest(pro.16, pro.Meta.dist, scores = "sites", permutations = 999)
 #there is significance!
 
+#lets first make a nmds and then do procrustus on it.
+nmds.pro16<-monoMDS(pro.16)
+nmds.proMeta<-monoMDS(pro.Meta.dist)
+
+nmds.procrus<-procrustes(nmds.pro16, nmds.proMeta)
+nmds.procrus
+summary(nmds.procrus)
+plot(nmds.procrus)
+plot(nmds.procrus, kind=2)
+residuals(nmds.procrus)
+protest(nmds.pro16, nmds.proMeta, scores = "sites", permutations = 999)
 
 
 #now with relabundance and bray dissim
@@ -47,7 +58,7 @@ pro.16.bray <- relabund %>% select(rownames(unifrac.dist.matrix.tend))
 pro.16.bray<-as.data.frame(t(pro.16.bray))
 rownames(pro.16.bray)[1]<-"ABC_055"
 rownames(pro.16.bray)[4]<-"ABC_059"
-pro.16.bray<-as.matrix(vegdist(pro.16.bray))
+pro.16.bray<-as.matrix(vegdist(pro.16.bray, method = "bray"))
 rownames(pro.16.bray)<-pro.Meta$Treatment
 colnames(pro.16.bray)<-pro.Meta$Bottle_NR
 
@@ -62,5 +73,45 @@ plot(pro, kind = 2)
 plot(pro.m2, kind = 1)
 plot(pro.m2, kind = 2)
 
-protest(pro.16, pro.Meta.dist, scores = "sites", permutations = 999)
+protest(pro.16.bray, pro.Meta.dist, scores = "sites", permutations = 999)
 #there is significance!
+
+nmds.pro16.bray<-monoMDS(pro.16.bray)
+nmds.proMeta<-monoMDS(pro.Meta.dist)
+
+nmds.procrus<-procrustes(nmds.pro16.bray, nmds.proMeta)
+nmds.procrus
+summary(nmds.procrus)
+plot(nmds.procrus)
+plot(nmds.procrus, kind=2)
+residuals(nmds.procrus)
+protest(nmds.pro16.bray, nmds.proMeta, scores = "sites", permutations = 999)
+
+#make the procrustus plot in GGplot!
+library(ggplot2)
+library(grid)
+
+ctest <- data.frame(rda1=nmds.procrus$Yrot[,1],
+                    rda2=nmds.procrus$Yrot[,2],xrda1=nmds.procrus$X[,1],
+                    xrda2=nmds.procrus$X[,2],Treatment=pro.Meta$Treatment)
+rot <- nmds.procrus$rotation
+
+cost.col.fill<-c("dodgerblue3","firebrick3", "white", "white", "grey70", "grey70", "grey70")
+cost.col.line<-c("dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "lightgrey")
+fact.all.treat<-factor(pro.Meta$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
+
+
+
+ggplot(ctest) +
+  geom_hline(aes(yintercept = 0), linetype = 2)+
+  geom_vline(aes(xintercept = 0), linetype = 2)+
+  geom_abline(aes(intercept = 0, slope = rot[1,2]/rot[1,1]), linetype = 1)+
+  geom_abline(aes(intercept = 0, slope = rot[2,2]/rot[2,1]), linetype = 1)+
+  geom_point(aes(x=rda1, y=rda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 21) +
+  geom_point(aes(x=xrda1, y=xrda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 21) +
+  geom_segment(aes(x=rda1,y=rda2,xend=xrda1,yend=xrda2,colour=fact.all.treat),arrow=arrow(length=unit(0.2,"cm")))+
+  scale_color_manual(values=cost.col.line, name = "Treatment")+
+  scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
+  theme_bw()
+ggsave("16S_metabolome_nmds_procrustes.jpeg", path = dirFigs,  width = 9, height = 5.5, units = "in", dpi = 320)
+
