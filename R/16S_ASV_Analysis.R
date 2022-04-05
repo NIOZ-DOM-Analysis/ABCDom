@@ -32,6 +32,7 @@ abund <- read.csv(file.path(dirRAW, "16S", file="abundance_table_100.shared.csv"
 abund.nosub <- read.csv(file.path(dirRAW, "16S", file="all_multipletonsFilter_100.count_table.csv")) #read in non-subsampled data
 relabund <- read.csv(file.path(dirRAW, "16S", "abundance_table_100.database.csv"))
 nosub.asv.list <- read.csv(file.path(dirRAW, "16S", "all_multipletonsFilter_100.list.csv")) #read in list converting esvs to OTUs
+nosub.taxonomy <- read.csv(file.path(dirRAW, "16s", "all_multipletonsFilter_100.taxonomy.csv")) #read in taxonomy of nosub asvs
 
 #Work up metadata.
 metadata.tend <- subset(metadata1_16S, Timepoint_char=="Tend")
@@ -40,20 +41,21 @@ metadata.coral.tend <- subset(metadata.tend, Origin_PlanC!="control")
 #Subset abund df to correspond to the associated metadata.
 abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_Name_Unique,]
 
-#RE DO CULLING WITH ABUND.NOSUB ASVS.
-abund.nosub1 <- merge(abund.nosub, nosub.asv.list, by.x="Representative_Sequence", by.y="ESV") #merge abund.nosub and the nosub.asv.list
+#Cull abund.nosub asvs
+nosub.asv.info <- merge(nosub.asv.list, nosub.taxonomy, by.x="ESV", by.y="ESV") #merge asv list and taxonomy
+abund.nosub1 <- merge(abund.nosub, nosub.asv.info, by.x="Representative_Sequence", by.y="ESV") #merge abund.nosub and the nosub.asv.list
 abund.nosub2 <- abund.nosub1[,-1:-2] #remove unnecessary columns
 
 #Next, workup abund.nosub.cull so that it only contains the relevant samples.
 rownames(abund.nosub2) <- abund.nosub2$OTU #update rownames
-abund.nosub.coral.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.coral.tend$Sample_ID] #subset for relevant samples.
+abund.nosub.coral.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.coral.tend$Sample_Name_Unique] #subset for relevant samples.
 
 #Cull ow abundance ASVs
 hist(unlist(abund.nosub.coral.tend)[unlist(abund.nosub.coral.tend)!=0], xlim=c(0,5000), breaks=10000) #visualize distribution of abundance values. After removing zeros, it looks like most ASVs have an abundance < 1000.
 abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose
 
 #cull ASVs
-cull.otu(abund.nosub.coral.tend.t,3,90,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 125 ASVs remain.
+cull.otu(abund.nosub.coral.tend.t,3,50,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 187 ASVs remain.
 abund.nosub.coral.tend.t.cull <- relabund.df.cull #save as new df
 abund.nosub.coral.tend.cull <- as.data.frame(t(abund.nosub.coral.tend.t.cull)) #transpose
 
@@ -71,12 +73,12 @@ hist(sd.abund.nosub.coral.tend.t.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check
 
 #determine appropriate CV cutoff threshold
 #mean and sd of CV
-mean(sd.abund.nosub.coral.tend.t.cull$CV) #.46129
-sd(sd.abund.nosub.coral.tend.t.cull$CV) #.32034
-mean(sd.abund.nosub.coral.tend.t.cull$CV) + sd(sd.abund.nosub.coral.tend.t.cull$CV) #threshold = mean CV + one SD =  0.7815713
+mean(sd.abund.nosub.coral.tend.t.cull$CV) #.505
+sd(sd.abund.nosub.coral.tend.t.cull$CV) #.40
+mean(sd.abund.nosub.coral.tend.t.cull$CV) + sd(sd.abund.nosub.coral.tend.t.cull$CV) #threshold = mean CV + one SD =  0.9111981
 
 #cull ASVS who's CV in control is above this threshold
-abund.nosub.coral.tend.t.cull1 <- abund.nosub.coral.tend.t.cull[,sd.abund.nosub.coral.tend.t.cull$CV <=  0.7815713] #that leaves 100
+abund.nosub.coral.tend.t.cull1 <- abund.nosub.coral.tend.t.cull[,sd.abund.nosub.coral.tend.t.cull$CV <=  0.9111981] #that leaves 159
 abund.nosub.coral.tend.cull1 <- as.data.frame(t(abund.nosub.coral.tend.t.cull1)) #transpose
 
 #work up data for deseq2
@@ -121,49 +123,151 @@ abund.nosub.coral.tend.cull1 <- as.data.frame(t(abund.nosub.coral.tend.t.cull1))
 #abund.coral.tend.1.cull1.t <- as.data.frame(t(abund.coral.tend.1.cull1))#transpose
 
 #Prep taxonomy data for analysis in DESEQ2
-#extract taxonomy columns from relabund df.
-taxonomy <- relabund[,234:236]
-taxonomy1 <- cbind(taxonomy,t(as.data.frame(strsplit(as.character(taxonomy$OTUConTaxonomy),split=";")))) #split the OTU constaxonomy column and add to df.
-colnames(taxonomy1)[c(1,4:9)] <- c("OTUNumber","Domain","Phylum","Class","Order","Family","Genus")
+#extract taxonomy data
+taxonomy <- nosub.asv.info
 
 #subset taxonomy for only culled ASVs.
-taxonomy1.cull=taxonomy1[taxonomy1$OTUNumber %in% colnames(abund.nosub.coral.tend.t.cull1),]
-rownames(taxonomy1.cull)=taxonomy1.cull$OTUNumber #adjust rownames
+taxonomy.cull=taxonomy[taxonomy$OTU %in% colnames(abund.nosub.coral.tend.t.cull1),]
+rownames(taxonomy.cull)=taxonomy.cull$OTU #adjust rownames
+colnames(taxonomy.cull)[2] <- "OTUNumber" #adjust colnames
 
 #generat longformat of abund data
 colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
 rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_ID #prep rownames
-abund.raw.longformat <- generate.long.format(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy1.cull)
+abund.raw.longformat <- generate.long.format(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy.cull)
 
 #Convert dfs to phyloseq object for use in DESeq2.
-physeq.abund.nosub.coral.tend.1.cull1=otu_table(abund.nosub.coral.tend.t.cull1,taxa_are_rows=FALSE) #convert abund object, be sure to remove treatment column
+physeq.abund.nosub <- otu_table(abund.nosub.coral.tend.cull1,taxa_are_rows=TRUE) #convert abund object, be sure to remove treatment column
 
-physeq.tax.abund.nosub.coral.tend.1.cull1=tax_table(as.matrix(taxonomy1.cull[,-1:-3])) #remove fasta, OTUNumber, and mothur taxonomy string from df, convert to matrix prior to converting to physeq object.
+physeq.tax.abund.nosub <- tax_table(as.matrix(taxonomy.cull)) #remove fasta, OTUNumber, and mothur taxonomy string from df, convert to matrix prior to converting to physeq object.
 
-physeq.metadata.coral.tend=sample_data(metadata.coral.tend) #convert to physeq object
+physeq.metadata.coral.tend <- sample_data(metadata.coral.tend) #convert to physeq object
 
-physeq.nosub.coral.tend.cull1=phyloseq(physeq.abund.coral.tend.1.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
+physeq.nosub <- phyloseq(physeq.abund.nosub, physeq.tax.abund.nosub, physeq.metadata.coral.tend) #combine
 
 
 #Run DESEq2 on this data.
-mod.deseq3 <- phyloseq_to_deseq2(physeq.nosub.coral.tend.cull1,~ Treatment)
+mod.deseq4 <- phyloseq_to_deseq2(physeq.nosub,~ Treatment)
 
-mod.deseq3 <- estimateSizeFactors(mod.deseq3,type="poscounts")
+mod.deseq4 <- estimateSizeFactors(mod.deseq4,type="poscounts")
 
-mod.deseq3 <- estimateDispersions(mod.deseq3)
+mod.deseq4 <- estimateDispersions(mod.deseq4)
 
-mod.deseq3 <- nbinomWaldTest(mod.deseq3)
+mod.deseq4 <- nbinomWaldTest(mod.deseq4)
 
-mod.deseq3.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
-mod.deseq3.bleached <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
-mod.deseq3.bleach.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
+mod.deseq4.heated <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Heated", "Non-bleached + Ambient")))
+mod.deseq4.bleached <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Bleached + Ambient", "Non-bleached + Ambient")))
+mod.deseq4.bleach.heated <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Bleached + Heated","Non-bleached + Ambient")))
 
 #visualize pvalues
-hist(mod.deseq3.heated$padj, breaks=seq(from=0,to=1,by=.05)) #6 sig ASVs
-hist(mod.deseq3.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #10? sig ASVs
-hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
+hist(mod.deseq4.heated$padj, breaks=seq(from=0,to=1,by=.05)) #12 sig ASVs
+hist(mod.deseq4.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #21 sig ASVs
+hist(mod.deseq4.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #19 sig ASVs
 
+#extract pvalues and add to new df
+sig.asvs.v1 <- as.data.frame(rownames(as.data.frame(mod.deseq4.bleached))) #add asv names
+colnames(sig.asvs.v1) <- "ASV" #change colnames
+sig.asvs.v1$heated.p <- mod.deseq4.heated$pvalue
+sig.asvs.v1$heated.padj <- mod.deseq4.heated$padj
+sig.asvs.v1$bleached.p <- mod.deseq4.bleached$pvalue
+sig.asvs.v1$bleached.padj <- mod.deseq4.bleached$padj
+sig.asvs.v1$bleached.heated.p <- mod.deseq4.bleach.heated$pvalue
+sig.asvs.v1$bleached.heated.padj <- mod.deseq4.bleach.heated$padj
 
+#extract l2fc values and add to sig.asvs.v1
+sig.asvs.v1$heated.l2fc <- mod.deseq4.heated$log2FoldChange
+sig.asvs.v1$bleached.l2fc <- mod.deseq4.bleached$log2FoldChange
+sig.asvs.v1$bleached.heated.l2fc <- mod.deseq4.bleach.heated$log2FoldChange
+
+#add new columns indicating significance Y/N
+sig.asvs.v1$heated.sig <- sig.asvs.v1$heated.padj #duplicate padj
+sig.asvs.v1$heated.sig[sig.asvs.v1$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs.v1$heated.sig[sig.asvs.v1$heated.padj <=.05] <- "Y"
+sig.asvs.v1$bleached.sig <- sig.asvs.v1$bleached.padj #duplicate padj
+sig.asvs.v1$bleached.sig[sig.asvs.v1$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs.v1$bleached.sig[sig.asvs.v1$bleached.padj <=.05] <- "Y"
+sig.asvs.v1$bleached.heated.sig <- sig.asvs.v1$bleached.heated.padj #duplicate padj
+sig.asvs.v1$bleached.heated.sig[sig.asvs.v1$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+sig.asvs.v1$bleached.heated.sig[sig.asvs.v1$bleached.heated.padj <=.05] <- "Y"
+
+#merge in taxonomy
+sig.asvs.v2 <- cbind(sig.asvs.v1, taxonomy.cull)
+
+#calculate mean abundance for each treatment
+abund.nosub.coral.tend.t.cull2 <- abund.nosub.coral.tend.t.cull1 #duplicate df
+abund.nosub.coral.tend.t.cull2$SampleID <- rownames(abund.nosub.coral.tend.t.cull2) #add sample ID column
+abund.nosub.coral.tend.t.cull3 <- merge(abund.nosub.coral.tend.t.cull2, metadata.coral.tend, by.x="SampleID", by.y="Sample_ID") #add in metadata
+abund.nosub.coral.tend.mean <- as.data.frame(aggregate(abund.nosub.coral.tend.t.cull3[,c(2:160,174)], by=list(abund.nosub.coral.tend.t.cull3$Treatment), FUN=mean)) #calculate mean
+
+#work up for combining with sig.asvs.v2
+abund.nosub.coral.tend.mean1 <- abund.nosub.coral.tend.mean[,-1] #remove first column
+rownames(abund.nosub.coral.tend.mean1) <- c("Mean Bleached + Ambient Abundance", "Mean Bleached + Heated Abundance", "Mean Non-bleached + Ambient Abundance", "Mean Non-bleached + Heated Abundance") #adjust rownames
+abund.nosub.coral.tend.mean.t <- as.data.frame(t(abund.nosub.coral.tend.mean1)) #transpose
+abund.nosub.coral.tend.mean.t$OTU <- rownames(abund.nosub.coral.tend.mean.t) #add in OT column
+
+#combine with sig.asvs.v2 data
+abund.nosub.asv <- merge(sig.asvs.v2, abund.nosub.coral.tend.mean.t, by.x="ASV", by.y="OTU") #merge
+
+#add a fontface columns
+abund.nosub.asv$sig <- "N" #add new sig column
+abund.nosub.asv$sig[abund.nosub.asv$heated.sig=="Y" | abund.nosub.asv$bleached.sig=="Y" | abund.nosub.asv$bleached.heated.sig=="Y"] <- "Y" #subset for all sig asvs in any treatment, replace with "Y"
+abund.nosub.asv$fontface <- "plain" #add fontface column
+abund.nosub.asv$fontface[abund.nosub.asv$sig=="Y"] <- "bold" #replace plain with bold fontface for sig asvs
+
+#manually make into longformat.
+abund.nosub.asv.longformat <- as.data.frame(rep(abund.nosub.asv$ASV, times=3))
+abund.nosub.asv.longformat$adjusted_pval <-c(abund.nosub.asv$heated.padj, abund.nosub.asv$bleached.padj, abund.nosub.asv$bleached.heated.padj) #add padjust column
+abund.nosub.asv.longformat$Treatment <- c(rep("Non-bleached + Heated", times=159), rep("Bleached + Ambient", times=159), rep("Bleached + Heated", times=159)) #add treatment column
+abund.nosub.asv.longformat$l2fc <- c(abund.nosub.asv$heated.l2fc, abund.nosub.asv$bleached.l2fc, abund.nosub.asv$bleached.heated.l2fc) #add l2fc column
+abund.nosub.asv.longformat$Mean_Abundance <- c(abund.nosub.asv$`Mean Non-bleached + Heated Abundance`, abund.nosub.asv$`Mean Bleached + Ambient Abundance`, abund.nosub.asv$`Mean Bleached + Heated Abundance`) #add a mean abundance column
+abund.nosub.asv.longformat$significant <- c(abund.nosub.asv$heated.sig, abund.nosub.asv$bleached.sig, abund.nosub.asv$bleached.heated.sig) #add significance column
+abund.nosub.asv.longformat1 <- cbind(abund.nosub.asv.longformat, rbind(abund.nosub.asv[,14:21], abund.nosub.asv[,14:21], abund.nosub.asv[,14:21])) #add taxonomy columns
+abund.nosub.asv.longformat1$Genus_OTU <- paste(abund.nosub.asv.longformat1$Genus, abund.nosub.asv.longformat1$OTUNumber, sep="_")
+abund.nosub.asv.longformat1$Family_Genus_OTU <- paste(abund.nosub.asv.longformat1$Family, abund.nosub.asv.longformat1$Genus, abund.nosub.asv.longformat1$OTUNumber, sep="_")
+abund.nosub.asv.longformat1$Family_OTU <- paste(abund.nosub.asv.longformat1$Family, abund.nosub.asv.longformat1$OTUNumber, sep="_")
+abund.nosub.asv.longformat1$significant1 <- rep(abund.nosub.asv$sig, times=3)
+abund.nosub.asv.longformat1$fontface <- rep(abund.nosub.asv$fontface, times=3)
+
+#Next, perform heirarchical clustering on the l2fc values
+rownames(abund.nosub.asv) <- abund.nosub.asv$OTUNumber
+lfc.clustering <- pheatmap(abund.nosub.asv[,8:10])
+
+cluster.OTUs <- lfc.clustering$tree_row$labels[lfc.clustering$tree_row$order]
+cluster.Genus <- abund.nosub.asv$Genus[lfc.clustering$tree_row$order]
+cluster.Family <- abund.nosub.asv$Family[lfc.clustering$tree_row$order]
+cluster.Genus_OTUs <- paste(cluster.Genus,cluster.OTUs,sep="_")
+cluster.Family_Genus_OTUs <- paste(cluster.Family, cluster.Genus, cluster.OTUs,sep="_")
+#CHECKCHECK
+#fontface <- abund.nosub.asv$fontface[lfc.clustering$tree_row$order]
+
+#reorder OTUs in abund.longformat.merged
+abund.nosub.asv.longformat1$Genus_OTU <- factor(abund.nosub.asv.longformat1$Genus_OTU, levels=cluster.Genus_OTUs)
+abund.nosub.asv.longformat1$Family_Genus_OTU <- factor(abund.nosub.asv.longformat1$Family_Genus_OTU, levels=cluster.Family_Genus_OTUs)
+
+#Visualize significant ASVs
+ggplot(abund.nosub.asv.longformat1, aes(y=Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+  geom_point()+
+  scale_size_continuous(limits=c(0,5000))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+  labs(size="Abundance")+
+  facet_wrap(.~Class, scales="free_y")
+
+#subset abund.nosub.asv.longformat1 to remove unnecessary Classes and lump "Other taxa
+abund.nosub.asv.longformat2 <- subset(abund.nosub.asv.longformat1, Class!="Bacteria_unclassified" & Class!="Acidimicrobiia" & Class!="Proteobacteria_unclassified" & Class!="Oxyphotobacteria")
+abund.nosub.asv.longformat2$Class1 <- factor(abund.nosub.asv.longformat2$Class, levels=c(levels(abund.nosub.asv.longformat2$Class), "Other")) #duplicate calss, add new "Other" Class
+abund.nosub.asv.longformat2$Class1[abund.nosub.asv.longformat2$Class1=="Deltaproteobacteria" | abund.nosub.asv.longformat2$Class1=="Thermoplasmata"] = "Other" #rename Thermoplasmata an deltaprot as "other"
+
+#visualize again
+#Visualize significant ASVs
+ggplot(abund.nosub.asv.longformat2, aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+  geom_point()+
+  #scale_size_continuous(limits=c(0,15000))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5), axis.text.y=element_text(face=abund.nosub.asv.longformat2$fontface))+
+  labs(size="Abundance", color="Log2 Fold Change")+
+  facet_wrap(.~Class1, scales="free_y")
+ggsave('ASV bubbpleplot class.png', path=dirFigs, units="in", width=20, height=20, dpi=600)
 
 
 
@@ -172,75 +276,70 @@ hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
 
 
 #Run DESeq2
-mod.deseq2 <- phyloseq_to_deseq2(physeq.coral.tend.cull1,~ Treatment)
-
-mod.deseq2 <- estimateSizeFactors(mod.deseq2,type="poscounts")
-
-mod.deseq2 <- estimateDispersions(mod.deseq2)
-
-mod.deseq2 <- nbinomWaldTest(mod.deseq2)
-
-mod.deseq2.heated <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
-mod.deseq2.bleached <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
-mod.deseq2.bleach.heated=as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
-
+#mod.deseq2 <- phyloseq_to_deseq2(physeq.coral.tend.cull1,~ Treatment)
+#mod.deseq2 <- estimateSizeFactors(mod.deseq2,type="poscounts")
+#mod.deseq2 <- estimateDispersions(mod.deseq2)
+#mod.deseq2 <- nbinomWaldTest(mod.deseq2)
+#mod.deseq2.heated <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
+#mod.deseq2.bleached <- as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
+#mod.deseq2.bleach.heated=as.data.frame(results(mod.deseq2,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
 #check distributions of pvals
-hist(mod.deseq2.heated$padj, breaks=seq(from=0,to=1,by=.05)) #4 sig ASVs
-hist(mod.deseq2.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #many sig ASVs
-hist(mod.deseq2.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #1 sig ASV
+#hist(mod.deseq2.heated$padj, breaks=seq(from=0,to=1,by=.05)) #4 sig ASVs
+#hist(mod.deseq2.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #many sig ASVs
+#hist(mod.deseq2.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #1 sig ASV
 
 #extract pvalues and add to new df
-sig.asvs <- as.data.frame(rownames(as.data.frame(mod.deseq2.bleached))) #add asv names
-colnames(sig.asvs) <- "ASV" #change colnames
-sig.asvs$heated.p <- mod.deseq2.heated$pvalue
-sig.asvs$heated.padj <- mod.deseq2.heated$padj
-sig.asvs$bleached.p <- mod.deseq2.bleached$pvalue
-sig.asvs$bleached.padj <- mod.deseq2.bleached$padj
-sig.asvs$bleached.heated.p <- mod.deseq2.bleach.heated$pvalue
-sig.asvs$bleached.heated.padj <- mod.deseq2.bleach.heated$padj
+#sig.asvs <- as.data.frame(rownames(as.data.frame(mod.deseq2.bleached))) #add asv names
+#colnames(sig.asvs) <- "ASV" #change colnames
+#sig.asvs$heated.p <- mod.deseq2.heated$pvalue
+#sig.asvs$heated.padj <- mod.deseq2.heated$padj
+#sig.asvs$bleached.p <- mod.deseq2.bleached$pvalue
+#sig.asvs$bleached.padj <- mod.deseq2.bleached$padj
+#sig.asvs$bleached.heated.p <- mod.deseq2.bleach.heated$pvalue
+#sig.asvs$bleached.heated.padj <- mod.deseq2.bleach.heated$padj
 
 #extract l2fc values and add to sig.asvs
-sig.asvs$heated.l2fc <- mod.deseq2.heated$log2FoldChange
-sig.asvs$bleached.l2fc <- mod.deseq2.bleached$log2FoldChange
-sig.asvs$bleached.heated.l2fc <- mod.deseq2.bleach.heated$log2FoldChange
+#sig.asvs$heated.l2fc <- mod.deseq2.heated$log2FoldChange
+#sig.asvs$bleached.l2fc <- mod.deseq2.bleached$log2FoldChange
+#sig.asvs$bleached.heated.l2fc <- mod.deseq2.bleach.heated$log2FoldChange
 
 #add new columns indicating significance Y/N
-sig.asvs$heated.sig <- sig.asvs$heated.padj #duplicate padj
-sig.asvs$heated.sig[sig.asvs$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs$heated.sig[sig.asvs$heated.padj <=.05] <- "Y"
-sig.asvs$bleached.sig <- sig.asvs$bleached.padj #duplicate padj
-sig.asvs$bleached.sig[sig.asvs$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs$bleached.sig[sig.asvs$bleached.padj <=.05] <- "Y"
-sig.asvs$bleached.heated.sig <- sig.asvs$bleached.heated.padj #duplicate padj
-sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.padj <=.05] <- "Y"
+#sig.asvs$heated.sig <- sig.asvs$heated.padj #duplicate padj
+#sig.asvs$heated.sig[sig.asvs$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+#sig.asvs$heated.sig[sig.asvs$heated.padj <=.05] <- "Y"
+#sig.asvs$bleached.sig <- sig.asvs$bleached.padj #duplicate padj
+#sig.asvs$bleached.sig[sig.asvs$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+#sig.asvs$bleached.sig[sig.asvs$bleached.padj <=.05] <- "Y"
+#sig.asvs$bleached.heated.sig <- sig.asvs$bleached.heated.padj #duplicate padj
+#sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+#sig.asvs$bleached.heated.sig[sig.asvs$bleached.heated.padj <=.05] <- "Y"
 
 #merge in taxonomy
-sig.asvs1 <- cbind(sig.asvs, taxonomy1.cull)
+#sig.asvs1 <- cbind(sig.asvs, taxonomy1.cull)
 
 #add in mean l2fc values for each ASV in each treatment
 #Manually calculate log2fold change and visualize.
 #workup data for log2foldchange function.
-abund.coral.tend.1.cull1$Treatment <- metadata.coral.tend$Treatment #add treatment column.
+#abund.coral.tend.1.cull1$Treatment <- metadata.coral.tend$Treatment #add treatment column.
 
-log2.fold.change(abund.coral.tend.1.cull1,101,"Non-bleached + Ambient",100) #run the function
+l#og2.fold.change(abund.coral.tend.1.cull1,101,"Non-bleached + Ambient",100) #run the function
 
-hist(unlist(log2.fold.df1[,-101]))#check the distribution of log2foldchange data.
+#hist(unlist(log2.fold.df1[,-101]))#check the distribution of log2foldchange data.
 
 #Generate longformat of log2FC data.
-log2.fold.df1.t=as.data.frame(t(log2.fold.df1[,-101])) #work up the data
+#log2.fold.df1.t=as.data.frame(t(log2.fold.df1[,-101])) #work up the data
 
-abund.lfc.longformat=generate.long.format(log2.fold.df1.t,metadata.coral.tend,taxonomy1.cull) #generate longformat
-colnames(abund.lfc.longformat)[3]="Log2FoldChange" #rename column
+#abund.lfc.longformat=generate.long.format(log2.fold.df1.t,metadata.coral.tend,taxonomy1.cull) #generate longformat
+#colnames(abund.lfc.longformat)[3]="Log2FoldChange" #rename column
 
 #Merge the two abund/lfc longformat dfs.
 #work up the dfs.
-abund.raw.longformat$Sample_OTU=paste(abund.raw.longformat$Sample,abund.raw.longformat$OTU)
-abund.lfc.longformat$Sample_OTU=paste(abund.lfc.longformat$Sample,abund.lfc.longformat$OTU)
+#abund.raw.longformat$Sample_OTU=paste(abund.raw.longformat$Sample,abund.raw.longformat$OTU)
+#abund.lfc.longformat$Sample_OTU=paste(abund.lfc.longformat$Sample,abund.lfc.longformat$OTU)
 
-abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sample_OTU",by.y="Sample_OTU") #merge
+#abund.longformat.merged=merge(abund.raw.longformat,abund.lfc.longformat,by.x="Sample_OTU",by.y="Sample_OTU") #merge
 
-abund.longformat.merged$Treatment_OTU <- paste(abund.longformat.merged$Treatment.x, abund.longformat.merged$OTU.x, sep="_") #add a treatment_OTU column
+#abund.longformat.merged$Treatment_OTU <- paste(abund.longformat.merged$Treatment.x, abund.longformat.merged$OTU.x, sep="_") #add a treatment_OTU column
 
 #calculate mean relabund and l2fc for each treatment_OTU
 mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,4], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund

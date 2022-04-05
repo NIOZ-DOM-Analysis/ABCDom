@@ -13,6 +13,7 @@ PlateII <- PlateII[PlateII$Gate.Name=="SYBR Polygon",c(4,21)]
 FCM.I <- merge(PlateI,PlateI.Map,by.x="Sample.Name",by.y="Well")
 FCM.II <- merge(PlateII,PlateII.Map,by.x="Sample.Name",by.y="Well")
 FCM.dat <- rbind(FCM.I,FCM.II) #combine the merged dfs
+#FCM.dat <- FCM.dat[1:157,] #remove NAs
 
 FCM.dat$Concentration <- as.numeric(as.character(sub(",","",FCM.dat$Concentration))) #commas were causing a probem when converting to numeric, have to convert to character first and sub out commas and then convert to numeric.
 
@@ -26,7 +27,8 @@ FCM_dat <- merge(FCM.dat, metadata.fcm, by.x="SampleID", by.y="Sample Name", all
 #wor up the data
 FCM_dat_growth <- FCM_dat[FCM_dat$Timepoint..h.==0,] #subset FCM_dat for just t0 samples, save in new df
 colnames(FCM_dat_growth)[3] <- "T0_Concentration" #rename concentration column
-FCM_dat_growth$T24_Concentration <- FCM_dat[FCM_dat$Timepoint..h.==24,3] #extract concentration values at t24 and add to new column
+FCM_dat_growth <- FCM_dat_growth[is.na(FCM_dat_growth$SampleID)==FALSE,] #remove NAs
+FCM_dat_growth$T24_Concentration <- FCM_dat$Concentration[FCM_dat$Timepoint..h.== 24][-1:-4] #extract concentration values at t24 and add to new column, be sure to remove NAs.
 
 #calculate specific growth rate
 FCM_dat_growth$log10_T0_Concentration <- log10(FCM_dat_growth$T0_Concentration) #convert to log10 concentrations
