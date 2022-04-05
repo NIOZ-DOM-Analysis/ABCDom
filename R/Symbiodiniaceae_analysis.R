@@ -65,26 +65,26 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & !is.na(sym_dat$C
 
 ggsave('Symbiont density_Bleached_Healthy_Stringent outliers.jpeg', path = dirFigs, dpi = 300)
 
-
+sym_dat$Collection_Bleaching_Level1 <- factor(sym_dat$Collection_Bleaching_Level1, levels = c("HE", "BL"))
 #visualize nubbin sym densities at t0, split out by species.
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
-  facet_wrap(.~Species, scales="free")+
+  facet_wrap(.~Species, scales="fixed")+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
-  scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
-  scale_fill_manual(values=c("white","dodgerblue3"))+
+  scale_color_manual(labels = c("Healthy", "Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
+  scale_fill_manual(labels = c("Healthy", "Bleached"), values=c("dodgerblue3", "white"))+
   theme_classic()+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ##save and use as panel A for Fig 1. Add posthoc values manually
 ggsave('Symbiont cells per cm2_Bleaching status at collection_v1.jpeg', path = dirFigs, dpi = 300, width=13, height=8)
 
-#make the same plot but with fixed scales
+#make the same plot but with free scales
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
-  facet_wrap(.~Species, scales="fixed")+
+  facet_wrap(.~Species, scales="free")+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
-  scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
+  scale_color_manual(values=c("dodgerblue1", "dodgerblue1"))+
   scale_fill_manual(values=c("white","dodgerblue3"))+
   theme_classic()+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
@@ -99,7 +99,7 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",],aes(x=
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=2)+
   # geom_point(size=3)+
-  scale_color_manual(values=c("#00BFC4", "#00BFC4"))+
+  scale_color_manual(values=c("dodgerblue1", "dodgerblue1"))+
   scale_fill_manual(values=c("white","dodgerblue3"))+
   theme_classic()+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
@@ -112,7 +112,7 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T0",],aes(x=
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=2)+
   # geom_point(size=3)+
-  scale_color_manual(values=c("#00BFC4","#00BFC4"))+
+  scale_color_manual(values=c("dodgerblue1","dodgerblue1"))+
   scale_fill_manual(values=c("white", "dodgerblue3"))+
   theme_classic()+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
@@ -145,14 +145,14 @@ summary(mod.t0.sym.log) #significant
 #Next, plot the sym densities (SA normalized) for the T7 aquaria.
 
 #reorder levels
-sym_dat_aquaria_final$Treatment_v1=factor(sym_dat_aquaria_final$Treatment_v1, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated"))
+sym_dat_aquaria_final$Treatment_v1<-factor(sym_dat_aquaria_final$Treatment_v1, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated"))
 
 
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=sym.SA.normalized.no.outliers,color=Treatment_v1,fill=Treatment_v1))+
   stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=2)+
+  geom_boxplot(size=1.2)+
   # geom_point(size=3)+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D"))+
+  scale_color_manual(values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
   scale_fill_manual(values=c("dodgerblue3","firebrick3","white","white"))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2), name = "")+
   theme_classic()+
