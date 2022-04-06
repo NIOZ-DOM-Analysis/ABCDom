@@ -50,7 +50,23 @@ abund.nosub2 <- abund.nosub1[,-1:-2] #remove unnecessary columns
 rownames(abund.nosub2) <- abund.nosub2$OTU #update rownames
 abund.nosub.coral.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.coral.tend$Sample_Name_Unique] #subset for relevant samples.
 
-#Cull ow abundance ASVs
+#Next, convert to relabund df for later boxplots
+#create relabund function
+relabund.calculate <- function(x) { #where x is a vector of numbers
+
+  relabund.vec <- c() #create blank vector
+
+  for (i in 1:length(x)) { #for each position (numeric value) in vector x
+    relabund.vec[i] <- x[i]/sum(x) #take it's value and divide it by the total sum of vector x, and put that number in the corresponding position of the new vector.
+  }
+
+  relabund.vec1 <<- relabund.vec #store output as new vector
+}
+
+relabund.nosub.coral.tend <- as.data.frame(apply(abund.nosub.coral.tend, 2, FUN=relabund.calculate)) #calculate relabund
+rownames(relabund.nosub.coral.tend) <- rownames(abund.nosub.coral.tend) #update rownames
+
+#Cull low abundance ASVs
 hist(unlist(abund.nosub.coral.tend)[unlist(abund.nosub.coral.tend)!=0], xlim=c(0,5000), breaks=10000) #visualize distribution of abundance values. After removing zeros, it looks like most ASVs have an abundance < 1000.
 abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose
 
@@ -134,7 +150,8 @@ colnames(taxonomy.cull)[2] <- "OTUNumber" #adjust colnames
 #generat longformat of abund data
 colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
 rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_ID #prep rownames
-abund.raw.longformat <- generate.long.format(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy.cull)
+abund.nosub.longformat <- generate.long.format(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy.cull)
+relabund.nosub.longformat <- generate.long.format(relabund.nosub.coral.tend,metadata.coral.tend,taxonomy.cull) #generate longformat for relabund data as well.
 
 #Convert dfs to phyloseq object for use in DESeq2.
 physeq.abund.nosub <- otu_table(abund.nosub.coral.tend.cull1,taxa_are_rows=TRUE) #convert abund object, be sure to remove treatment column
@@ -237,12 +254,13 @@ cluster.Genus <- abund.nosub.asv$Genus[lfc.clustering$tree_row$order]
 cluster.Family <- abund.nosub.asv$Family[lfc.clustering$tree_row$order]
 cluster.Genus_OTUs <- paste(cluster.Genus,cluster.OTUs,sep="_")
 cluster.Family_Genus_OTUs <- paste(cluster.Family, cluster.Genus, cluster.OTUs,sep="_")
-#CHECKCHECK
-#fontface <- abund.nosub.asv$fontface[lfc.clustering$tree_row$order]
+cluster.fontface <- abund.nosub.asv$fontface[lfc.clustering$tree_row$order]
 
 #reorder OTUs in abund.longformat.merged
 abund.nosub.asv.longformat1$Genus_OTU <- factor(abund.nosub.asv.longformat1$Genus_OTU, levels=cluster.Genus_OTUs)
-abund.nosub.asv.longformat1$Family_Genus_OTU <- factor(abund.nosub.asv.longformat1$Family_Genus_OTU, levels=cluster.Family_Genus_OTUs)
+
+#reorder OTUs in abund.nosub.asv
+abund.nosub.asv1 <- abund.nosub.asv[lfc.clustering$tree_row$order,]
 
 #Visualize significant ASVs
 ggplot(abund.nosub.asv.longformat1, aes(y=Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
@@ -260,14 +278,66 @@ abund.nosub.asv.longformat2$Class1[abund.nosub.asv.longformat2$Class1=="Deltapro
 
 #visualize again
 #Visualize significant ASVs
-ggplot(abund.nosub.asv.longformat2, aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+test=ggplot(abund.nosub.asv.longformat2, aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
   geom_point()+
-  #scale_size_continuous(limits=c(0,15000))+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
-  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5), axis.text.y=element_text(face=abund.nosub.asv.longformat2$fontface))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=abund.nosub.asv.longformat2$fontface))+
   labs(size="Abundance", color="Log2 Fold Change")+
   facet_wrap(.~Class1, scales="free_y")
 ggsave('ASV bubbpleplot class.png', path=dirFigs, units="in", width=20, height=20, dpi=600)
+
+#visualize again without "Other" AKA just bacterial ASVs no Archeae
+ggplot(subset(abund.nosub.asv.longformat2, Class1!="Other"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+  geom_point()+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=c("bold","plain")))+
+  labs(size="Abundance", color="Log2 Fold Change")+
+  facet_wrap(.~Class1, scales="free_y")
+
+#visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
+gamma.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Gammaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+  geom_point()+
+  scale_size_continuous(range=c(2,10))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Gammaproteobacteria")$fontface))+
+  labs(size="Abundance", color="Log2 Fold Change")
+
+#visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
+alpha.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Alphaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+  geom_point()+
+  scale_size_continuous(range=c(2,10))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Alphaproteobacteria")$fontface))+
+  labs(size="Abundance", color="Log2 Fold Change")
+
+#visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
+bact.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Bacteroidia"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+  geom_point()+
+  scale_size_continuous(range=c(2,10))+
+  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Bacteroidia")$fontface))+
+  labs(size="Abundance", color="Log2 Fold Change")
+
+png("../figures/ASV bubbleplot class v1.png", width=21, height=19, units="in", res=600)
+plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
+dev.off()
+
+#next, plot sig asvs as boxplots.
+relabund.nosub.longformat.sig <- relabund.nosub.longformat[relabund.nosub.longformat$OTU %in% abund.nosub.asv1$ASV[abund.nosub.asv1$sig=="Y"],] #subset for just sig asvs
+relabund.nosub.longformat.sig$Family_Genus_OTU <- paste(relabund.nosub.longformat.sig$Family, relabund.nosub.longformat.sig$Genus, relabund.nosub.longformat.sig$OTU, sep="_") #generate new column
+relabund.nosub.longformat.sig$Treatment <- factor(relabund.nosub.longformat.sig$Treatment, levels=levels(fact.all.treat)) #adjust treatment factor levels
+
+ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free")+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
+  ylab("Relative Abundance")
+ggsave('Sig ASVs mod.deseq4.jpeg', path = dirFigs, width = 30, height = 22, dpi = 600)
+
+
+
 
 
 
@@ -322,7 +392,7 @@ ggsave('ASV bubbpleplot class.png', path=dirFigs, units="in", width=20, height=2
 #workup data for log2foldchange function.
 #abund.coral.tend.1.cull1$Treatment <- metadata.coral.tend$Treatment #add treatment column.
 
-l#og2.fold.change(abund.coral.tend.1.cull1,101,"Non-bleached + Ambient",100) #run the function
+#og2.fold.change(abund.coral.tend.1.cull1,101,"Non-bleached + Ambient",100) #run the function
 
 #hist(unlist(log2.fold.df1[,-101]))#check the distribution of log2foldchange data.
 
