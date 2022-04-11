@@ -4,6 +4,9 @@ library(BiodiversityR)
 library(openxlsx)
 library(dendextend)
 library(vegan)
+library(pairwiseAdonis)
+library(pheatmap)
+library(viridis)
 
 df.area.ABCT0 <- df.area %>% filter(Experiment == "ABCDOM", Timepoint_char == "T0") %>% filter(Treatment != "Inoculum")
 ord.mod.area<- metaMDS(df.area.ABCT0[M:ncol(df.area.ABCT0)], distance = 'bray', k = 2)
@@ -64,6 +67,27 @@ print(adon.results)
 
 adon2.results<-adonis2(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
 print(adon2.results)
+
+fact.coral.treat <- fact.all.treat[fact.all.treat!="Ambient Water Control" & fact.all.treat!="Heated Water Control"] #subset for just coral treatments
+adon2.coral.results <- adonis2(df.area.ABCT0[df.area.ABCT0$Origin_PlanC!="control",M:ncol(df.area.ABCT0)] ~ fact.coral.treat, method="bray",perm=999)
+print(adon2.coral.results)
+
+#run pairwise adonis
+pairwise.adonis.mb.t0 <- pairwise.adonis(df.area.ABCT0.bray, factors=df.area.ABCT0$Treatment)
+write.csv(pairwise.adonis.mb.t0, file.path(dirOutput, "pairwise.adonis.mb.t0.csv"), ) #export
+
+#read in square dist matrix and work up for visualization
+pairwise.adonis.mb.t0.square.matrix <- read.csv(file.path(dirOutput, "pairwise.adonis.mb.t0.square.matrix.csv"))
+rownames(pairwise.adonis.mb.t0.square.matrix) <- pairwise.adonis.mb.t0.square.matrix$X #update rownames
+pairwise.adonis.mb.t0.square.matrix1 <- pairwise.adonis.mb.t0.square.matrix[,-1] #remove extra column
+colnames(pairwise.adonis.mb.t0.square.matrix1) <- rownames(pairwise.adonis.mb.t0.square.matrix1) #update colnames
+
+#visualize
+jpeg("../figures/MB_pairwise_adonis_clust.jpg",width=2100, height=2000, res=300)
+pheatmap(pairwise.adonis.mb.t0.square.matrix1, color=viridis(n=256, alpha = 1, begin = 0, end = 1, direction = 1, option="B")
+)
+dev.off()
+
 
 # dis <- vegdist(df.area.ABCT0[,M:ncol(df.area.ABCT0)])
 # mod <- betadisper(dis, df.area.ABCT0$Treatment)

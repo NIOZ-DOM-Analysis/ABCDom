@@ -299,24 +299,27 @@ gamma.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Gammapro
   geom_point()+
   scale_size_continuous(range=c(2,10))+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
-  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Gammaproteobacteria")$fontface))+
-  labs(size="Abundance", color="Log2 Fold Change")
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Gammaproteobacteria")$fontface), plot.title=element_text(hjust = 0.5), axis.title.x=element_blank())+
+  labs(size="Abundance", color="Log2 Fold Change")+
+  ggtitle(label="Gammaproteobacteria")
 
 #visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
 alpha.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Alphaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
   geom_point()+
   scale_size_continuous(range=c(2,10))+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
-  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Alphaproteobacteria")$fontface))+
-  labs(size="Abundance", color="Log2 Fold Change")
+  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Alphaproteobacteria")$fontface), plot.title=element_text(hjust = 0.5), axis.title.x=element_blank())+
+  labs(size="Abundance", color="Log2 Fold Change")+
+  ggtitle(label="Alphaproteobacteria")
 
 #visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
 bact.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Bacteroidia"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
   geom_point()+
   scale_size_continuous(range=c(2,10))+
   scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
-  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Bacteroidia")$fontface))+
-  labs(size="Abundance", color="Log2 Fold Change")
+  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Bacteroidia")$fontface), plot.title=element_text(hjust = 0.5), axis.title.x=element_blank())+
+  labs(size="Abundance", color="Log2 Fold Change")+
+  ggtitle(label="Bacteroidia")
 
 png("../figures/ASV bubbleplot class v1.png", width=21, height=19, units="in", res=600)
 plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
