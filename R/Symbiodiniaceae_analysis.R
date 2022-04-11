@@ -71,8 +71,9 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   facet_wrap(.~Species, scales="fixed")+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size=1.2)+
-  scale_color_manual(labels = c("Healthy", "Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
-  scale_fill_manual(labels = c("Healthy", "Bleached"), values=c("dodgerblue3", "white"))+
+  scale_color_manual(labels = c("Non-Bleached", "Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
+  scale_fill_manual(labels = c("Non-Bleached", "Bleached"), values=c("dodgerblue3", "white"))+
+  scale_x_discrete(labels=NULL)+
   theme_classic()+
   theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")

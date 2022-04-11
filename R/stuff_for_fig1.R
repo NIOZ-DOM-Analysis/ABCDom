@@ -66,7 +66,7 @@ bleaching.end<-as.POSIXct("2019-05-30 00:00:00", tz = "UTC")
 
 
 Temp.plot<-ggplot(tmp, aes(x=time_local, y=mean_temp))+
-  geom_line(y = threshold, color = "red", size = 2.3)+
+  geom_line(y = threshold, color = "orange", size = 2.3)+
   annotate("rect", xmin = fieldwork.start, xmax = fieldwork.end, ymin = c(25), ymax = c(30.5), alpha= 0.2, color = "purple", fill = "purple")+
   geom_ribbon(aes(ymin = mean_temp -sd_temp, ymax = mean_temp + sd_temp), fill = "lightblue", alpha = 0.8)+
   geom_line(color = "black", size=3)+
@@ -75,6 +75,5 @@ Temp.plot<-ggplot(tmp, aes(x=time_local, y=mean_temp))+
   theme_bw(base_size = 26)+
   scale_x_datetime(name = "Date", date_breaks = "2 months", date_labels = "%b %Y")+
   scale_y_continuous(name = "mean seawater \n Temperature °C ")
-
 Temp.plot
-
+ggsave("temperature2018-2019.png", path = dirFigs, units = "in", dpi = 320, width = 20, height = 8.5)
