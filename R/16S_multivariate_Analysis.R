@@ -21,6 +21,9 @@ library(viridis)
 #read in ASV table
 #abund <- read.csv(file.path(dirRAW, "16S", "abundance_table_100.database.csv"))
 
+#read in alpha diversity data
+#adiv <- read.csv(file.path(dirRAW, "16S", "all_alphaDiversity_100.summary.csv"))
+
 #Read in metadata. Unnecessary since metadata is included in global environment
 #metadata <- read.csv(file="metadata1.csv")
 #Read in the 16S metadata
@@ -166,7 +169,11 @@ ggplot() +
 ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 6.75, height = 5.5, units = "in", dpi = 320)
 
 #Test statistical effects using permanova.
-#first test for an effect of treatment at t0.
+#first test the effect of timepoint on all samples.
+permanova.timepoint <- adonis2(unifrac.dist1~Timepoint, by="margin", permutations=999, data=metadata1)
+permanova.timepoint
+
+#then test for an effect of treatment at t0.
 permanova.t0 <- adonis2(unifrac.dist.t0~Treatment, by="margin", permutations=999, data=metadata.t0)
 permanova.t0 #Treatment1 is significant.
 
@@ -200,3 +207,4 @@ permanova.coral.tend=adonis2(unifrac.dist.coral.tend~Treatment, by="margin", per
 permanova.coral.tend #treatment is significant.
 pairwise.adonis(unifrac.dist.coral.tend,factors=metadata.coral.tend$Treatment) #no significant differences because sample size is too small
 
+#Work up and analyze the tfinal adiv data.
