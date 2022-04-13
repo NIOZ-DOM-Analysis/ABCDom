@@ -1,0 +1,88 @@
+Normality
+shapiro test for normality
+data: 
+ls.diversity$S1_T0$S
+W: 
+0.881905689900258
+p.value: 
+0.0341447235726436
+ 
+ 
+data: 
+tmp1$S
+subset: 
+Non-bleached + Ambient
+W: 
+0.983900936074133
+p.value: 
+0.757018102291699
+ 
+ 
+richness
+"U"	"S"
+"1"	"Bleached + Heated"	6436
+"2"	"Bleached + Heated"	6406
+"3"	"Bleached + Heated"	6401
+"4"	"Non-bleached + Heated"	6332
+"5"	"Non-bleached + Heated"	6428
+"6"	"Heated Water Control"	6124
+"7"	"Heated Water Control"	6136
+"8"	"Heated Water Control"	6185
+"9"	"Bleached + Ambient"	6352
+"10"	"Bleached + Ambient"	6385
+"11"	"Bleached + Ambient"	6364
+"12"	"Non-bleached + Ambient"	6181
+"13"	"Non-bleached + Ambient"	6246
+"14"	"Non-bleached + Ambient"	6348
+"15"	"Ambient Water Control"	6105
+"16"	"Ambient Water Control"	6171
+"17"	"Ambient Water Control"	6176
+ 
+ 
+S1 descriptives
+"mean"	"std.dev"	"n"
+"Non-bleached + Ambient"	6258.33333333333	84.1803619220857	3
+"Non-bleached + Heated"	6380	67.8822509939086	2
+"Bleached + Ambient"	6367	16.7032930884901	3
+"Bleached + Heated"	6414.33333333333	18.9296944860009	3
+"Ambient Water Control"	6150.66666666667	39.6274315762873	3
+"Heated Water Control"	6148.33333333333	32.316146634977	3
+ 
+ 
+S1 Anova
+"Df"	"Sum Sq"	"Mean Sq"	"F value"	"Pr(>F)"
+"ls.diversity$S1_T0$U"	5	200426.274509804	40085.2549019607	17.4389407515056	6.69759377309021e-05
+"Residuals"	11	25284.6666666666	2298.60606060606	NA	NA
+ 
+ 
+R square
+"x"
+"1"	0.887977664995433
+ 
+Tukey HSD
+""
+ 
+Kruskal Wallis rank sum-test
+"statistic"	"parameter"	"p.value"	"method"	"data.name"
+"Kruskal-Wallis chi-squared"	13.5751633986928	5	0.0185455879682838	"Kruskal-Wallis rank sum test"	"S by U"
+ 
+Dunn s test
+Kruskal-Wallis chi-squared =
+13.5751633986928
+"dunnS1$comparisons"	"dunnS1$Z"	"dunnS1$P"	"dunnS1$P.adjusted"
+"1"	"Ambient Water Control - Bleached + Ambient"	-2.10197541698155	0.0177777146455593	0.0177777146455593
+"2"	"Ambient Water Control - Bleached + Heated"	-2.910427500436	0.00180467346797272	0.00180467346797272
+"3"	"Bleached + Ambient - Bleached + Heated"	-0.808452083454443	0.209415189743059	0.209415189743059
+"4"	"Ambient Water Control - Heated Water Control"	-0.161690416690889	0.435774825803644	0.435774825803644
+"5"	"Bleached + Ambient - Heated Water Control"	1.94028500029066	0.0261725316365816	0.0261725316365816
+"6"	"Bleached + Heated - Heated Water Control"	2.74873708374511	0.00299126760578661	0.00299126760578661
+"7"	"Ambient Water Control - Non-bleached + Ambient"	-1.13183291683622	0.128852343000973	0.128852343000973
+"8"	"Bleached + Ambient - Non-bleached + Ambient"	0.970142500145332	0.165987733541368	0.165987733541368
+"9"	"Bleached + Heated - Non-bleached + Ambient"	1.77859458359978	0.0376531263759799	0.0376531263759799
+"10"	"Heated Water Control - Non-bleached + Ambient"	-0.970142500145332	0.165987733541368	0.165987733541368
+"11"	"Ambient Water Control - Non-bleached + Heated"	-1.98852919667101	0.0233765966240256	0.0233765966240256
+"12"	"Bleached + Ambient - Non-bleached + Heated"	-0.108465228909328	0.45681333053143	0.45681333053143
+"13"	"Bleached + Heated - Non-bleached + Heated"	0.614636297152859	0.269397469008892	0.269397469008892
+"14"	"Heated Water Control - Non-bleached + Heated"	-1.84390889145858	0.032598209539065	0.032598209539065
+"15"	"Non-bleached + Ambient - Non-bleached + Heated"	-0.976187060183953	0.164485887205312	0.164485887205312
+ 

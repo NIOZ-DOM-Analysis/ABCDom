@@ -70,41 +70,42 @@ sym_dat$Collection_Bleaching_Level1 <- factor(sym_dat$Collection_Bleaching_Level
 #first with raw densities
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=sym.SA,color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
   facet_wrap(.~Species, scales="fixed")+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=1.2)+
-  scale_color_manual(labels = c("Non-Bleached", "Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
-  scale_fill_manual(labels = c("Non-Bleached", "Bleached"), values=c("dodgerblue3", "white"))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
+  scale_color_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
+  scale_fill_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue3", "white"))+
   scale_x_discrete(labels=NULL)+
   theme_classic()+
-  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 
 #Then with log10 densities. This one looks better than raw data and is probably more normal, so save this for figure 1
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
   facet_wrap(.~Species, scales="fixed")+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=1.2)+
-  scale_color_manual(labels = c("Bleached", "Non-Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
-  scale_fill_manual(labels = c("Bleached", "Non-Bleached"), values=c("white", "dodgerblue3"))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
+  scale_color_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue1", "dodgerblue1"))+
+  scale_fill_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue3", "white"))+
   scale_x_discrete(labels=NULL)+
   theme_classic()+
-  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ##save and use as panel A for Fig 1. Add posthoc values manually
-ggsave('Symbiont cells per cm2_Bleaching status at collection_v1.jpeg', path = dirFigs, dpi = 300, width=13, height=8)
+ggsave('Symbiont cells per cm2_Bleaching status at collection_v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
+
 
 #make the same plot but with free scales
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
   facet_wrap(.~Species, scales="free")+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=1.2)+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
   scale_color_manual(values=c("dodgerblue1", "dodgerblue1"))+
   scale_fill_manual(values=c("dodgerblue3","white"))+
   theme_classic()+
-  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ##save and use as panel A for Fig 1. Add posthoc values manually
-ggsave('Symbiont cells per cm2_Bleaching status at collection_v2.jpeg', path = dirFigs, dpi = 300, width=13, height=8)
+ggsave('Symbiont cells per cm2_Bleaching status at collection_v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 
 # Now, visualize the distribution and run the statistics on the t0 sym_dat
@@ -130,44 +131,45 @@ TukeyHSD(mod.t0.sym.species.bleaching, "species_bleaching")
 #reorder levels
 sym_dat_aquaria_final$Treatment_v1<-factor(sym_dat_aquaria_final$Treatment_v1, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated"))
 
+
 #visualize
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=sym.SA.normalized.no.outliers,color=Treatment_v1,fill=Treatment_v1))+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=1.2)+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
   # geom_point(size=3)+
-  scale_color_manual(values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
   scale_fill_manual(values=c("dodgerblue3","firebrick3","white","white"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2), name = "")+
+  scale_x_discrete( guide = guide_axis(n.dodge = 2), name = "")+
   theme_classic()+
-  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
 
 #visualize again with only PLANC aquaria that were included in abcDOM
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,],aes(x=Treatment_v1,y=sym.SA.normalized.no.outliers,color=Treatment_v1,fill=Treatment_v1))+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=1.2)+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
   # geom_point(size=3)+
   scale_color_manual(values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","white","white"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2), name = "")+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( guide = guide_axis(n.dodge = 2), name = "")+
   theme_classic()+
-  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
-#save and use as panel B for Figure 1.
+
 
 #now with log10 sym densities
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers),color=Treatment_v1,fill=Treatment_v1))+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size=1.2)+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
   # geom_point(size=3)+
-  scale_color_manual(values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","white","white"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2), name = "")+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
   theme_classic()+
-  theme(text=element_text(size=15),legend.key.height=unit(1.75,"cm"))+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="log10 mean aquaria Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
 #save and use as panel B for Figure 1.
-ggsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=13, height=8)
+ggsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 
 # Now, visualize the distribution and run the statistics on the t7 aquaria data.

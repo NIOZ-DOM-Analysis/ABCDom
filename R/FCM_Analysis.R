@@ -97,30 +97,30 @@ FCM_dat_24_0$Treatment <- FCM_dat_24_0$Treatment.y #duplicate Treatment.y
 FCM_dat_24_0$Treatment <- factor(FCM_dat_24_0$Treatment, levels(fact.all.treat)) #set as correct factor levels
 
 ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Treatment, fill=Treatment))+
-  stat_boxplot(geom = 'errorbar', size = 1.5)+
-  geom_boxplot(size = 1.5)+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size = 2)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   ylab(label="Concentration (cells per uL)")+
   xlab(label="Time of dark incubations (hours)")+
   theme_classic()+
-  theme(text=element_text(size=24),legend.key.height=unit(1.75,"cm"),complete=FALSE)
-ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"),complete=FALSE)
+ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300, width=15, height = 13)
 
 #visualize specific growth rate.
 ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatment,y=Specific_Growth_Rate,color=Treatment,fill=Treatment))+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size = 1.2)+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size = 2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   theme_classic()+
-  # theme(legend.key.height=unit(0.5,"in"))+
+  # theme(legend.key.height=unit(2,"cm"))+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab ("Specific Growth Rate (log10 cells per hour)")+
   xlab("")+
-  theme(text=element_text(size=20))
-ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=8, width=15)
+  theme(text=element_text(size=24))
+ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=9, width=15)
 
 #run stats on specific growth rate.
 hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emough.
