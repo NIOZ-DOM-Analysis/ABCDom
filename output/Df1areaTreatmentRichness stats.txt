@@ -18,6 +18,58 @@ p.value:
 0.757018102291699
  
  
+There was an error here, probably too few samples in 
+Non-bleached + Heated
+data: 
+tmp1$S
+subset: 
+Non-bleached + Heated
+W: 
+0.983900936074133
+p.value: 
+0.757018102291699
+ 
+ 
+data: 
+tmp1$S
+subset: 
+Bleached + Ambient
+W: 
+0.975806451612897
+p.value: 
+0.70172414784572
+ 
+ 
+data: 
+tmp1$S
+subset: 
+Bleached + Heated
+W: 
+0.854651162790715
+p.value: 
+0.252969648965873
+ 
+ 
+data: 
+tmp1$S
+subset: 
+Ambient Water Control
+W: 
+0.80253661642963
+p.value: 
+0.120568530668507
+ 
+ 
+data: 
+tmp1$S
+subset: 
+Heated Water Control
+W: 
+0.89075965528248
+p.value: 
+0.356664888298815
+ 
+ 
 richness
 "U"	"S"
 "1"	"Bleached + Heated"	6436

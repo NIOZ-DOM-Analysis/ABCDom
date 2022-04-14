@@ -109,16 +109,18 @@ writeLines(c(" "), fout3)
 
 for (i in levels(tmp)){
   tmp1<-subset(ls.diversity$H1_T0, ls.diversity$H1_T0$U == i )
-  if(class(try(shapiro.test(tmp1$H)))!= "try-error"){
-  tmp2<-shapiro.test(tmp1$H)
+  tryCatch(tmp2<-shapiro.test(tmp1$H),
+            error = function (e){
+              writeLines(c("There was an error here, probably too few samples in ", i), fout3)
+            })
 
-  writeLines(c("data: ", tmp2$data.name), fout3)
-  writeLines(c("subset: ", i), fout3)
-  writeLines(c("W: ", tmp2$statistic), fout3)
-  writeLines(c("p.value: ", tmp2$p.value), fout3)
-  writeLines(c(" "), fout3)
-  writeLines(c(" "), fout3)
-  } else { break }
+    writeLines(c("data: ", tmp2$data.name), fout3)
+    writeLines(c("subset: ", i), fout3)
+    writeLines(c("W: ", tmp2$statistic), fout3)
+    writeLines(c("p.value: ", tmp2$p.value), fout3)
+    writeLines(c(" "), fout3)
+    writeLines(c(" "), fout3)
+
 }
 
 
@@ -202,18 +204,18 @@ writeLines(c(" "), fout3)
 
 for (i in levels(tmp)){
   tmp1<-subset(ls.diversity$J1_T0, ls.diversity$J1_T0$U == i )
-  if(class(try(shapiro.test(tmp1$J))) != "try-error") {
-
-   tmp2<- shapiro.test(tmp1$J)
-
+  tryCatch(tmp2<-shapiro.test(tmp1$J),
+           error = function (e){
+             writeLines(c("There was an error here, probably too few samples in ", i), fout3)
+           })
   writeLines(c("data: ", tmp2$data.name), fout3)
   writeLines(c("subset: ", i), fout3)
   writeLines(c("W: ", tmp2$statistic), fout3)
   writeLines(c("p.value: ", tmp2$p.value), fout3)
   writeLines(c(" "), fout3)
   writeLines(c(" "), fout3)
-} else {break}
 }
+
 
 #ANOVA on J (evenness)
 tmp <- tapply(ls.diversity$J1_T0$J, ls.diversity$J1_T0$U, mean)
@@ -293,8 +295,10 @@ writeLines(c(" "), fout4)
 
 for (i in levels(tmp)){
   tmp1<-subset(ls.diversity$S1_T0, ls.diversity$S1_T0$U == i )
-  if(class(try(shapiro.test(tmp1$S))) != "try-error"){
-  tmp2<-shapiro.test(tmp1$S)
+  tryCatch(tmp2<-shapiro.test(tmp1$S),
+           error = function (e){
+             writeLines(c("There was an error here, probably too few samples in ", i), fout3)
+           })
 
   writeLines(c("data: ", tmp2$data.name), fout4)
   writeLines(c("subset: ", i), fout4)
@@ -302,7 +306,6 @@ for (i in levels(tmp)){
   writeLines(c("p.value: ", tmp2$p.value), fout4)
   writeLines(c(" "), fout4)
   writeLines(c(" "), fout4)
-  } else { break }
   }
 
 
