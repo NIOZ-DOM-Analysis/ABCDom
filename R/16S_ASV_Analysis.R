@@ -18,7 +18,6 @@ library(gridExtra)
 library(stringr)
 library(cowplot)
 
-
 #load custom functions
 
 source(file="generate.square.dist.script.07.27.2020.R")
@@ -99,45 +98,6 @@ abund.nosub.coral.tend.cull1 <- as.data.frame(t(abund.nosub.coral.tend.t.cull1))
 
 #work up data for deseq2
 
-
-
-
-
-
-
-#Cull low abundance ASVs
-#Format adbund df for culling.
-#rownames(abund.coral.tend) <- abund.coral.tend$Group #update rownames
-#abund.coral.tend.1 <- abund.coral.tend[,-1:-3] #remove unnecessary columns
-
-#cull ASVs
-#cull.otu(abund.coral.tend.1,3,12,120) #minimum number of reads = 12 (corresponds to relabund .001) in 3 samples or 120 (relabund = .01) in 1 sample. 117 ASVs remain.
-#abund.coral.tend.1.cull <- relabund.df.cull #save as new df
-#abund.coral.tend.1.cull.t <- as.data.frame(t(abund.coral.tend.1.cull)) #transpose
-
-#because we will be working with log 2 fold change relative to the control, we need to additionally cull ASVs that exhibit high degrees of variance in the control. To do this we will calculate SD for each ASV in the controls and normalize to the mean abund of that ASV in each control (CV).
-#sd.abund.coral.tend.1.cull <- as.data.frame(apply(abund.coral.tend.1.cull[8:10,], 2, FUN=sd)) #calculate stderror for each ASV in the controls, save as new df
-#colnames(sd.abund.coral.tend.1.cull) <- "SD"
-
-#sd.abund.coral.tend.1.cull$mean <- apply(abund.coral.tend.1.cull[8:10,], 2, FUN=mean) #calculate mean
-
-#sd.abund.coral.tend.1.cull$CV <- sd.abund.coral.tend.1.cull$SD/sd.abund.coral.tend.1.cull$mean #calculate CV
-
-#sd.abund.coral.tend.1.cull$CV[is.na(sd.abund.coral.tend.1.cull$CV)] <- 0 #manually replace NAs with 0s.
-
-#hist(sd.abund.coral.tend.1.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check distribution. for starters, .9 and 1 seem like a good threshold.
-
-#determine appropriate CV cutoff threshold
-#mean and sd of CV
-#mean(sd.abund.coral.tend.1.cull$CV) #.54
-#sd(sd.abund.coral.tend.1.cull$CV) #.36
-#mean(sd.abund.coral.tend.1.cull$CV) + sd(sd.abund.coral.tend.1.cull$CV) #threshold = mean CV + one SD = .9
-
-#cull ASVS who's CV in control is above this threshold
-#abund.coral.tend.1.cull1 <- abund.coral.tend.1.cull[,sd.abund.coral.tend.1.cull$CV <= 0.9030586] #that leaves 100 ASVs.
-
-#abund.coral.tend.1.cull1.t <- as.data.frame(t(abund.coral.tend.1.cull1))#transpose
-
 #Prep taxonomy data for analysis in DESEQ2
 #extract taxonomy data
 taxonomy <- nosub.asv.info
@@ -161,7 +121,6 @@ physeq.tax.abund.nosub <- tax_table(as.matrix(taxonomy.cull)) #remove fasta, OTU
 physeq.metadata.coral.tend <- sample_data(metadata.coral.tend) #convert to physeq object
 
 physeq.nosub <- phyloseq(physeq.abund.nosub, physeq.tax.abund.nosub, physeq.metadata.coral.tend) #combine
-
 
 #Run DESEq2 on this data.
 mod.deseq4 <- phyloseq_to_deseq2(physeq.nosub,~ Treatment)
@@ -321,6 +280,7 @@ bact.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Bacteroid
   labs(size="Abundance", color="Log2 Fold Change")+
   ggtitle(label="Bacteroidia")
 
+#plot and export
 png("../figures/ASV bubbleplot class v1.png", width=21, height=19, units="in", res=600)
 plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
 dev.off()
@@ -339,8 +299,68 @@ ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment,
   ylab("Relative Abundance")
 ggsave('Sig ASVs mod.deseq4.jpeg', path = dirFigs, width = 30, height = 22, dpi = 600)
 
+#visualize relabund data as stacked barcharts
+
+#work up relabund data
+rownames(relabund) <- relabund$OTUNumber #update rownames
+relabund.tend <- relabund[,colnames(relabund) %in% metadata.tend$Sample_Name_Unique] #subset for only abcdom tend 16s samples
+
+#merge in taxonomy data.
+relabund.tend$OTU <- rownames(relabund.tend) #add otu column
+relabund.tend1 <- merge(relabund.tend, taxonomy1, by.x="OTU", by.y="OTUNumber")
+
+#aggregate by family
+relabund.tend1.family <- as.data.frame(aggregate(relabund.tend1[,c(2:16)], by=list(relabund.tend1$Family), FUN=sum)) #aggregate by family
+rownames(relabund.tend1.family) <- relabund.tend1.family$Group.1 #update rownames
+relabund.tend2.family <- relabund.tend1.family[,-1] #remove family column
+relabund.tend2.family.t <- as.data.frame(t(relabund.tend2.family)) #transpose
+
+#cull low abundance familes.
+cull.otu(relabund.tend2.family.t, 1, .03, .03) #cull
+relabund.tend.family.cull.t <- relabund.df.cull #save output as new df
+relabund.tend.family.cull <- as.data.frame(t(relabund.tend.family.cull.t)) #transpose
+
+#work up metadata.tend
+metadata.tend$Sample_ID <- metadata.tend$Sample_Name_Unique #add Sample_ID column
+
+#work up taxonomy.
+taxonomy.tend.family.cull <- as.data.frame(rownames(relabund.tend.family.cull)) #extract culed fmaily names
+colnames(taxonomy.tend.family.cull) <- "Family" #update colnames
+taxonomy.tend.family.cull1 <- merge(taxonomy.tend.family.cull, taxonomy1[,4:8], by.x="Family", by.y="Family", all.x=T, all.y=F)
+taxonomy.tend.family.cull1$OTUNumber <- taxonomy.tend.family.cull1$Family #create otunumber column for long format generation
+taxonomy.tend.family.cull2 <- taxonomy.tend.family.cull1[duplicated(taxonomy.tend.family.cull1)==FALSE,]
+
+#generate longformat of
+generate.long.format(relabund.tend.family.cull, metadata.tend, taxonomy.tend.family.cull2)
+family.relabund.tend.longformat <- abund.longformat #save as new output
+
+#order samples according to multivariate clustering dendrogram
+family.relabund.tend.longformat$Sample <- factor(family.relabund.tend.longformat$Sample, levels=levels(as.factor(family.relabund.tend.longformat$Sample))[clust.tend1$order]) #convert sample to factor and reorder leels to match clustering dendrogram
+
+#visualize
+ggplot(family.relabund.tend.longformat, aes(x=Sample, y=abund, fill=Family))+
+  geom_bar(stat="identity", color="black")+
+  theme(axis.text.x=element_text(angle=90, vjust=.5))+
+  scale_x_discrete(labels=clust.tend1$labels[clust.tend1$order])+
+  xlab("")+
+  ylab("Relative Abundance")
+ggsave("16S_Stackedbar_Family.jpg", path=dirFigs, width=10.5, height=10.5, dpi=600)
 
 
+#generate longformat.
+generate.long.format(relabund.tend, metadata.tend, taxonomy1)
+relabund.longformat.tend <- abund.longformat #save output as new df
+
+#order samples according to multivariate clustering dendrogram
+relabund.longformat.tend$Sample <- factor(relabund.longformat.tend$Sample, levels=levels(as.factor(relabund.longformat.tend$Sample))[clust.tend1$order]) #convert sample to factor and reorder leels to match clustering dendrogram
+
+#visualize
+ggplot(relabund.longformat.tend, aes(x=Sample, y=abund, fill=Family))+
+  geom_bar(stat="identity", color="black")+
+  theme(legend.position="none", axis.text.x=element_text(angle=90, hjust=.5))+
+  scale_x_discrete(labels=clust.tend1$labels[clust.tend1$order])+
+  xlab("")+
+  ylab("Relative Abundance")
 
 
 
@@ -415,250 +435,288 @@ ggsave('Sig ASVs mod.deseq4.jpeg', path = dirFigs, width = 30, height = 22, dpi 
 #abund.longformat.merged$Treatment_OTU <- paste(abund.longformat.merged$Treatment.x, abund.longformat.merged$OTU.x, sep="_") #add a treatment_OTU column
 
 #calculate mean relabund and l2fc for each treatment_OTU
-mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,4], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
-mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,36], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
-mean.abund.l2fc2 <- mean.abund.l2fc1[,-3] #remove unnecessary columns
-colnames(mean.abund.l2fc2) <- c("Treatment_OTU", "Mean Abundance", "Mean Log2 Fold Change") #rename columns
-mean.abund.l2fc3 <- cbind(mean.abund.l2fc2, t(as.data.frame(strsplit(mean.abund.l2fc2$Treatment_OTU, split="_")))) #split Treatment_OTU
-colnames(mean.abund.l2fc3)[4:5] <- c("Treatment", "OTU") #update colnames
+#mean.abund.l2fc <- as.data.frame(aggregate(abund.longformat.merged[,4], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean)) #calculate mean abund
+#mean.abund.l2fc1 <- cbind(mean.abund.l2fc, as.data.frame(aggregate(abund.longformat.merged[,36], by=list(abund.longformat.merged$Treatment_OTU), FUN=mean))) #calculate mean l2fc, add to df
+#mean.abund.l2fc2 <- mean.abund.l2fc1[,-3] #remove unnecessary columns
+#colnames(mean.abund.l2fc2) <- c("Treatment_OTU", "Mean Abundance", "Mean Log2 Fold Change") #rename columns
+#mean.abund.l2fc3 <- cbind(mean.abund.l2fc2, t(as.data.frame(strsplit(mean.abund.l2fc2$Treatment_OTU, split="_")))) #split Treatment_OTU
+#colnames(mean.abund.l2fc3)[4:5] <- c("Treatment", "OTU") #update colnames
 
 #combine mean.abund.l2fc3 values with sig.asvs1
 #first for abundance
-sig.asvs1$mean.abund.heated <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
-sig.asvs1$mean.abund.bleached <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
-sig.asvs1$mean.abund.bleached.heated <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
-sig.asvs1$mean.abund.ambient <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Non-bleached + Ambient"]
+#sig.asvs1$mean.abund.heated <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
+#sig.asvs1$mean.abund.bleached <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
+#sig.asvs1$mean.abund.bleached.heated <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
+#sig.asvs1$mean.abund.ambient <- mean.abund.l2fc3$`Mean Abundance`[mean.abund.l2fc3$Treatment == "Non-bleached + Ambient"]
 
 #then for l2fc
-sig.asvs1$mean.l2fc.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
-sig.asvs1$mean.l2fc.bleached <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
-sig.asvs1$mean.l2fc.bleached.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
+#sig.asvs1$mean.l2fc.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Non-bleached + Heated"]
+#sig.asvs1$mean.l2fc.bleached <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Ambient"]
+#sig.asvs1$mean.l2fc.bleached.heated <- mean.abund.l2fc3$`Mean Log2 Fold Change`[mean.abund.l2fc3$Treatment == "Bleached + Heated"]
 
 #compare the l2fc means that I calculated from the ones DESeq2 calcualted.
 #First multiply the deseq2 l2fc values by -1 to get the correct sign for comparison.
-sig.asvs1$heated.l2fc.inv <- -1*sig.asvs1$heated.l2fc
-sig.asvs1$bleached.l2fc.inv <- -1*sig.asvs1$bleached.l2fc
-sig.asvs1$bleached.heated.l2fc.inv <- -1*sig.asvs1$bleached.heated.l2fc
+#sig.asvs1$heated.l2fc.inv <- -1*sig.asvs1$heated.l2fc
+#sig.asvs1$bleached.l2fc.inv <- -1*sig.asvs1$bleached.l2fc
+#sig.asvs1$bleached.heated.l2fc.inv <- -1*sig.asvs1$bleached.heated.l2fc
 
 #calculate the difference.
-sig.asvs1$l2fc.diff.heated <- sig.asvs1$mean.l2fc.heated - sig.asvs1$heated.l2fc.inv
-sig.asvs1$l2fc.diff.bleached <- sig.asvs1$mean.l2fc.bleached - sig.asvs1$bleached.l2fc.inv
-sig.asvs1$l2fc.diff.bleached.heated <- sig.asvs1$mean.l2fc.bleached.heated - sig.asvs1$bleached.heated.l2fc.inv
+#sig.asvs1$l2fc.diff.heated <- sig.asvs1$mean.l2fc.heated - sig.asvs1$heated.l2fc.inv
+#sig.asvs1$l2fc.diff.bleached <- sig.asvs1$mean.l2fc.bleached - sig.asvs1$bleached.l2fc.inv
+#sig.asvs1$l2fc.diff.bleached.heated <- sig.asvs1$mean.l2fc.bleached.heated - sig.asvs1$bleached.heated.l2fc.inv
 
 #plot a comparison of deseq2 vs. personally calculated l2fc
-bleached.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleached, y=ASV, fill=mean.l2fc.bleached))+
-  geom_bar(stat="identity", color="black")+
-  scale_fill_gradient2(low="blue",mid="white",high="red")+
-  xlab("Caclulated l2fc - DEseq2 l2fc")+
-  ggtitle("Bleached")+
-  theme(axis.text.y=element_blank(), axis.title.y=element_blank())
+#bleached.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleached, y=ASV, fill=mean.l2fc.bleached))+
+#  geom_bar(stat="identity", color="black")+
+#  scale_fill_gradient2(low="blue",mid="white",high="red")+
+#  xlab("Caclulated l2fc - DEseq2 l2fc")+
+#  ggtitle("Bleached")+
+#  theme(axis.text.y=element_blank(), axis.title.y=element_blank())
 
-heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.heated, y=ASV, fill=mean.l2fc.heated))+
-  geom_bar(stat="identity", color="black")+
-  scale_fill_gradient2(low="blue",mid="white",high="red")+
-  xlab("Caclulated l2fc - DEseq2 l2fc")+
-  ggtitle("Heated")+
-  theme(axis.text.y=element_blank(), axis.title.y=element_blank())
+#heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.heated, y=ASV, fill=mean.l2fc.heated))+
+#  geom_bar(stat="identity", color="black")+
+#  scale_fill_gradient2(low="blue",mid="white",high="red")+
+#  xlab("Caclulated l2fc - DEseq2 l2fc")+
+#  ggtitle("Heated")+
+#  theme(axis.text.y=element_blank(), axis.title.y=element_blank())
 
-bleached.heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleached.heated, y=ASV, fill=mean.l2fc.bleached.heated))+
-  geom_bar(stat="identity", color="black")+
-  scale_fill_gradient2(low="blue",mid="white",high="red")+
-  xlab("Caclulated l2fc - DEseq2 l2fc")+
-  ggtitle("Bleached+Heated")
+#bleached.heated.l2fc.comparison.plot <- ggplot(sig.asvs1, aes(x=l2fc.diff.bleached.heated, y=ASV, fill=mean.l2fc.bleached.heated))+
+#  geom_bar(stat="identity", color="black")+
+#  scale_fill_gradient2(low="blue",mid="white",high="red")+
+#  xlab("Caclulated l2fc - DEseq2 l2fc")+
+#  ggtitle("Bleached+Heated")
 
-png(filename="../figures/ASV l2fc comparison.png", width=10000, height=10000, res=600)
-plot_grid(bleached.heated.l2fc.comparison.plot, heated.l2fc.comparison.plot, bleached.l2fc.comparison.plot, nrow=1, rel_widths = c(1.3,1,1))
-dev.off()
+#png(filename="../figures/ASV l2fc comparison.png", width=10000, height=10000, res=600)
+#plot_grid(bleached.heated.l2fc.comparison.plot, heated.l2fc.comparison.plot, bleached.l2fc.comparison.plot, nrow=1, rel_widths = c(1.3,1,1))
+#dev.off()
 
 #Next, try DESEq2 on raw, unsubsampled, un-lulu'ed data.
 
 #First, work up abund.nosub so it only contains the ASVs from the prior, culled, abund df.
 
 
-abund.nosub.cull <- abund.nosub2[abund.nosub2$OTU %in% taxonomy1.cull$OTUNumber,] #subset rows for only relevant OTUs
+#abund.nosub.cull <- abund.nosub2[abund.nosub2$OTU %in% taxonomy1.cull$OTUNumber,] #subset rows for only relevant OTUs
 
 
-#work up in phyloseq for DESEq2
-abund.nosub.cull1.t <- as.data.frame(t(abund.nosub.cull1)) #transpose
-physeq.abund.nosub.cull1=otu_table(abund.nosub.cull1.t,taxa_are_rows=FALSE) #convert abund object
+##work up in phyloseq for DESEq2
+#abund.nosub.cull1.t <- as.data.frame(t(abund.nosub.cull1)) #transpose
+#physeq.abund.nosub.cull1=otu_table(abund.nosub.cull1.t,taxa_are_rows=FALSE) #convert abund object
 
-physeq.coral.nosub.cull1=phyloseq(physeq.abund.nosub.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
+#physeq.coral.nosub.cull1=phyloseq(physeq.abund.nosub.cull1,physeq.tax.abund.coral.tend.1.cull1,physeq.metadata.coral.tend) #combine
 
 #Run DESEq2 on this data.
-mod.deseq3 <- phyloseq_to_deseq2(physeq.coral.nosub.cull1,~ Treatment)
+#mod.deseq3 <- phyloseq_to_deseq2(physeq.coral.nosub.cull1,~ Treatment)
 
-mod.deseq3 <- estimateSizeFactors(mod.deseq3,type="poscounts")
+#mod.deseq3 <- estimateSizeFactors(mod.deseq3,type="poscounts")
 
-mod.deseq3 <- estimateDispersions(mod.deseq3)
+#mod.deseq3 <- estimateDispersions(mod.deseq3)
 
-mod.deseq3 <- nbinomWaldTest(mod.deseq3)
+#mod.deseq3 <- nbinomWaldTest(mod.deseq3)
 
-mod.deseq3.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
-mod.deseq3.bleached <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
-mod.deseq3.bleach.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
+#mod.deseq3.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Non-bleached + Heated")))
+#mod.deseq3.bleached <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Ambient", "Bleached + Ambient")))
+#mod.deseq3.bleach.heated <- as.data.frame(results(mod.deseq3,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment","Non-bleached + Ambient", "Bleached + Heated")))
 
 #visualize pvalues
-hist(mod.deseq3.heated$padj, breaks=seq(from=0,to=1,by=.05)) #6 sig ASVs
-hist(mod.deseq3.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #13? sig ASVs
-hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
+#hist(mod.deseq3.heated$padj, breaks=seq(from=0,to=1,by=.05)) #6 sig ASVs
+#hist(mod.deseq3.bleached$padj, breaks=seq(from=0,to=1,by=.05)) #13? sig ASVs
+#hist(mod.deseq3.bleach.heated$padj, breaks=seq(from=0,to=1,by=.05)) #5 sig ASVs
 
-#extract pvalues and add to new df
-sig.asvs2 <- as.data.frame(rownames(as.data.frame(mod.deseq3.bleached))) #add asv names
-colnames(sig.asvs2) <- "ASV" #change colnames
-sig.asvs2$heated.p <- mod.deseq3.heated$pvalue
-sig.asvs2$heated.padj <- mod.deseq3.heated$padj
-sig.asvs2$bleached.p <- mod.deseq3.bleached$pvalue
-sig.asvs2$bleached.padj <- mod.deseq3.bleached$padj
-sig.asvs2$bleached.heated.p <- mod.deseq3.bleach.heated$pvalue
-sig.asvs2$bleached.heated.padj <- mod.deseq3.bleach.heated$padj
+##extract pvalues and add to new df
+#sig.asvs2 <- as.data.frame(rownames(as.data.frame(mod.deseq3.bleached))) #add asv names
+#colnames(sig.asvs2) <- "ASV" #change colnames
+#sig.asvs2$heated.p <- mod.deseq3.heated$pvalue
+#sig.asvs2$heated.padj <- mod.deseq3.heated$padj
+#sig.asvs2$bleached.p <- mod.deseq3.bleached$pvalue
+#sig.asvs2$bleached.padj <- mod.deseq3.bleached$padj
+#sig.asvs2$bleached.heated.p <- mod.deseq3.bleach.heated$pvalue
+#sig.asvs2$bleached.heated.padj <- mod.deseq3.bleach.heated$padj
 
 #extract l2fc values and add to sig.asvs2
-sig.asvs2$heated.l2fc <- mod.deseq3.heated$log2FoldChange
-sig.asvs2$bleached.l2fc <- mod.deseq3.bleached$log2FoldChange
-sig.asvs2$bleached.heated.l2fc <- mod.deseq3.bleach.heated$log2FoldChange
+#sig.asvs2$heated.l2fc <- mod.deseq3.heated$log2FoldChange
+#sig.asvs2$bleached.l2fc <- mod.deseq3.bleached$log2FoldChange
+#sig.asvs2$bleached.heated.l2fc <- mod.deseq3.bleach.heated$log2FoldChange
 
 #add new columns indicating significance Y/N
-sig.asvs2$heated.sig <- sig.asvs2$heated.padj #duplicate padj
-sig.asvs2$heated.sig[sig.asvs2$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs2$heated.sig[sig.asvs2$heated.padj <=.05] <- "Y"
-sig.asvs2$bleached.sig <- sig.asvs2$bleached.padj #duplicate padj
-sig.asvs2$bleached.sig[sig.asvs2$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs2$bleached.sig[sig.asvs2$bleached.padj <=.05] <- "Y"
-sig.asvs2$bleached.heated.sig <- sig.asvs2$bleached.heated.padj #duplicate padj
-sig.asvs2$bleached.heated.sig[sig.asvs2$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
-sig.asvs2$bleached.heated.sig[sig.asvs2$bleached.heated.padj <=.05] <- "Y"
+#sig.asvs2$heated.sig <- sig.asvs2$heated.padj #duplicate padj
+#sig.asvs2$heated.sig[sig.asvs2$heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+#sig.asvs2$heated.sig[sig.asvs2$heated.padj <=.05] <- "Y"
+#sig.asvs2$bleached.sig <- sig.asvs2$bleached.padj #duplicate padj
+#sig.asvs2$bleached.sig[sig.asvs2$bleached.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+#sig.asvs2$bleached.sig[sig.asvs2$bleached.padj <=.05] <- "Y"
+#sig.asvs2$bleached.heated.sig <- sig.asvs2$bleached.heated.padj #duplicate padj
+#sig.asvs2$bleached.heated.sig[sig.asvs2$bleached.heated.padj >= .05] <- "N" #replace padj values that are greater than .05 w N
+#sig.asvs2$bleached.heated.sig[sig.asvs2$bleached.heated.padj <=.05] <- "Y"
 
 #export
 #write.csv(sig.asvs2, file.path(dirOutput, "sig.asvs2.csv"))
 
 #Visualize
 #First, perform heirarchical clustering on the l2fc values
-lfc.clustering=pheatmap(log2.fold.df1[-8:-10,-101])
+#lfc.clustering=pheatmap(log2.fold.df1[-8:-10,-101])
 
-lfc.clustering1=pheatmap(log2.fold.df1[-8:-10,-101],cluster_rows = FALSE)
+#lfc.clustering1=pheatmap(log2.fold.df1[-8:-10,-101],cluster_rows = FALSE)
 
-cluster.OTUs=lfc.clustering$tree_col$labels[lfc.clustering$tree_col$order]
-cluster.samples=lfc.clustering$tree_row$labels[lfc.clustering$tree_row$order]
-cluster.Genus=taxonomy1.cull$Genus[lfc.clustering$tree_col$order]
-cluster.Genus_OTUs=paste(cluster.Genus,cluster.OTUs,sep="_")
+#cluster.OTUs=lfc.clustering$tree_col$labels[lfc.clustering$tree_col$order]
+#cluster.samples=lfc.clustering$tree_row$labels[lfc.clustering$tree_row$order]
+#cluster.Genus=taxonomy1.cull$Genus[lfc.clustering$tree_col$order]
+#cluster.Genus_OTUs=paste(cluster.Genus,cluster.OTUs,sep="_")
 
 #reorder OTUs in abund.longformat.merged
-abund.longformat.merged$OTU.x=factor(abund.longformat.merged$OTU.x,levels=cluster.OTUs)
+#abund.longformat.merged$OTU.x=factor(abund.longformat.merged$OTU.x,levels=cluster.OTUs)
 
 #add a new column correspondong to family_OTU
-abund.longformat.merged$Genus_OTU=paste(abund.longformat.merged$Genus.x,abund.longformat.merged$OTU.x,sep="_")
-abund.longformat.merged$Genus_OTU=factor(abund.longformat.merged$Genus_OTU,levels=cluster.Genus_OTUs)
+#abund.longformat.merged$Genus_OTU=paste(abund.longformat.merged$Genus.x,abund.longformat.merged$OTU.x,sep="_")
+#abund.longformat.merged$Genus_OTU=factor(abund.longformat.merged$Genus_OTU,levels=cluster.Genus_OTUs)
 
 #remove control samples for visualization
-abund.longformat.merged1 <- subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069")
+#abund.longformat.merged1 <- subset(abund.longformat.merged,Sample.x!="ABC_067" & Sample.x!="ABC_068" & Sample.x!="ABC_069")
 
 #pad Genus_OTU strings to 42 characters. Need to do this for alignment of faceted plots to work
-abund.longformat.merged1$Genus_OTU1 <- str_pad(abund.longformat.merged1$Genus_OTU, width=42, "left")
+#abund.longformat.merged1$Genus_OTU1 <- str_pad(abund.longformat.merged1$Genus_OTU, width=42, "left")
 
 #make all lowercase and then pad to see if this resolves the alignment problem
-abund.longformat.merged1$Genus_OTU2 <- tolower(abund.longformat.merged1$Genus_OTU)
-abund.longformat.merged1$Genus_OTU3 <- str_pad(abund.longformat.merged1$Genus_OTU2, width=42, "left", pad="_")
+#abund.longformat.merged1$Genus_OTU2 <- tolower(abund.longformat.merged1$Genus_OTU)
+#abund.longformat.merged1$Genus_OTU3 <- str_pad(abund.longformat.merged1$Genus_OTU2, width=42, "left", pad="_")
 
 #Visualize
-ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
-  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  xlab(label="Sample")+
-  labs(size="Abundance")
+#ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
+#  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  xlab(label="Sample")+
+#  labs(size="Abundance")
 #theme_bw()
-ggsave('ASV_l2fc.jpg', path=dirFigs, width=6, height=16, dpi = 1200)
+#ggsave('ASV_l2fc.jpg', path=dirFigs, width=6, height=16, dpi = 1200)
 
 #Visualize, faceting by Order
-ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  facet_wrap(.~Order.x,scales="free")+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
-  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  xlab(label="Sample")+
-  labs(size="Abundance")
+#ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  facet_wrap(.~Order.x,scales="free")+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
+#  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  xlab(label="Sample")+
+#  labs(size="Abundance")
 #theme_bw()
-ggsave('ASV_l2fc_order.jpg', path=dirFigs, width=28, height=26, dpi = 600)
+#ggsave('ASV_l2fc_order.jpg', path=dirFigs, width=28, height=26, dpi = 600)
 
 #Visualize, faceting by class
-ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  facet_grid(row=vars(Class.x), scales="free_y", space="fre")+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
-  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  xlab(label="Sample")+
-  labs(size="Abundance")
+#ggplot(abund.longformat.merged1,aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  facet_grid(row=vars(Class.x), scales="free_y", space="fre")+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.1375,.55,.6625,1))+
+#  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  xlab(label="Sample")+
+#  labs(size="Abundance")
 #theme_bw()
-ggsave('ASV_l2fc_class.jpg', path=dirFigs, width=20, height=26, dpi = 600)
+#ggsave('ASV_l2fc_class.jpg', path=dirFigs, width=20, height=26, dpi = 600)
 
 #for class, facet out the abundant classes (aprot, gprot, bacteroi) and the not abundantclasses (oxy, prot_unclass, dprot, bact_unclass)
-bubbleplot_class1 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU1,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  facet_wrap(.~Class.x,scales="free_y")+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
-  theme(axis.text.y=element_text(family="mono"), axis.text.x=element_blank(), axis.title.x=element_blank())+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  labs(size="Abundance")
+#bubbleplot_class1 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU1,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  facet_wrap(.~Class.x,scales="free_y")+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+#  theme(axis.text.y=element_text(family="mono"), axis.text.x=element_blank(), axis.title.x=element_blank())+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  labs(size="Abundance")
 
-bubbleplot_class2 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaproteobacteria" | Class.x=="Oxyphotobacteria" | Class.x=="Proteobacteria_unclassified" | Class.x=="Bacteria_unclassified"),aes(y=Genus_OTU1,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  facet_wrap(.~Class.x,scales="free_y", nrow=2, ncol=3)+
-  scale_size_continuous(limits=c(0,5000))+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
-  theme(legend.position="none",axis.text.y=element_text(family="mono"),axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  xlab(label="Sample")+
-  labs(size="Abundance")
+#bubbleplot_class2 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaproteobacteria" | Class.x=="Oxyphotobacteria" | Class.x=="Proteobacteria_unclassified" | Class.x=="Bacteria_unclassified"),aes(y=Genus_OTU1,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  facet_wrap(.~Class.x,scales="free_y", nrow=2, ncol=3)+
+#  scale_size_continuous(limits=c(0,5000))+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+#  theme(legend.position="none",axis.text.y=element_text(family="mono"),axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  xlab(label="Sample")+
+#  labs(size="Abundance")
 
 #combine plots with plot.grid. PROBLEMS WITH ALIGNMENT CUZ OF YAXIS LABELS NEED TO PAD STRINGS
-plot_grid(bubbleplot_class1, bubbleplot_class2, align="v", ncol=1, axis="lr", rel_heights = c(1,.7))
+#plot_grid(bubbleplot_class1, bubbleplot_class2, align="v", ncol=1, axis="lr", rel_heights = c(1,.7))
 #8x17 landscape
 
 #different method
-bubbleplot_class3 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank())+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  labs(size="Abundance")+
-  facet_col(vars(Class.x), scales="free_y", space="free")
+#bubbleplot_class3 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+#  theme(axis.text.x=element_blank(), axis.title.x=element_blank())+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  labs(size="Abundance")+
+#  facet_col(vars(Class.x), scales="free_y", space="free")
 
-bubbleplot_class3_v1 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  scale_size_continuous(limits=c(0,5000))+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
-  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  xlab(label="Sample")+
-  labs(size="Abundance")+
-  facet_col(vars(Class.x), scales="free_y", space="free")
+#bubbleplot_class3_v1 <- ggplot(subset(abund.longformat.merged1, Class.x=="Alphaproteobacteria" | Class.x=="Gammaproteobacteria" | Class.x=="Bacteroidia"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  scale_size_continuous(limits=c(0,5000))+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+#  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  xlab(label="Sample")+
+#  labs(size="Abundance")+
+#  facet_col(vars(Class.x), scales="free_y", space="free")
 
-bubbleplot_class4 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaproteobacteria" | Class.x=="Oxyphotobacteria" | Class.x=="Proteobacteria_unclassified" | Class.x=="Bacteria_unclassified"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
-  geom_point()+
-  scale_size_continuous(limits=c(0,5000))+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
-  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
-  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
-  xlab(label="Sample")+
-  labs(size="Abundance")+
-  facet_col(vars(Class.x), scales="free_y", space="free")
+#bubbleplot_class4 <- ggplot(subset(abund.longformat.merged1, Class.x=="Deltaproteobacteria" | Class.x=="Oxyphotobacteria" | Class.x=="Proteobacteria_unclassified" | Class.x=="Bacteria_unclassified"),aes(y=Genus_OTU,x=Sample.x,size=abund,color=Log2FoldChange,group=Genus_OTU))+
+#  geom_point()+
+#  scale_size_continuous(limits=c(0,5000))+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.325,.5,.675,1), limits=c(-10,10))+
+#  theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 5))+
+#  scale_x_discrete(labels=paste(metadata.coral.tend$Treatment, metadata.coral.tend$Sample_ID, sep=" "))+
+#  xlab(label="Sample")+
+#  labs(size="Abundance")+
+#  facet_col(vars(Class.x), scales="free_y", space="free")
 
 #plotgrid
-plot_grid(bubbleplot_class3, bubbleplot_class4, align="v", ncol=1, axis="lr", rel_heights = c(1,.25))
+#plot_grid(bubbleplot_class3, bubbleplot_class4, align="v", ncol=1, axis="lr", rel_heights = c(1,.25))
 
 #Next, visualize boxplots of sig ASVs from mod.deseq2 and mod.deseq3
-sig.asvs3 <- sig.asvs2[is.na(sig.asvs2$heated.p)==FALSE,] #remove NAs
+#sig.asvs3 <- sig.asvs2[is.na(sig.asvs2$heated.p)==FALSE,] #remove NAs
 
-abund.longformat.merged.sig <- abund.longformat.merged[abund.longformat.merged$OTU.x %in% sig.asvs3$ASV[sig.asvs3$heated.sig == "Y" | sig.asvs3$bleached.sig == "Y" | sig.asvs3$bleached.heated.sig == "Y"],] #subset abund.longformat.merged1 for just mod.deseq3 sig asvs.
-abund.longformat.merged.sig$Treatment.x <- factor(abund.longformat.merged.sig$Treatment.x, levels=levels(fact.all.treat)) #adjust factor levels
+#abund.longformat.merged.sig <- abund.longformat.merged[abund.longformat.merged$OTU.x %in% sig.asvs3$ASV[sig.asvs3$heated.sig == "Y" | sig.asvs3$bleached.sig == "Y" | sig.asvs3$bleached.heated.sig == "Y"],] #subset abund.longformat.merged1 for just mod.deseq3 sig asvs.
+#abund.longformat.merged.sig$Treatment.x <- factor(abund.longformat.merged.sig$Treatment.x, levels=levels(fact.all.treat)) #adjust factor levels
 
-ggplot(abund.longformat.merged.sig, aes(y=abund, x=Treatment.x, color=Treatment.x, fill=Treatment.x))+
-  geom_boxplot()+
-  facet_wrap(.~Genus_OTU, scales="free")+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))
-ggsave('Sig ASVs mod.deseq3.jpeg', path = dirFigs, width = 24, height = 18, dpi = 600)
+#ggplot(abund.longformat.merged.sig, aes(y=abund, x=Treatment.x, color=Treatment.x, fill=Treatment.x))+
+#  geom_boxplot()+
+#  facet_wrap(.~Genus_OTU, scales="free")+
+#  scale_color_manual(values=cost.col.line)+
+#  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+#  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+#ggsave('Sig ASVs mod.deseq3.jpeg', path = dirFigs, width = 24, height = 18, dpi = 600)
+
+
+
+
+
+
+#Cull low abundance ASVs
+#Format adbund df for culling.
+#rownames(abund.coral.tend) <- abund.coral.tend$Group #update rownames
+#abund.coral.tend.1 <- abund.coral.tend[,-1:-3] #remove unnecessary columns
+
+#cull ASVs
+#cull.otu(abund.coral.tend.1,3,12,120) #minimum number of reads = 12 (corresponds to relabund .001) in 3 samples or 120 (relabund = .01) in 1 sample. 117 ASVs remain.
+#abund.coral.tend.1.cull <- relabund.df.cull #save as new df
+#abund.coral.tend.1.cull.t <- as.data.frame(t(abund.coral.tend.1.cull)) #transpose
+
+#because we will be working with log 2 fold change relative to the control, we need to additionally cull ASVs that exhibit high degrees of variance in the control. To do this we will calculate SD for each ASV in the controls and normalize to the mean abund of that ASV in each control (CV).
+#sd.abund.coral.tend.1.cull <- as.data.frame(apply(abund.coral.tend.1.cull[8:10,], 2, FUN=sd)) #calculate stderror for each ASV in the controls, save as new df
+#colnames(sd.abund.coral.tend.1.cull) <- "SD"
+
+#sd.abund.coral.tend.1.cull$mean <- apply(abund.coral.tend.1.cull[8:10,], 2, FUN=mean) #calculate mean
+
+#sd.abund.coral.tend.1.cull$CV <- sd.abund.coral.tend.1.cull$SD/sd.abund.coral.tend.1.cull$mean #calculate CV
+
+#sd.abund.coral.tend.1.cull$CV[is.na(sd.abund.coral.tend.1.cull$CV)] <- 0 #manually replace NAs with 0s.
+
+#hist(sd.abund.coral.tend.1.cull$CV, breaks=seq(from=0,to=2,by=.1)) ##check distribution. for starters, .9 and 1 seem like a good threshold.
+
+#determine appropriate CV cutoff threshold
+#mean and sd of CV
+#mean(sd.abund.coral.tend.1.cull$CV) #.54
+#sd(sd.abund.coral.tend.1.cull$CV) #.36
+#mean(sd.abund.coral.tend.1.cull$CV) + sd(sd.abund.coral.tend.1.cull$CV) #threshold = mean CV + one SD = .9
+
+#cull ASVS who's CV in control is above this threshold
+#abund.coral.tend.1.cull1 <- abund.coral.tend.1.cull[,sd.abund.coral.tend.1.cull$CV <= 0.9030586] #that leaves 100 ASVs.
+
+#abund.coral.tend.1.cull1.t <- as.data.frame(t(abund.coral.tend.1.cull1))#transpose

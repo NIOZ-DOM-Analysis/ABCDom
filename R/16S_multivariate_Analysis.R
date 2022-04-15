@@ -208,3 +208,83 @@ permanova.coral.tend #treatment is significant.
 pairwise.adonis(unifrac.dist.coral.tend,factors=metadata.coral.tend$Treatment) #no significant differences because sample size is too small
 
 #Work up and analyze the tfinal adiv data.
+adiv.tend <- merge(adiv, metadata.tend, by.x="group", by.y="Sample_Name_Unique") #merge with metadata
+levels(adiv.tend$Treatment) <- levels(fact.all.treat) #reorder levels
+
+#visualize
+adiv.tend.sobs <- ggplot(adiv.tend, aes(x=Treatment, y=sobs, fill=Treatment, col=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme_classic()+
+  theme(legend.position="none")+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab("Observed ASVs")+
+  xlab("")+
+  ggtitle("Observed ASVs")
+
+adiv.tend.chao <- ggplot(adiv.tend, aes(x=Treatment, y=chao, fill=Treatment, col=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme_classic()+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab("Chao Diversity")+
+  xlab("")+
+  ggtitle("Chao Diversity")
+
+adiv.tend.shannon <- ggplot(adiv.tend, aes(x=Treatment, y=shannon, fill=Treatment, col=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme_classic()+
+  theme(legend.position="none")+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab("Shannon Diversity")+
+  xlab("")+
+  ggtitle("Shannon Diversity")
+
+adiv.tend.shannoneven <- ggplot(adiv.tend, aes(x=Treatment, y=shannoneven, fill=Treatment, col=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme_classic()+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab("Shannon's Eveness")+
+  xlab("")+
+  ggtitle("Shannon's Eveness")
+
+#export
+jpeg("../figures/16S_tend_alpha_diversity.jpg",width=4900, height=2800, res=300)
+plot_grid(adiv.tend.sobs, adiv.tend.chao, adiv.tend.shannon, adiv.tend.shannoneven, nrow=2, ncol=2, rel_widths=c(1,1.3))
+dev.off()
+
+#run stats on adiv data
+#first visualize distributions
+hist(adiv.tend$sobs) #normal ish
+hist(adiv.tend$chao) #more normal
+hist(adiv.tend$shannon) #more normal
+hist(adiv.tend$shannoneven) #normal
+
+#run both anova and k-w test on sobs data
+mod.sobs <- aov(sobs ~ Treatment, data=adiv.tend) #run anova
+summary(mod.sobs) #not significant
+mod.sobs.kw <- kruskal.test(sobs ~ Treatment, data=adiv.tend)
+mod.sobs.kw #not significant
+
+#run anova on chao data
+mod.chao <- aov(chao ~ Treatment, data=adiv.tend) #run anova
+summary(mod.chao) #not significant
+
+#run anova on shannon data
+mod.shannon <- aov(shannon ~ Treatment, data=adiv.tend) #run anova
+summary(mod.shannon) #significant
+TukeyHSD(mod.shannon, "Treatment") #run post hoc. no significant pairwise differences.
+
+#run anova on shannoneven data
+mod.shannoneven <- aov(shannoneven ~ Treatment, data=adiv.tend) #run anova
+summary(mod.shannoneven) #not significant
