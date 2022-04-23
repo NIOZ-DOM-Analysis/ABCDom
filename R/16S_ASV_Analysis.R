@@ -346,6 +346,13 @@ ggplot(family.relabund.tend.longformat, aes(x=Sample, y=abund, fill=Family))+
   ylab("Relative Abundance")
 ggsave("16S_Stackedbar_Family.jpg", path=dirFigs, width=10.5, height=10.5, dpi=600)
 
+#work up relabund.tend.family.cull.t to use as a supplemental table in MS
+relabund.tend.family.cull.t1 <- relabund.tend.family.cull.t #duplicate df
+relabund.tend.family.cull.t1$Sample <- rownames(relabund.tend.family.cull.t)
+relabund.tend.family.cull.t2 <- merge(relabund.tend.family.cull.t1, metadata.tend, by.x="Sample", by.y="Sample_Name_Unique") #merge in metadata
+relabund.tend.family.cull.t2.mean <- as.data.frame(aggregate(relabund.tend.family.cull.t2[,c(2:14,28)], by=list(relabund.tend.family.cull.t2$Treatment), FUN=mean))
+colnames(relabund.tend.family.cull.t2.mean)[1] <- "Treatment" #update colnames
+write.csv(relabund.tend.family.cull.t2.mean, file.path(dirOutput, "family.mean.tend.csv"), ) #export
 
 #generate longformat.
 generate.long.format(relabund.tend, metadata.tend, taxonomy1)

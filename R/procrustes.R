@@ -115,3 +115,7 @@ ggplot(ctest) +
   theme_bw()
 ggsave("16S_metabolome_nmds_procrustes.jpeg", path = dirFigs,  width = 9, height = 5.5, units = "in", dpi = 320)
 
+
+#Next, run a mantel test between pro.16 and pro.Meta
+mantel.results <- mantel(pro.16, pro.Meta.dist)
+
