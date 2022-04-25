@@ -169,6 +169,9 @@ sig.asvs.v1$bleached.heated.sig[sig.asvs.v1$bleached.heated.padj <=.05] <- "Y"
 #merge in taxonomy
 sig.asvs.v2 <- cbind(sig.asvs.v1, taxonomy.cull)
 
+#export.
+write.csv(sig.asvs.v2, file.path(dirOutput, "sig.asvs.v2.csv"), )
+
 #calculate mean abundance for each treatment
 abund.nosub.coral.tend.t.cull2 <- abund.nosub.coral.tend.t.cull1 #duplicate df
 abund.nosub.coral.tend.t.cull2$SampleID <- rownames(abund.nosub.coral.tend.t.cull2) #add sample ID column
