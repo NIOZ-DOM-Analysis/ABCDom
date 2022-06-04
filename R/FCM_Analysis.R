@@ -107,6 +107,10 @@ ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Trea
   theme(text=element_text(size=24),legend.key.height=unit(2,"cm"),complete=FALSE)
 ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300, width=15, height = 13)
 
+#run stats on 24_0 data, just testing for timepoint.
+mod.24.0 <- aov(Concentration ~ Timepoint..h., data=FCM_dat_24_0)
+summary(mod.24.0)
+
 #visualize specific growth rate.
 ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatment,y=Specific_Growth_Rate,color=Treatment,fill=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2.5)+
