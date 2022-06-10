@@ -169,6 +169,17 @@ sig.asvs.v1$bleached.heated.sig[sig.asvs.v1$bleached.heated.padj <=.05] <- "Y"
 #merge in taxonomy
 sig.asvs.v2 <- cbind(sig.asvs.v1, taxonomy.cull)
 
+#add a "differentially abundant in" column
+sig.asvs.v2$DA_in <- paste(sig.asvs.v2$heated.sig, sig.asvs.v2$bleached.sig, sig.asvs.v2$bleached.heated.sig, sep="") #paste the individual significance Y/N characters
+#replace three character string with full description
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YNN"] <- "Non-bleached + Heated"
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="NYN" | sig.asvs.v2$DA_in=="NAYN"] <- "Bleached + Ambient"
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="NNY" | sig.asvs.v2$DA_in=="NANY"] <- "Bleached + Heated"
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YYN"] <- "Non-bleached + Heated and Bleached + Ambient"
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YNY"] <- "Non-bleached + Heated and Bleached + Heated"
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="NYY" | sig.asvs.v2$DA_in=="NAYY"] <- "Bleached + Ambient and Bleached + Heated"
+sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YYY"] <- "Non-bleached + Heated and Bleached + Ambient and Bleached + Heated"
+
 #export.
 write.csv(sig.asvs.v2, file.path(dirOutput, "sig.asvs.v2.csv"), )
 
@@ -292,6 +303,7 @@ dev.off()
 relabund.nosub.longformat.sig <- relabund.nosub.longformat[relabund.nosub.longformat$OTU %in% abund.nosub.asv1$ASV[abund.nosub.asv1$sig=="Y"],] #subset for just sig asvs
 relabund.nosub.longformat.sig$Family_Genus_OTU <- paste(relabund.nosub.longformat.sig$Family, relabund.nosub.longformat.sig$Genus, relabund.nosub.longformat.sig$OTU, sep="_") #generate new column
 relabund.nosub.longformat.sig$Treatment <- factor(relabund.nosub.longformat.sig$Treatment, levels=levels(fact.all.treat)) #adjust treatment factor levels
+relabund.nosub.longformat.sig.v1 <- merge(relabund.nosub.longformat.sig, sig.asvs.v2[,c(1,27)], by.x="OTU", by.y="ASV", all.x=T, all.y=F)
 
 ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
@@ -300,7 +312,23 @@ ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment,
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
   ylab("Relative Abundance")
-ggsave('Sig ASVs mod.deseq4.jpeg', path = dirFigs, width = 30, height = 22, dpi = 600)
+#ggsave('Sig ASVs mod.deseq4.jpeg', path = dirFigs, width = 30, height = 22, dpi = 600)
+
+sig.bleached.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Ambient"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
+  ylab("Relative Abundance")
+
+sig.heated.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
+  ylab("Relative Abundance")
 
 #visualize relabund data as stacked barcharts
 

@@ -67,6 +67,16 @@ sym_dat_aquaria_final <- read.csv(file.path(dirOutput, "sym_dat_aquaria_final.cs
 
 sym_dat$Collection_Bleaching_Level1 <- factor(sym_dat$Collection_Bleaching_Level1, levels = c("HE", "BL"))
 #visualize nubbin sym densities at t0, split out by species
+
+#first, generate a combined species_bleaching level for TukeyHSD purposes.
+sym_dat$species_bleaching <- paste(sym_dat$Species, sym_dat$Collection_Bleaching_Level1, sep="_")
+
+#calculate maximum for each species_bleaching group. CANT FIGURE OUT HOW TO DO THIS WITH FACETS.
+#sym_dat_max <- aggregate(sym_dat[,40:41], by=list(sym_dat$species_bleaching), FUN=max, na.rm=T) #be sure to exclude NAs
+#sym_dat_max1 <- sym_dat_max[-3,] #remove NA row
+#sym_dat_max1$posthoc <- c("A","C","A/B","C","B/C","C")
+#sym_dat_max1$Collection_Bleaching_Level1 <- c("BL", "HE", "BL", "HE", "BL", "HE")
+
 #first with raw densities
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=sym.SA,color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
   facet_wrap(.~Species, scales="fixed")+
@@ -88,10 +98,13 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   scale_fill_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue3", "white"))+
   scale_x_discrete(labels=NULL)+
   theme_classic()+
-  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
-  labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
-##save and use as panel A for Fig 1. Add posthoc values manually
-ggsave('Symbiont cells per cm2_Bleaching status at collection_v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
+  theme(text=element_text(size=34),legend.key.height=unit(2,"cm"), plot.margin=unit(c(1,1,1,1.5), "cm"))+
+  ylab(expression(paste("Log10 Symbiodiniaceae \n cells per cm^2")))+
+  xlab("")+
+  coord_cartesian(ylim = c(3, 6))+
+  labs(color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
+  ##save and use as panel A for Fig 1. Add posthoc values manually
+ggsave('Symbiont cells per cm2_Bleaching status at collection_v3.jpeg', path = dirFigs, dpi = 300, width=20, height=12)
 
 
 #make the same plot but with free scales
@@ -113,9 +126,6 @@ hist(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Spec
 
 # Since the log10 data are normal, run linear model
 
-#first, generate a combined species_bleaching level for TukeyHSD purposes.
-sym_dat$species_bleaching <- paste(sym_dat$Species, sym_dat$Collection_Bleaching_Level1, sep="_")
-
 #run model
 mod.t0.sym=aov(log10.sym.SA ~ Collection_Bleaching_Level1*Species, data=sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,])
 summary(mod.t0.sym) #bleaching level is significant, species is significant, and the interaction is significant.
@@ -125,6 +135,7 @@ mod.t0.sym.species.bleaching=aov(log10.sym.SA ~ species_bleaching, data=sym_dat[
 
 #run tukeyHSD for visualization
 TukeyHSD(mod.t0.sym.species.bleaching, "species_bleaching")
+#
 
 #Next, plot the sym densities (SA normalized) for the T7 aquaria.
 
