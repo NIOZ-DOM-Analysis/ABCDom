@@ -111,3 +111,48 @@ kruskal.test(DOC_dat_t0$Control_Corrected_DOC_SA_Normalized, DOC_dat_t0$Treatmen
 mod.DOC.t0.corrected.SA.normalized = aov(Control_Corrected_DOC_SA_Normalized ~ Treatment, data=DOC_dat_t0)
 summary(mod.DOC.t0.corrected.SA.normalized) #still not significant.
 
+#calculate DOC drawdown
+DOC_drawdown <- subset(DOC_dat1, Timepoint==0) #subset for t0
+DOC_drawdown1 <- DOC_drawdown[,c(1:14,18)] #subset columns
+colnames(DOC_drawdown1)[5:6] <- c("DOC_t0", "stdev_t0")
+DOC_drawdown2 <-merge(DOC_drawdown1, subset(DOC_dat1, Timepoint==36)[,c(5:6,18)], by.x="Bottle_NR.x", by.y="Bottle_NR.x") #merge t36 DOC data
+colnames(DOC_drawdown2)[16:17] <- c("DOC_t36", "stdev_t36")
+DOC_drawdown2$DOC_drawdown <- DOC_drawdown2$DOC_t0 - DOC_drawdown2$DOC_t36 #calculate drawdown
+DOC_drawdown2$DOC_percent_drawdown <- 100*DOC_drawdown2$DOC_drawdown/DOC_drawdown2$DOC_t0
+
+#visualize DOC drawdown
+ggplot(DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",], aes(x=Treatment.x, y=DOC_drawdown, color=Treatment.x, fill=Treatment.x))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  # geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  theme_classic()+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab ("DOC Drawdown (uM)")+
+  xlab("")+
+  labs(x="Treatment", color="Treatment", fill="Treatment")
+
+#visualize percent DOC drawdown
+ggplot(DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",], aes(x=Treatment.x, y=DOC_percent_drawdown, color=Treatment.x, fill=Treatment.x))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  # geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line[-4])+
+  scale_fill_manual(values=cost.col.fill[-4], guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  theme_classic()+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab ("DOC Percent Drawdown")+
+  xlab("")+
+  labs(x="Treatment", color="Treatment", fill="Treatment")
+ggsave('DOC_percent_drawdown_per_treatment.jpeg', path = dirFigs, width = 11, height = 8, dpi = 300)
+
+#run stats on percent drawdown
+#first visualize distribution
+hist(DOC_drawdown2$DOC_percent_drawdown) #normal ish
+
+#run model
+mod.doc.percent.drawdown <- aov(DOC_percent_drawdown ~ Treatment.x, data=DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",])
+summary(mod.doc.percent.drawdown) #not significant

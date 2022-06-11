@@ -102,9 +102,9 @@ ggplot(FCM_dat_24_0, aes(x=as.factor(Timepoint..h.), y=Concentration, color=Trea
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   ylab(label="Concentration (cells per uL)")+
-  xlab(label="Time of dark incubations (hours)")+
+  xlab(label="Time of dark incubation (hours)")+
   theme_classic()+
-  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"),complete=FALSE)
+  theme(text=element_text(size=34),legend.key.height=unit(2,"cm"),complete=FALSE)
 ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300, width=15, height = 13)
 
 #run stats on 24_0 data, just testing for timepoint.

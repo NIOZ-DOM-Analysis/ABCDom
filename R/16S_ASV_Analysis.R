@@ -17,6 +17,7 @@ library(grid)
 library(gridExtra)
 library(stringr)
 library(cowplot)
+library(MetBrewer)
 
 #load custom functions
 
@@ -268,34 +269,37 @@ ggplot(subset(abund.nosub.asv.longformat2, Class1!="Other"), aes(y=Family_Genus_
   facet_wrap(.~Class1, scales="free_y")
 
 #visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
-gamma.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Gammaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
-  geom_point()+
+gamma.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Gammaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, fill=l2fc, group=Genus_OTU))+
+  geom_point(shape=21)+
   scale_size_continuous(range=c(2,10))+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
   theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Gammaproteobacteria")$fontface), plot.title=element_text(hjust = 0.5), axis.title.x=element_blank())+
   labs(size="Abundance", color="Log2 Fold Change")+
   ggtitle(label="Gammaproteobacteria")
 
 #visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
-alpha.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Alphaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
-  geom_point()+
+alpha.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Alphaproteobacteria"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, fill=l2fc, group=Genus_OTU))+
+  geom_point(shape=21)+
   scale_size_continuous(range=c(2,10))+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
   theme(legend.position="none",axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Alphaproteobacteria")$fontface), plot.title=element_text(hjust = 0.5), axis.title.x=element_blank())+
   labs(size="Abundance", color="Log2 Fold Change")+
   ggtitle(label="Alphaproteobacteria")
 
 #visualize again, without other, generating 3 seperate plots by Class and combining with plot_grid
-bact.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Bacteroidia"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
-  geom_point()+
+bact.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class1=="Bacteroidia"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, fill=l2fc, group=Genus_OTU))+
+  geom_point(shape=21)+
   scale_size_continuous(range=c(2,10))+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
   theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=subset(abund.nosub.asv1, Class=="Bacteroidia")$fontface), plot.title=element_text(hjust = 0.5), axis.title.x=element_blank())+
-  labs(size="Abundance", color="Log2 Fold Change")+
+  labs(size="Abundance", fill="Log2 Fold Change")+
   ggtitle(label="Bacteroidia")
 
 #plot and export
-png("../figures/ASV bubbleplot class v1.png", width=21, height=19, units="in", res=600)
+png("../figures/ASV bubbleplot class v2.png", width=21, height=19, units="in", res=600)
 plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
 dev.off()
 
@@ -314,21 +318,70 @@ ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment,
   ylab("Relative Abundance")
 #ggsave('Sig ASVs mod.deseq4.jpeg', path = dirFigs, width = 30, height = 22, dpi = 600)
 
-sig.bleached.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Ambient"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+sig.BA.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Ambient"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
-  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=2)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
-  ylab("Relative Abundance")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
+  ylab("Relative Abundance")+
+  ggtitle("Bleached + Ambient")
 
-sig.heated.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+sig.NbH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
+  ylab("Relative Abundance")+
+  ggtitle("Non-bleached + Heated")
+
+sig.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
+  ylab("Relative Abundance")+
+  ggtitle("Bleached + Heated")
+
+sig.NbH.and.BA.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated and Bleached + Ambient"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
+  ylab("Relative Abundance")+
+  ggtitle("Bleached + Ambient\nNon-bleached + Heated")
+
+sig.BA.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Ambient and Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
+  ylab("Relative Abundance")+
+  ggtitle("Bleached + Ambient\nBleached + Heated")
+
+sig.NbH.and.BA.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated and Bleached + Ambient and Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
   theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
-  ylab("Relative Abundance")
+  ylab("Relative Abundance")+
+  ggtitle("Bleached + Ambient\nBleached + Heated\nNon-bleached + Heated")
+
+sig.NbH.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated and Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
+  ylab("Relative Abundance")+
+  ggtitle("Bleached + Heated\nNon-bleached + Heated")
+
+plot_grid(sig.BA.boxplot, sig.BH.boxplot, sig.NbH.boxplot, sig.BA.and.BH.boxplot, sig.NbH.and.BA.boxplot, sig.NbH.and.BH.boxplot, sig.NbH.and.BA.and.BH.boxplot)
 
 #visualize relabund data as stacked barcharts
 
@@ -371,11 +424,12 @@ family.relabund.tend.longformat$Sample <- factor(family.relabund.tend.longformat
 #visualize
 ggplot(family.relabund.tend.longformat, aes(x=Sample, y=abund, fill=Family))+
   geom_bar(stat="identity", color="black")+
+  theme_classic()+
   theme(axis.text.x=element_text(angle=90, vjust=.5))+
   scale_x_discrete(labels=clust.tend1$labels[clust.tend1$order])+
-  xlab("")+
+  scale_fill_manual(values=met.brewer(name="Signac",n=13,type="discrete",direction=-1))+
   ylab("Relative Abundance")
-ggsave("16S_Stackedbar_Family.jpg", path=dirFigs, width=10.5, height=10.5, dpi=600)
+ggsave("16S_Stackedbar_Family_v1.jpg", path=dirFigs, width=10.5, height=10.5, dpi=600)
 
 #work up relabund.tend.family.cull.t to use as a supplemental table in MS
 relabund.tend.family.cull.t1 <- relabund.tend.family.cull.t #duplicate df
