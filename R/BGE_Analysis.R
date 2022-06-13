@@ -46,7 +46,8 @@ ggplot(BGE2[BGE2$Treatment!="Bleached + Heated",], aes(x=Treatment, y=BGE, color
   # theme(legend.key.height=unit(0.5,"in"))+
   #scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab ("Bacterial Growth Efficiancy")+
-  xlab("")
+  xlab("")+
+  theme_classic()
 ggsave('BGE_per_treatment.jpeg', path = dirFigs, width = 11, height = 8, dpi = 300)
 
 #run stats on BGE data

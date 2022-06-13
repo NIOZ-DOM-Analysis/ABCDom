@@ -31,6 +31,10 @@ FCM_dat_mean <- FCM_dat_mean[-37,] #remove NA row
 
 # Visualize.
 
+#calculate maximum concentration for each treatment at t 24
+FCM_dat_mean_24 <- subset(FCM_dat_mean, Timepoint==24) #subset for t24
+FCM_dat_mean_24$posthoc <- c("B/C","A/B/C","A/B","C","B/C","A")
+
 ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=10)+
   geom_line(size=3)+
@@ -41,7 +45,8 @@ ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Tr
   theme_classic()+
   theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)+
   ylab(label="Concentration (cells per uL)")+
-  xlab(label="Time (hours)")
+  xlab(label="Time (hours)")+
+  geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=3.5)
 ggsave('Microbialgrowthcurve_per_treatment.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
 
 #Visualize without water controls.
@@ -111,6 +116,11 @@ ggsave('Microbialgrowth_after_24h_per_treatment.jpeg', path = dirFigs, dpi = 300
 mod.24.0 <- aov(Concentration ~ Timepoint..h., data=FCM_dat_24_0)
 summary(mod.24.0)
 
+#calculate maximum SGR for each treatment.
+FCM_dat_growth_max <- aggregate(FCM_dat_growth[,25], by=list(FCM_dat_growth$Treatment), FUN=max, na.rm=T) #be sure to exclude NAs
+FCM_dat_growth_max$posthoc <- c("A/B","A","A","A","A/B","B")
+colnames(FCM_dat_growth_max)[1:2] <- c("Treatment", "max")
+
 #visualize specific growth rate.
 ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatment,y=Specific_Growth_Rate,color=Treatment,fill=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2.5)+
@@ -123,7 +133,8 @@ ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatm
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab ("Specific Growth Rate (log10 cells per hour)")+
   xlab("")+
-  theme(text=element_text(size=24))
+  theme(text=element_text(size=24))+
+  geom_text(data=FCM_dat_growth_max, aes(x=Treatment, y=max+.005, label=posthoc), color="black", size=6)
 ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=9, width=15)
 
 #run stats on specific growth rate.

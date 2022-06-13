@@ -161,12 +161,13 @@ ggplot() +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   geom_point(data=nmds.16S.tend.scores1,
              aes(x=NMDS1, y=NMDS2, fill=Treatment, color=Treatment),
-             size=4, stroke=1.5, shape=21) +
+             size=5, stroke=1.5, shape=21) +
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
   ggtitle("abcDOM 16S Tfinal")+
-  coord_fixed(ratio=1)
-ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 6.75, height = 5.5, units = "in", dpi = 320)
+  coord_fixed(ratio=1.9)+
+  theme_bw()
+ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
 #Test statistical effects using permanova.
 #first test the effect of timepoint on all samples.

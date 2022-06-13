@@ -323,63 +323,70 @@ sig.BA.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleach
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=2)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
-  ylab("Relative Abundance")+
-  ggtitle("Bleached + Ambient")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none", plot.title=element_text(size=24))
+  #ylab("Relative Abundance")
+  #ggtitle("Bleached + Ambient")
+ggsave('sig.BA.boxplot.jpeg', path=dirFigs, width=9, height=11, dpi=300)
 
 sig.NbH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
-  ylab("Relative Abundance")+
-  ggtitle("Non-bleached + Heated")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none", axis.title.y=element_blank(), plot.title=element_text(size=24))
+  #ylab("Relative Abundance")+
+  #ggtitle("Non-bleached + Heated")
+ggsave('sig.NbH.boxplot.jpeg', path=dirFigs, width=4.5, height=1.833333, dpi=300)
 
 sig.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
-  ylab("Relative Abundance")+
-  ggtitle("Bleached + Heated")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")
+  #ylab("Relative Abundance")+
+  #ggtitle("Bleached + Heated")
+ggsave('sig.BH.boxplot.jpeg', path=dirFigs, width=4.5, height=9.166667, dpi=300)
 
 sig.NbH.and.BA.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated and Bleached + Ambient"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
-  ylab("Relative Abundance")+
-  ggtitle("Bleached + Ambient\nNon-bleached + Heated")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")
+  #ylab("Relative Abundance")+
+  #ggtitle("Bleached + Ambient\nNon-bleached + Heated")
+  ggsave('sig.NbH.and.BA.boxplot.jpeg', path=dirFigs, width=4.5, height=5.5, dpi=300)
 
 sig.BA.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Bleached + Ambient and Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
-  ylab("Relative Abundance")+
-  ggtitle("Bleached + Ambient\nBleached + Heated")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")
+  #ylab("Relative Abundance")+
+  #ggtitle("Bleached + Ambient\nBleached + Heated")
+ggsave('sig.BA.and.BH.boxplot.jpeg', path=dirFigs, width=4.5, height=3.666667, dpi=300)
 
 sig.NbH.and.BA.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated and Bleached + Ambient and Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20))+
-  ylab("Relative Abundance")+
-  ggtitle("Bleached + Ambient\nBleached + Heated\nNon-bleached + Heated")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank(),legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")
+  #ylab("Relative Abundance")+
+  #ggtitle("Bleached + Ambient\nBleached + Heated\nNon-bleached + Heated")
+ggsave('sig.NbH.and.BA.and.BH.boxplot.jpeg', path=dirFigs, width=4.5, height=7.333333, dpi=300)
 
 sig.NbH.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=="Non-bleached + Heated and Bleached + Heated"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
   facet_wrap(.~Family_Genus_OTU, scales="free", ncol=1)+
   scale_color_manual(values=cost.col.line)+
   scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")+
-  ylab("Relative Abundance")+
-  ggtitle("Bleached + Heated\nNon-bleached + Heated")
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank(), legend.key.size=unit(2, "cm"), legend.text=element_text(size=20), legend.position="none")
+  #ylab("Relative Abundance")+
+  #ggtitle("Bleached + Heated\nNon-bleached + Heated")
+ggsave('sig.NbH.and.BH.boxplot.jpeg', path=dirFigs, width=4.5, height=7.333333, dpi=300)
 
 plot_grid(sig.BA.boxplot, sig.BH.boxplot, sig.NbH.boxplot, sig.BA.and.BH.boxplot, sig.NbH.and.BA.boxplot, sig.NbH.and.BH.boxplot, sig.NbH.and.BA.and.BH.boxplot)
 
