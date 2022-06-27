@@ -68,7 +68,7 @@ rownames(relabund.nosub.coral.tend) <- rownames(abund.nosub.coral.tend) #update 
 
 #Cull low abundance ASVs
 hist(unlist(abund.nosub.coral.tend)[unlist(abund.nosub.coral.tend)!=0], xlim=c(0,5000), breaks=10000) #visualize distribution of abundance values. After removing zeros, it looks like most ASVs have an abundance < 1000.
-abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose
+abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose. I checked and there are a total of 1068 ASVs in this set (the rest=0 in all samples).
 
 #cull ASVs
 cull.otu(abund.nosub.coral.tend.t,3,50,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 187 ASVs remain.
@@ -303,6 +303,63 @@ png("../figures/ASV bubbleplot class v2.png", width=21, height=19, units="in", r
 plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
 dev.off()
 
+#generate volcanoe plots
+ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated"), aes(x=l2fc, y=-log10(adjusted_pval)))+
+  geom_point()+
+  geom_hline(yintercept=1.30103)+
+  theme_bw()
+
+ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Bleached + Heated"), aes(x=l2fc, y=-log10(adjusted_pval)))+
+  geom_point()+
+  geom_hline(yintercept=1.30103)+
+  theme_bw()
+
+ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Bleached + Ambient"), aes(x=l2fc, y=-log10(adjusted_pval)))+
+  geom_point()+
+  geom_hline(yintercept=1.30103)+
+  theme_bw()
+
+#visualize significant ASVs in other ways
+ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated" & significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc))+
+  geom_bar(stat="identity")+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90))
+
+ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Bleached + Heated" & significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc))+
+  geom_bar(stat="identity")+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90))
+
+ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Bleached + Ambient" & significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc))+
+  geom_bar(stat="identity")+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90))
+
+ggplot(subset(abund.nosub.asv.longformat2, significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc))+
+  geom_bar(stat="identity", color="black")+
+  facet_grid(rows=vars(Treatment))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90), text=element_text(size=24))+
+  ylab(label="log2 fold change")
+  #scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
+ggsave("ASV l2fc barplot v1.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
+
+
+ggplot(subset(abund.nosub.asv.longformat2, significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc, size=Mean_Abundance))+
+  geom_point(color="black", shape=21)+
+  scale_size_continuous(range=c(5,20))+
+  facet_grid(rows=vars(Treatment))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90), text=element_text(size=24))+
+  ylab(label="log2 fold change")
+#scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
+ggsave("ASV l2fc dotplot.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
+
 #next, plot sig asvs as boxplots.
 relabund.nosub.longformat.sig <- relabund.nosub.longformat[relabund.nosub.longformat$OTU %in% abund.nosub.asv1$ASV[abund.nosub.asv1$sig=="Y"],] #subset for just sig asvs
 relabund.nosub.longformat.sig$Family_Genus_OTU <- paste(relabund.nosub.longformat.sig$Family, relabund.nosub.longformat.sig$Genus, relabund.nosub.longformat.sig$OTU, sep="_") #generate new column
@@ -444,7 +501,7 @@ relabund.tend.family.cull.t1$Sample <- rownames(relabund.tend.family.cull.t)
 relabund.tend.family.cull.t2 <- merge(relabund.tend.family.cull.t1, metadata.tend, by.x="Sample", by.y="Sample_Name_Unique") #merge in metadata
 relabund.tend.family.cull.t2.mean <- as.data.frame(aggregate(relabund.tend.family.cull.t2[,c(2:14,28)], by=list(relabund.tend.family.cull.t2$Treatment), FUN=mean))
 colnames(relabund.tend.family.cull.t2.mean)[1] <- "Treatment" #update colnames
-write.csv(relabund.tend.family.cull.t2.mean, file.path(dirOutput, "family.mean.tend.csv"), ) #export
+#write.csv(relabund.tend.family.cull.t2.mean, file.path(dirOutput, "family.mean.tend.csv"), ) #export
 
 #generate longformat.
 generate.long.format(relabund.tend, metadata.tend, taxonomy1)
