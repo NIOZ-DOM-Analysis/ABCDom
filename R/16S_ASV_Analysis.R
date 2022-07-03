@@ -151,10 +151,13 @@ sig.asvs.v1$bleached.padj <- mod.deseq4.bleached$padj
 sig.asvs.v1$bleached.heated.p <- mod.deseq4.bleach.heated$pvalue
 sig.asvs.v1$bleached.heated.padj <- mod.deseq4.bleach.heated$padj
 
-#extract l2fc values and add to sig.asvs.v1
+#extract l2fc values and l2fcSE values and add to sig.asvs.v1
 sig.asvs.v1$heated.l2fc <- mod.deseq4.heated$log2FoldChange
 sig.asvs.v1$bleached.l2fc <- mod.deseq4.bleached$log2FoldChange
 sig.asvs.v1$bleached.heated.l2fc <- mod.deseq4.bleach.heated$log2FoldChange
+sig.asvs.v1$heated.l2fcSE <- mod.deseq4.heated$lfcSE
+sig.asvs.v1$bleached.l2fcSE <- mod.deseq4.bleached$lfcSE
+sig.asvs.v1$bleached.heated.l2fcSE <- mod.deseq4.bleach.heated$lfcSE
 
 #add new columns indicating significance Y/N
 sig.asvs.v1$heated.sig <- sig.asvs.v1$heated.padj #duplicate padj
@@ -182,7 +185,7 @@ sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="NYY" | sig.asvs.v2$DA_in=="NAYY"] <- "Blea
 sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YYY"] <- "Non-bleached + Heated and Bleached + Ambient and Bleached + Heated"
 
 #export.
-write.csv(sig.asvs.v2, file.path(dirOutput, "sig.asvs.v2.csv"), )
+#write.csv(sig.asvs.v2, file.path(dirOutput, "sig.asvs.v2.csv"), )
 
 #calculate mean abundance for each treatment
 abund.nosub.coral.tend.t.cull2 <- abund.nosub.coral.tend.t.cull1 #duplicate df
@@ -212,12 +215,13 @@ abund.nosub.asv.longformat$Treatment <- c(rep("Non-bleached + Heated", times=159
 abund.nosub.asv.longformat$l2fc <- c(abund.nosub.asv$heated.l2fc, abund.nosub.asv$bleached.l2fc, abund.nosub.asv$bleached.heated.l2fc) #add l2fc column
 abund.nosub.asv.longformat$Mean_Abundance <- c(abund.nosub.asv$`Mean Non-bleached + Heated Abundance`, abund.nosub.asv$`Mean Bleached + Ambient Abundance`, abund.nosub.asv$`Mean Bleached + Heated Abundance`) #add a mean abundance column
 abund.nosub.asv.longformat$significant <- c(abund.nosub.asv$heated.sig, abund.nosub.asv$bleached.sig, abund.nosub.asv$bleached.heated.sig) #add significance column
-abund.nosub.asv.longformat1 <- cbind(abund.nosub.asv.longformat, rbind(abund.nosub.asv[,14:21], abund.nosub.asv[,14:21], abund.nosub.asv[,14:21])) #add taxonomy columns
+abund.nosub.asv.longformat1 <- cbind(abund.nosub.asv.longformat, rbind(abund.nosub.asv[,18:24], abund.nosub.asv[,18:24], abund.nosub.asv[,18:24])) #add taxonomy columns
 abund.nosub.asv.longformat1$Genus_OTU <- paste(abund.nosub.asv.longformat1$Genus, abund.nosub.asv.longformat1$OTUNumber, sep="_")
 abund.nosub.asv.longformat1$Family_Genus_OTU <- paste(abund.nosub.asv.longformat1$Family, abund.nosub.asv.longformat1$Genus, abund.nosub.asv.longformat1$OTUNumber, sep="_")
 abund.nosub.asv.longformat1$Family_OTU <- paste(abund.nosub.asv.longformat1$Family, abund.nosub.asv.longformat1$OTUNumber, sep="_")
 abund.nosub.asv.longformat1$significant1 <- rep(abund.nosub.asv$sig, times=3)
 abund.nosub.asv.longformat1$fontface <- rep(abund.nosub.asv$fontface, times=3)
+abund.nosub.asv.longformat$l2fcSE <- c(abund.nosub.asv$heated.l2fcSE, abund.nosub.asv$bleached.l2fcSE, abund.nosub.asv$bleached.heated.l2fcSE) #add l2fcSE columns
 
 #Next, perform heirarchical clustering on the l2fc values
 rownames(abund.nosub.asv) <- abund.nosub.asv$OTUNumber
@@ -338,7 +342,11 @@ ggplot(subset(abund.nosub.asv.longformat2, Treatment=="Bleached + Ambient" & sig
   theme_bw()+
   theme(axis.text.x=element_text(angle=90))
 
-ggplot(subset(abund.nosub.asv.longformat2, significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc))+
+#subset for just significant asvs
+abund.nosub.asv.longformat2.sig <- subset(abund.nosub.asv.longformat2, significant1=="Y")
+abund.nosub.asv.longformat2.sig$Genus_OTU <- factor(abund.nosub.asv.longformat2.sig$Genus_OTU, levels=abund.nosub.asv.longformat2.sig$Genus_OTU[1:31][c(20,19,11,21,17,6,13,9,14,25,5,10,16,24,28,29,1,23,12,22,2,4,18,3,7,8,26,27,30,31,15)])
+
+ggplot(abund.nosub.asv.longformat2.sig, aes(x=Family_OTU, y=l2fc, fill=l2fc))+
   geom_bar(stat="identity", color="black")+
   facet_grid(rows=vars(Treatment))+
   scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
@@ -348,8 +356,7 @@ ggplot(subset(abund.nosub.asv.longformat2, significant1=="Y"), aes(x=Family_OTU,
   #scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
 ggsave("ASV l2fc barplot v1.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
 
-
-ggplot(subset(abund.nosub.asv.longformat2, significant1=="Y"), aes(x=Family_OTU, y=l2fc, fill=l2fc, size=Mean_Abundance))+
+ggplot(abund.nosub.asv.longformat2.sig, aes(x=Family_OTU, y=l2fc, fill=l2fc, size=Mean_Abundance))+
   geom_point(color="black", shape=21)+
   scale_size_continuous(range=c(5,20))+
   facet_grid(rows=vars(Treatment))+
@@ -359,6 +366,32 @@ ggplot(subset(abund.nosub.asv.longformat2, significant1=="Y"), aes(x=Family_OTU,
   ylab(label="log2 fold change")
 #scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
 ggsave("ASV l2fc dotplot.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
+
+ggplot(abund.nosub.asv.longformat2.sig, aes(x=Family_OTU, y=l2fc, fill=l2fc, size=Mean_Abundance))+
+  geom_point()+
+  #scale_size_continuous(range=c(5,20))+
+  geom_pointrange(color="black", shape=21, aes(ymin=l2fc-l2fcSE, ymax=l2fc+l2fcSE))+
+  facet_grid(rows=vars(Treatment))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90), text=element_text(size=24))+
+  ylab(label="log2 fold change")
+#scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
+ggsave("ASV l2fc dotplot v1.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
+
+ggplot(abund.nosub.asv.longformat2.sig, aes(x=Genus_OTU, y=l2fc, fill=l2fc, size=Mean_Abundance))+
+  geom_point(color="black", shape=21)+
+  scale_size_continuous(range=c(5,20))+
+  geom_linerange(color="black", size=.5, aes(ymin=l2fc-l2fcSE, ymax=l2fc+l2fcSE))+
+  scale_size_continuous(range=c(5,20))+
+  facet_grid(rows=vars(Treatment))+
+  scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=90), text=element_text(size=24))+
+  ylab(label="log2 fold change")+
+  xlab("")
+#scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
+ggsave("ASV l2fc dotplot v2.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
 
 #next, plot sig asvs as boxplots.
 relabund.nosub.longformat.sig <- relabund.nosub.longformat[relabund.nosub.longformat$OTU %in% abund.nosub.asv1$ASV[abund.nosub.asv1$sig=="Y"],] #subset for just sig asvs
