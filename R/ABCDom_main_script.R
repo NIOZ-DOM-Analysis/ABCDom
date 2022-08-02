@@ -15,12 +15,6 @@ BiocManager::install("phyloseq")}
 library(phyloseq)
 install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
 
-#metabolite data cleanup
-#will open new script that needs user input.
-file.edit(paste0(Data.cleanup.folder, '/DataCleanup.R'))
-#additional cleaning of global environment
-rm(tmp, tmp2, split_pregap, flagged, df1.trans.feat, df1.filtered, df1.filtered_noblanks, df.filtered, derep_hits, ClassyFire_hits, ASIN_sqrt_smpl)
-
 #first workup DOC data and symbiondiniacae
 source(paste0(dirR, '/DOC_workup.R'))
 source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
@@ -37,6 +31,8 @@ source(paste0(dirR, '/FCM_analysis.R'))
 # source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
 # source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 
+# prep the blank removed data.
+file.edit(paste0(dirR, '/Cleaned_metabolite_Data_prep.R'))
 
 # open the ordination of metabolite data here
 file.edit(paste0(dirR, '/metabolite_ordination.R'))
