@@ -6,9 +6,11 @@ calculates the H diversity, evenness and number of metabolites from the cleaned 
 # define some things first:
 # determine the dataset you want to use
 ls.diversity <- list()
-ls.diversity$df.div.T0 <- df.area %>% dplyr::filter(Timepoint_char == "T0" & Treatment != "Inoculum")
-ls.diversity$df.div.Tend <- df.area %>% dplyr::filter(Timepoint_char == "Tend")
-ls.diversity$df.all_features<- df.area %>% dplyr::filter(Treatment != "Inoculum")
+ls.diversity$df.div.T0 <- df.area %>% dplyr::filter(Timepoint_char == "T0" & Treatment != "Inoculum" & `Sample Name` != "ABC_022" & `Sample Name` != "PC_Blank")
+ls.diversity$df.div.Tend <- df.area %>% dplyr::filter(Timepoint_char == "Tend" & `Sample Name` != "PC_Blank")
+ls.diversity$df.div.T0Tend<- df.area %>% dplyr::filter(Treatment != "Inoculum" & `Sample Name` != "ABC_022" & `Sample Name` != "PC_Blank")
+ls.diversity$df.all_features<- df.area
+
 # what dataset did you use?
 O <- 'area'
 
@@ -17,6 +19,7 @@ D<-format(Sys.time(), '%Y%m%d')
 # define the features
 ls.diversity$features_T0 <- ls.diversity$df.div.T0[,M:ncol(ls.diversity$df.div.T0)]
 ls.diversity$features_Tend <- ls.diversity$df.div.Tend[,M:ncol(ls.diversity$df.div.Tend)]
+ls.diversity$features_T0Tend<- ls.diversity$df.div.T0Tend[,M:ncol(ls.diversity$df.div.T0Tend)]
 ls.diversity$all_features <- ls.diversity$df.all_features[,M:ncol(ls.diversity$df.all_features)]
 
 #first T0
@@ -423,3 +426,72 @@ rm(dunntable2)
 rm(dunntable3)
 rm(dunntable4)
 rm(fout4)
+
+
+
+# #### now Tend
+# # define the grouping
+# Treatment <- factor(ls.diversity$df.div.Tend$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control"))
+# U <- Treatment
+# N <- 'Treatment'
+#
+#
+# ls.diversity$H1_Tend <- diversity(ls.diversity$features_Tend, index = 'shannon', MARGIN = 1, base = exp(1))
+# ls.diversity$S1_Tend <- specnumber(ls.diversity$features_Tend)
+# ls.diversity$J1_Tend <- ls.diversity$H1_Tend/log(ls.diversity$S1_Tend)
+#
+# # create new dataframe to perform the statistics
+# ls.diversity$H1_Tend <- bind_cols(U, ls.diversity$H1_Tend) %>% dplyr::rename('U' = '...1') %>% dplyr::rename('H' = '...2')
+# ls.diversity$S1_Tend <- bind_cols(U, ls.diversity$S1_Tend) %>% dplyr::rename('U' = '...1') %>% dplyr::rename('S' = '...2')
+# ls.diversity$J1_Tend <- bind_cols(U, ls.diversity$J1_Tend) %>% dplyr::rename('U' = '...1') %>% dplyr::rename('J' = '...2')
+#
+# cost.col.fill<-c("blue","red", "white", "white", "grey70", "grey70", "grey70")
+# cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "lightgrey")
+#
+# plot1<-ggplot(ls.diversity$H1_Tend, aes(x=U, y=H, group=U, color = U, fill = U))+
+#   stat_boxplot(geom = 'errorbar', size = 2)+
+#   geom_boxplot(aes(), show.legend = TRUE, size = 1.5)+
+#   theme_classic()+
+#   theme(legend.position = "none")+
+#   scale_x_discrete(name="", guide = guide_axis(angle = 45))+
+#   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
+#   scale_color_manual(values = cost.col.line, name = "Treatment")+
+#   scale_y_continuous(name = "H' Diveristy")
+# ggsave("Metabolome_diversity_Tend.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
+#
+# plot2<-ggplot(ls.diversity$S1_Tend, aes(x=U, y=S, group=U, color = U, fill = U))+
+#   stat_boxplot(geom = 'errorbar', size = 2)+
+#   geom_boxplot(aes(), show.legend = TRUE, size = 1.5)+
+#   theme_classic()+
+#   theme(legend.position = "none")+
+#   scale_x_discrete(name="", guide = guide_axis(angle = 45))+
+#   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
+#   scale_color_manual(values = cost.col.line, name = "Treatment")+
+#   scale_y_continuous(name = "Richness (S)")
+# ggsave("Metabolome_number_of_features_Tend.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
+#
+# plot3<-ggplot(ls.diversity$J1_Tend, aes(x=U, y=J, group=U, color = U, fill = U))+
+#   stat_boxplot(geom = 'errorbar', size = 2)+
+#   geom_boxplot(aes(), show.legend = TRUE, size = 1.5)+
+#   theme_classic()+
+#   scale_x_discrete(name="", guide = guide_axis(angle = 45))+
+#   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
+#   scale_color_manual(values = cost.col.line, name = "Treatment")+
+#   scale_y_continuous(name = "Pilou's evenness J=H'/log(S)")
+# ggsave("Metabolome_evenness_Tend.jpeg" , path = dirFigs, dpi = 300, height=5, width=7)
+#
+#
+# #make it together in a plot
+# get_legend<-function(myggplot){
+#   tmp <- ggplot_gtable(ggplot_build(myggplot))
+#   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+#   legend <- tmp$grobs[[leg]]
+#   return(legend)
+# }
+# legend<-get_legend(plot3)
+# plot3 <- plot3 + theme(legend.position="none")
+#
+#
+# plot4<-plot_grid(plot1, plot2, plot3, ncol = 3, nrow = 1, rel_widths=c(1,1,1))
+# plot4
+# ggsave(paste0("Metabolome_Diversity_Richness_Evenness_Tend.png"), plot4, path =dirFigs, width = 16, height = 6)

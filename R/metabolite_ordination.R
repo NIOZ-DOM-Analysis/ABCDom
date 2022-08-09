@@ -8,7 +8,27 @@ library(pairwiseAdonis)
 library(pheatmap)
 library(viridis)
 
-df.area.ABCT0 <- df.area %>% filter(Timepoint_char == "T0") %>% filter(Treatment != "Inoculum")
+df.area.ABCT0 <- df.area %>% filter(Timepoint_char == "T0") %>%
+  filter(Treatment != "Inoculum") %>%
+  filter(`Sample Name` != "ABC_022") %>%
+  filter(`Sample Name` != "PC_Blank")
+write_csv(df.area.ABCT0, paste0(dirOutput, "/df.area.ABCT0.csv"))
+
+# #lets also do this with the normalized data
+# df.norm.area.ABCT0 <- df.norm.area %>% filter(Timepoint_char == "T0") %>%
+#   filter(Treatment != "Inoculum") %>%
+#   filter(`Sample Name` != "ABC_022") %>%
+#   filter(`Sample Name` != "PC_Blank")
+# write_csv(df.norm.area.ABCT0, paste0(dirOutput, "/df.norm.area.ABCT0.csv"))
+#
+# df.norm.smpl.ABCT0 <- df.norm.smpl %>% filter(Timepoint_char == "T0") %>%
+#   filter(Treatment != "Inoculum") %>%
+#   filter(`Sample Name` != "ABC_022") %>%
+#   filter(`Sample Name` != "PC_Blank")
+# write_csv(df.norm.smpl.ABCT0, paste0(dirOutput, "/df.norm.smpl.ABCT0.csv"))
+
+#ordination df.area
+
 ord.mod.area<- metaMDS(df.area.ABCT0[M:ncol(df.area.ABCT0)], distance = 'bray', k = 2)
 NMDS.ABCDom.T0<- bind_cols(df.area.ABCT0[1:(M-1)], as.data.frame(ord.mod.area$points))
 #extract stress
@@ -41,16 +61,18 @@ ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "
 df.area.ABCT0.bray <- vegdist(df.area.ABCT0[,M:ncol(df.area.ABCT0)], method="bray") #generate bray curtis dist matrix
 
 clust.metabolites.t0 <- hclust(df.area.ABCT0.bray,method="ward.D") #cluster t0 samples
-
-clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("9","10","11","12","13","14","17","16","15","8","7","6","4","5","1","2","3")) #rotate leaves of dendogram
-
+plot(clust.metabolites.t0)
+clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("15","16","17","8","6","7","5","10","13","14","9","12", "11","4","1","2","3")) #rotate leaves of dendogram
+plot(clust.metabolites.t0.1)
 clust.metabolites.t0.1$labels <- df.area.ABCT0$Treatment #adjust labels
+plot(clust.metabolites.t0.1)
+
 
 # plot legend (seperately) for heirarchical clustering plot and export as jpeg. Can just reuse 16S dendrogram legend.
 dev.off()
-jpeg("../figures/metabolomics_dendogram_legend.jpg",width=1500, height=2100, res=300)
+jpeg("../figures/metabolomics_dendogram_legend.jpg", width=1500, height=2100, res=300)
 plot(NULL, axes=F, bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend(0, .5, legend=levels(metadata.tend$Treatment), col=cost.col.line, pt.bg=cost.col.fill, pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
+legend(0, .5, legend=levels(df.area.ABCT0$Treatment), col=cost.col.line, pt.bg=cost.col.fill, pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
 dev.off()
 
 #plot heirarchical clustering plot, save as jpeg
@@ -151,5 +173,4 @@ ggplot()+
   theme_bw()+
   coord_fixed(ratio=1)
 ggsave("redundancy_ABCDom_T0_Treatment.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
-
 
