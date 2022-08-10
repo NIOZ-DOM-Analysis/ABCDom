@@ -104,8 +104,7 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   coord_cartesian(ylim = c(3, 6))+
   labs(color="Bleaching Status\nat Collection",fill="Bleaching Status\nat Collection")
   ##save and use as panel A for Fig 1. Add posthoc values manually
-ggsave('Symbiont cells per cm2_Bleaching status at collection_v3.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
-
+#ggsave('Symbiont cells per cm2_Bleaching status at collection_v3.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 #make the same plot but with free scales
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
@@ -118,10 +117,10 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
 ##save and use as panel A for Fig 1. Add posthoc values manually
-ggsave('Symbiont cells per cm2_Bleaching status at collection_v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
-
+#ggsave('Symbiont cells per cm2_Bleaching status at collection_v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 # Now, visualize the distribution and run the statistics on the t0 sym_dat
+hist(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,]$sym.SA) #not normal
 hist(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,]$log10.sym.SA) #normal
 
 # Since the log10 data are normal, run linear model
@@ -135,13 +134,11 @@ mod.t0.sym.species.bleaching=aov(log10.sym.SA ~ species_bleaching, data=sym_dat[
 
 #run tukeyHSD for visualization
 TukeyHSD(mod.t0.sym.species.bleaching, "species_bleaching")
-#
 
 #Next, plot the sym densities (SA normalized) for the T7 aquaria.
 
 #reorder levels
 sym_dat_aquaria_final$Treatment_v1<-factor(sym_dat_aquaria_final$Treatment_v1, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated"))
-
 
 #visualize
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=sym.SA.normalized.no.outliers,color=Treatment_v1,fill=Treatment_v1))+
@@ -167,7 +164,7 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=
   theme(text=element_text(size=34),legend.key.height=unit(2,"cm"),axis.text.x=element_blank(), plot.margin=unit(c(1,1,1,1.5), "cm"))+
   ylab(expression(paste("Log10 Symbiodiniaceae\ncells per cm^2")))+
   labs(color="Treatment",fill="Treatment")
-ggsave('Symbiont cells per cm2_per treatment v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
+#ggsave('Symbiont cells per cm2_per treatment v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 #visualize again with only PLANC aquaria that were included in abcDOM
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,],aes(x=Treatment_v1,y=sym.SA.normalized.no.outliers,color=Treatment_v1,fill=Treatment_v1))+
@@ -180,7 +177,6 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(
   theme_classic()+
   theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
-
 
 #now with log10 sym densities
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers),color=Treatment_v1,fill=Treatment_v1))+
@@ -196,15 +192,27 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(
 #save and use as panel B for Figure 1.
 ggsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
-
 # Now, visualize the distribution and run the statistics on the t7 aquaria data with ONLY abcDOM samples.
 
+hist(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,]$sym.SA.normalized.no.outliers)#normal-ish
 hist(log10(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,]$sym.SA.normalized.no.outliers))#normal-ish
 
-# Since the data look normal enough, test the effect of Treatment_v1 using an ANOVA.
-
+# Since the data look normal enough, test the effect of Treatment_v1 using an ANOVA on both log10 and raw dat.
+#run on log10 data
 mod.t7.sym=aov(log10(sym.SA.normalized.no.outliers) ~ Treatment_v1, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,])
 summary(mod.t7.sym) #not significant
+
+#run on raw data
+mod.t7.sym.raw=aov(sym.SA.normalized.no.outliers ~ Treatment_v1, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,])
+summary(mod.t7.sym.raw) #marginally significant
+
+#run two wat anova on log10 data
+mod.t7.sym.2way=aov(log10(sym.SA.normalized.no.outliers) ~ Stress_status*Bleaching_Status, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,])
+summary(mod.t7.sym.2way) #bleaching status significant, stress status (heated) not significant.
+
+#run two wat anova on raw data
+mod.t7.sym.raw.2way=aov(sym.SA.normalized.no.outliers ~ Stress_status*Bleaching_Status, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,])
+summary(mod.t7.sym.raw.2way) #bleaching status significant, stress status (heated) not significant.
 
 #Now repeat for t7 aquaria data with ALL samples.
 
@@ -230,3 +238,115 @@ summary(mod.t7.sym.raw.2way) #bleaching status is significant.
 
 kruskal.test(sym.SA.normalized.no.outliers ~ Treatment_v1, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",])
 #marginally significant.
+
+#Next, repeat visualization and analysis of the t7 data but by nubbin (merged and seperated by species).
+
+#First, create a treatment column in the sym_dat df.
+sym_dat$Treatment <- paste(sym_dat$Collection_Bleaching_Level1, sym_dat$Heat, sep="_") #merge bleaching and heat treatments
+sym_dat$Treatment[sym_dat$Treatment=="HE_C"] <- "Non-bleached + Ambient"
+sym_dat$Treatment[sym_dat$Treatment=="HE_H"] <- "Non-bleached + Heated"
+sym_dat$Treatment[sym_dat$Treatment=="BL_C"] <- "Bleached + Ambient"
+sym_dat$Treatment[sym_dat$Treatment=="BL_H"] <- "Bleached + Heated"
+sym_dat$Treatment <- factor(sym_dat$Treatment, levels=c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated")) #update levels
+
+#Next, create a species_treatment column
+sym_dat$species_treatment <- paste(sym_dat$Species, sym_dat$Treatment, sep="_")
+
+#next, add a column if the nubbins were used in abcDOM
+sym_dat$ABCDOM <- sym_dat$Aquaria_Timepoint_Heat
+sym_dat$ABCDOM[sym_dat$ABCDOM %in% metadata1$PLANC_aquaria] = "T"
+sym_dat$ABCDOM[sym_dat$ABCDOM!="T"] = "F"
+
+#Visualize sym.SA by treatment for nubbins at T7
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Treatment,y=sym.SA,color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+
+#Visualize log10sym.SA by treatment for nubbins at T7
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Treatment,y=log10(sym.SA),color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="log10 Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+
+#Visualize sym.SA by treatment for nubbins at T7, faceted by species
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Treatment,y=sym.SA,color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  facet_wrap(.~Species)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="log10 mean aquaria Symbiodiniaceae cells per cm^2",x="",color="Treatment",fill="Treatment")
+
+#Visualize log10sym.SA by treatment for nubbins at T7, faceted by species
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Treatment,y=log10(sym.SA),color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  facet_wrap(.~Species)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="log10 mean aquaria Symbiodiniaceae cells per cm^2",x="",color="Treatment",fill="Treatment")
+
+#Visualize sym.SA by treatment for only abcDOM nubbins at T7
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE & sym_dat$ABCDOM=="T",],(aes(x=Treatment,y=sym.SA,color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+
+#Visualize log10sym.SA by treatment for only abcDOM nubbins at T7
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE & sym_dat$ABCDOM=="T",],(aes(x=Treatment,y=log10(sym.SA),color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+
+#Visualize sym.SA by treatment for only abcDOM nubbins at T7, faceted by species
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE & sym_dat$ABCDOM=="T",],(aes(x=Treatment,y=sym.SA,color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  facet_wrap(.~Species)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+
+#Visualize log10sym.SA by treatment for only abcDOM nubbins at T7, faceted by species
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE & sym_dat$ABCDOM=="T",],(aes(x=Treatment,y=log10(sym.SA),color=Treatment, fill=Treatment)))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  facet_wrap(.~Species)+
+  geom_boxplot(size=2)+
+  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
+  scale_fill_manual( values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_x_discrete( name = "", guide = guide_axis(n.dodge = 2) )+
+  theme_classic()+
+  theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
+  labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
+
+#After this, it still looks better to present things as an aquaria wide average.
