@@ -280,6 +280,8 @@ mod.sobs.kw #not significant
 #run anova on chao data
 mod.chao <- aov(chao ~ Treatment, data=adiv.tend) #run anova
 summary(mod.chao) #not significant
+mod.kw.chao <- kruskal.test(chao ~ Treatment, data=adiv.tend)
+mod.kw.chao #not significant
 
 #run anova on shannon data
 mod.shannon <- aov(shannon ~ Treatment, data=adiv.tend) #run anova
@@ -289,3 +291,5 @@ TukeyHSD(mod.shannon, "Treatment") #run post hoc. no significant pairwise differ
 #run anova on shannoneven data
 mod.shannoneven <- aov(shannoneven ~ Treatment, data=adiv.tend) #run anova
 summary(mod.shannoneven) #not significant
+mod.shannoneven.kw <- kruskal.test(shannoneven ~ Treatment, data=adiv.tend)
+mod.shannoneven.kw #not significant
