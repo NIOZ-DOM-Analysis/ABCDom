@@ -10,6 +10,7 @@ library(graphics)
 library(grDevices)
 library(pheatmap)
 library(viridis)
+library(ggforce)
 
 #source custom functions
 #source(file="generate.square.dist.script.07.27.2020.R")
@@ -150,6 +151,10 @@ nmds.16S.tend <- metaMDS(unifrac.dist.tend, k=2, trymax=100) #generate nmds. str
 nmds.16S.tend.scores <- as.data.frame(scores(nmds.16S.tend)) #extract scores
 nmds.16S.tend.scores$Sample <- rownames(nmds.16S.tend.scores) #add sample names column
 nmds.16S.tend.scores1 <- merge(nmds.16S.tend.scores, metadata1, by.x="Sample", by.y="Sample_Name_Unique", all.x=T, all.y=F) #merge with metadata
+nmds.16S.tend.scores1$Stress_status_v1 <- nmds.16S.tend.scores1$Stress_status #duplicate stress status column
+nmds.16S.tend.scores1$Stress_status_v1 <- factor(nmds.16S.tend.scores1$Stress_status_v1, levels=c(levels(nmds.16S.tend.scores1$Stress_status_v1), "Stressed")) #update levels
+nmds.16S.tend.scores1$Stress_status_v1[nmds.16S.tend.scores1$Origin_PlanC=="control"] <- NA
+nmds.16S.tend.scores1$Stress_status_v1[nmds.16S.tend.scores1$Treatment=="Bleached + Heated" | nmds.16S.tend.scores1$Treatment=="Bleached + Ambient" | nmds.16S.tend.scores1$Treatment=="Non-bleached + Heated"] <- "Stressed" #assign a new value for all stress treatments
 
 #plot nmds.
 ggplot() +
@@ -164,10 +169,12 @@ ggplot() +
              size=5, stroke=1.5, shape=21) +
   scale_color_manual(values = cost.col.line, name = "Treatment")+
   scale_fill_manual(values = cost.col.fill, name = "Treatment")+
-  ggtitle("abcDOM 16S Tfinal")+
+  #ggtitle("Microbial Communities")+
   coord_fixed(ratio=1.9)+
-  theme_bw()
-ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+  theme_bw()+
+  ggforce::geom_mark_ellipse(data=nmds.16S.tend.scores1, aes(x=NMDS1, y=NMDS2, linetype=Stress_status_v1, label=Stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)+
+  annotate("text", label="p > 0.001 \n stress = 0.082", x=-.225, y=-.125)
+ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 7.5, height = 5.37, units = "in", dpi = 320)
 
 #Test statistical effects using permanova.
 #first test the effect of timepoint on all samples.

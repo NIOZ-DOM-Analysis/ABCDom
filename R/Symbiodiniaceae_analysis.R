@@ -152,13 +152,13 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=
   theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
 
-#visualize with log10 densities
+#visualize with log10 densities. Use for panel 1D
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers),color=Treatment_v1,fill=Treatment_v1))+
   stat_boxplot(geom = 'errorbar', size = 2.5)+
   geom_boxplot(size=2)+
   # geom_point(size=3)+
-  scale_color_manual( values=c("dodgerblue1","firebrick1","dodgerblue1","firebrick1"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","white","white"))+
+  scale_color_manual( values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill)+
   scale_x_discrete( guide = guide_axis(n.dodge = 2), name = "")+
   theme_classic()+
   theme(text=element_text(size=34),legend.key.height=unit(2,"cm"),axis.text.x=element_blank(), plot.margin=unit(c(1,1,1,1.5), "cm"))+
@@ -190,7 +190,7 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(
   theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="log10 mean aquaria Symbiodiniaceae cells per cm^2",x="Treatment",color="Treatment",fill="Treatment")
 #save and use as panel B for Figure 1.
-ggsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
+g#gsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 # Now, visualize the distribution and run the statistics on the t7 aquaria data with ONLY abcDOM samples.
 
