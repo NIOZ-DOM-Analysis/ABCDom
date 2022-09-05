@@ -68,7 +68,8 @@ package_list <- c(
   "DESeq2",
   "pheatmap",
   "openxlsx",
-  "BiodiversityR")
+  "BiodiversityR",
+  "devtools")
 
 
 
