@@ -1,7 +1,7 @@
 'DOC_analysis.R'
 
-#library(ggplot2) are already in the package list that you should activate at the beginning
-#library(cowplot)
+library(ggplot2) #are already in the package list that you should activate at the beginning
+library(cowplot)
 
 # only uncomment if not in the work environement.
 # DOC_dat <- read.csv(file.path(dirOutput, "DOC_dat.csv"))
@@ -13,7 +13,7 @@ DOC_dat1 <- merge(DOC_dat, sym_dat_aquaria_final, by.x="PLANC_aquaria", by.y="Gr
 # Normalize DOC to surface area.
 DOC_dat1$DOC_SA_Normalized = DOC_dat1$uMC/DOC_dat1$SA_no_outliers #normalize raw DOC
 DOC_dat1$Control_Corrected_DOC_SA_Normalized = DOC_dat1$Control_Corrected_DOC/DOC_dat1$SA_no_outliers #normalize control corrected DOC
-
+DOC_dat1$Control_Corrected_DOC_flux_SA_Normalized <- DOC_dat1$Control_Corrected_DOC_flux/DOC_dat1$SA_no_outliers #normalize control corrected DOC fluxes
 
 # Reorder treatment factors.
 DOC_dat1$Treatment.x = factor(DOC_dat1$Treatment.x, levels=c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
@@ -24,8 +24,8 @@ DOC_dat_t0 <- subset(DOC_dat1, Timepoint==0)
 DOC_dat_t0$Treatment = DOC_dat_t0$Treatment.x
 
 #create manual
-cost.col.fill<-c("dodgerblue3","firebrick3", "white", "white", "grey70", "grey70", "grey70")
-cost.col.line<-c("dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "lightgrey")
+cost.col.fill<-c("blue2","red", "white", "white", "grey70", "grey70", "grey70")
+cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "lightgrey")
 fact.all.treat<-factor(DOC_dat_t0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
 cost.shape <- c(21,24)
 
@@ -54,7 +54,6 @@ kruskal.test(DOC_dat_t0$uMC, DOC_dat_t0$Treatment) #marginally significant
 #double check with an ANOVA
 mod.DOC.t0 = aov(uMC ~ Treatment, data=DOC_dat_t0)
 summary(mod.DOC.t0) #not significant
-
 
 # Next, plot raw control corrected DOC values.
 ggplot(DOC_dat_t0,aes(x=Treatment,y=Control_Corrected_DOC,color=Treatment,fill=Treatment))+
@@ -99,8 +98,6 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Con
 ggsave('DOC_Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
 #Use as panel A for Figure 2
 
-#Next, run stats on the control corrected SA normalized DOC data.
-
 #first check the distribution of the data.
 hist(DOC_dat_t0$Control_Corrected_DOC_SA_Normalized) #kind of normal looking
 
@@ -110,6 +107,31 @@ kruskal.test(DOC_dat_t0$Control_Corrected_DOC_SA_Normalized, DOC_dat_t0$Treatmen
 #run an ANOVA
 mod.DOC.t0.corrected.SA.normalized = aov(Control_Corrected_DOC_SA_Normalized ~ Treatment, data=DOC_dat_t0)
 summary(mod.DOC.t0.corrected.SA.normalized) #still not significant.
+
+#Next, plot the DOC control corrected SA normalized fluxes for coral samples
+ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_flux_SA_Normalized,color=Treatment,fill=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  # geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # theme(legend.key.height=unit(0.5,"in"))+
+  theme_classic()+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  ylab ("Surface Area Normalized DOC flux (uM cm-2 h-1)")+
+  xlab("")
+ggsave('DOC_flux Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
+
+#now run stats on DOC flux
+#first check the distribution of the data.
+hist(DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized) #kind of normal looking
+
+#run a K-W test.
+kruskal.test(DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized, DOC_dat_t0$Treatment) #not significant.
+
+#run an ANOVA
+mod.DOC.t0.corrected.SA.normalized.flux = aov(Control_Corrected_DOC_flux_SA_Normalized ~ Treatment, data=DOC_dat_t0)
+summary(mod.DOC.t0.corrected.SA.normalized.flux) #still not significant.
 
 #calculate DOC drawdown
 DOC_drawdown <- subset(DOC_dat1, Timepoint==0) #subset for t0

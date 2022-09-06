@@ -27,7 +27,10 @@ DOC_dat$Background_DOC[DOC_dat$Stress_status == "Ambient"] = ambient_background 
 # Calculate control corrected DOC by subtracting the background value from the DOC value.
 DOC_dat$Control_Corrected_DOC = DOC_dat$uMC - DOC_dat$Background_DOC
 
+#Calculate DOC flux for control corrected DOC values by dividing by 3.5
+DOC_dat$Control_Corrected_DOC_flux <- DOC_dat$Control_Corrected_DOC/3.5
+
 # export to output folder
-write.csv(DOC_dat, file.path(dirOutput, "DOC_dat.csv"), )
+#write.csv(DOC_dat, file.path(dirOutput, "DOC_dat.csv"), )
 rm(dat)
 
