@@ -56,8 +56,8 @@ ggplot(subset(FCM_dat_mean, Treatment != "Ambient Water Control" & Treatment != 
   geom_line(size=3)+
   scale_shape_manual(values=c(21,21,21,21,21,21))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=c("#00BFC4","#F8766D","#00BFC4","#F8766D","black","gray"))+
-  scale_fill_manual(values=c("dodgerblue3","firebrick3","NA","NA","NA","NA"))+
+  scale_color_manual(values=c("dodgerblue3","firebrick3","dodgerblue3","firebrick3","black","gray"))+
+  scale_fill_manual(values=c("dodgerblue1","firebrick1","NA","NA","NA","NA"))+
   theme_classic()+
   theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)+
   ylab(label="Concentration (cells per uL)")+
@@ -134,8 +134,8 @@ ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatm
   ylab ("Specific Growth Rate (log10 cells per hour)")+
   xlab("")+
   theme(text=element_text(size=24))+
-  geom_text(data=FCM_dat_growth_max, aes(x=Treatment, y=max+.005, label=posthoc), color="black", size=6)+
-  annotate("rect", xmin=-Inf, xmax=-Inf, ymin=)
+  geom_text(data=FCM_dat_growth_max, aes(x=Treatment, y=max+.005, label=posthoc), color="black", size=6)
+  # annotate("rect", xmin=-Inf, xmax=-Inf, ymin=, ymax =)
 ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=9, width=15)
 
 #run stats on specific growth rate.

@@ -38,7 +38,7 @@ ls.diversity$H1_T0 <- bind_cols(U, ls.diversity$H1_T0) %>% dplyr::rename('U' = '
 ls.diversity$S1_T0 <- bind_cols(U, ls.diversity$S1_T0) %>% dplyr::rename('U' = '...1') %>% dplyr::rename('S' = '...2')
 ls.diversity$J1_T0 <- bind_cols(U, ls.diversity$J1_T0) %>% dplyr::rename('U' = '...1') %>% dplyr::rename('J' = '...2')
 
-cost.col.fill<-c("blue","red", "white", "white", "grey70", "grey70", "grey70")
+cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70", "grey70")
 cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "lightgrey")
 
 plot1<-ggplot(ls.diversity$H1_T0, aes(x=U, y=H, group=U, color = U, fill = U))+

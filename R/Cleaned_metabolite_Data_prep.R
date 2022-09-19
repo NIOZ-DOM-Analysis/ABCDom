@@ -51,15 +51,17 @@ peakareas <- subset(peakareas, select = -c(temp))
 # rename the naming of feature number
 peakareas <- dplyr::rename(peakareas, "feature_nr" = "row ID")
 
+analysis_info<-list()
+analysis_info$total_nr_features <- nrow(peakareas)
+analysis_info$total_nr_runs <- ncol(peakareas)-3
+
 #load cytoscape data
 temp <- list.files(path = paste0(dirCyto, '/MzMine output Blank removed/clusterinfo_summary'), pattern = "*.tsv")
 node_info <- read_tsv(paste0(dirCyto, '/MzMine output Blank removed/clusterinfo_summary/', temp))
 temp <- list.files(path = paste0(dirCyto, '/MzMine output Blank removed/DB_result'), pattern = "*.tsv")
 library_hits <- read_tsv(paste0(dirCyto, '/MzMine output Blank removed/DB_result/', temp))
-
-#no analog hits so we can skip this
-# temp <- list.files(pattern = "*.tsv")
-# analogs_hits <- read_tsv(temp, col_types = cols(tags = col_character()))
+temp <- list.files(path = paste0(dirCyto, '/MzMine output Blank removed/DB_analogresult'), pattern = "*.tsv")
+analogs_hits <- read_tsv(paste0(dirCyto, '/MzMine output Blank removed/DB_analogresult/', temp))
 
 # rename the column of feature number/scan nr/clusterindex
 tmp <-
@@ -79,11 +81,22 @@ node_info <- dplyr::select(node_info,!num_range("G", 1:6))
 tmp <- which(colnames(library_hits) == "#Scan#")
 colnames(library_hits)[tmp] <- "feature_nr"
 
+tmp <- which(colnames(analogs_hits) == "#Scan#")
+colnames(analogs_hits)[tmp] <- "feature_nr"
+
+tmp <- which(colnames(analogs_hits) == "Compound_Name")
+colnames(analogs_hits)[tmp] <- "Analog_LibraryID"
+
 # remove the brackets in analog hits and library hits
 library_hits$Compound_Name <-
   textclean::replace_non_ascii(library_hits$Compound_Name)
+analogs_hits$Analog_LibraryID <-
+  textclean::replace_non_ascii(analogs_hits$Analog_LibraryID)
 node_info$LibraryID <-
   textclean::replace_non_ascii(node_info$LibraryID)
+
+analysis_info$nr_analog_hits<-nrow(analogs_hits)
+analysis_info$nr_library_hits<-nrow(library_hits)
 
 ###### Make feature info file #####
 feature_info1 <- as.data.frame(peakareas[, 1:3])
@@ -91,8 +104,13 @@ feature_info1 <- as.data.frame(peakareas[, 1:3])
 # join library hits
 feature_info2 <-
   full_join(node_info,
+            full_join(
               library_hits,
-              by = "feature_nr")
+              analogs_hits,
+              by = "feature_nr",
+              suffix = c("_Library", "_Analog")
+            ),
+            by = "feature_nr")
 
 feature_info1$feature_nr <- as.numeric(feature_info1$feature_nr)
 feature_info2$feature_nr <- as.numeric(feature_info2$feature_nr)
@@ -108,7 +126,8 @@ df.featureID <-
   cbind(
     df.featureID,
     feature_info$network,
-    feature_info$LibraryID
+    feature_info$LibraryID,
+    feature_info$Analog_LibraryID
   )
 
 # remove all feature_info$ parts of the column names
@@ -141,12 +160,14 @@ write.csv(featureID_info, paste0(dirOutput, "/feature_info_final.csv"), row.name
 
 
 # make a new df with combined names
-df <- cbind(featureID, peakareas[, 5:ncol(peakareas)])
+df <- cbind(featureID, peakareas[, 4:ncol(peakareas)])
 df <- t(df)
 df <- as.data.frame(df)
 # we name the columns and the rows by naming columns and transposing
 colnames(df) <- as.character(unlist(df[1, ]))
 df <- df[-1, ]
+
+
 
 # combine rawpeakareas with orbitrap sequence
 shared.name <- as.data.frame(rownames(df))
@@ -155,6 +176,9 @@ df <- cbind(shared.name, df)
 df1 <-
   right_join(orbitrapsequence, df, by = "File Name") #join matching info from orbitrap sequence
 write.csv(df1, paste0(dirOutput, "/peakareas.csv"), row.names = TRUE) #write third version of data, not cleaned
+
+analysis_info$nr_selected_runs <- sum(!is.na(df1$Injection_Type))
+analysis_info$nr_not_selected_runs <- sum(is.na(df1$Injection_Type))
 
 #select only the samples that have a sample name
 df1<- df1 %>% filter(!is.na(Injection_Type))
@@ -170,9 +194,59 @@ temp<-as.data.frame(temp)
 temp <- temp %>% filter(temp == 0)
 temp <- rownames(temp)
 
-#filter out the columsn that had a sum of 0
+analysis_info$empty_features_removed <- length(temp)
+
+#filter out the columns that had a sum of 0
 df1 <- df1 %>% select(!all_of(temp))
 
+
+#####
+# add another transient feature removal?
+#create an empty matrix to fill in for every feature in how many samples (count) the area under the peak is higher than the set background noise.
+df.trans <- as.data.frame(t(df1))
+colnames(df.trans)<-df.trans[1,]
+df.trans <- df.trans[-1,]
+df.trans <- df.trans[-1,]
+df.trans <- df.trans[-1,]
+
+background_noise <- 5E4
+W <- 3
+
+df.count<-as.data.frame(matrix(ncol=1, nrow = nrow(df.trans)))
+for (i in 1:dim(df.trans)[1]){
+  df.count[i,1] <-sum(df.trans[i,]>background_noise)}
+
+rownames(df.count)<-rownames(df.trans)
+df.trans<-cbind(df.trans, df.count)
+df.trans<-rownames_to_column(df.trans, 'feature')
+df.filtered <- df.trans
+
+df.trans<-dplyr::filter(df.trans, df.trans$V1 < W)
+df.trans<-dplyr::select(df.trans, -V1)
+df.filtered<-dplyr::filter(df.filtered, df.filtered$V1 >= W)
+df.filtered<-dplyr::select(df.filtered, -V1)
+
+df.trans<-column_to_rownames(df.trans, 'feature')
+df.filtered<-column_to_rownames(df.filtered, 'feature')
+
+
+write.csv(df.trans,"transient.feat_filtered_out.csv",row.names = TRUE)
+write.csv(df.filtered,"rawpeaks_no-background_no-transientfeat.csv",row.names = TRUE)
+
+analysis_info$nr_transient_features_removed<-nrow(df.trans)
+analysis_info$nr_features_for_analysis<-nrow(df.filtered)
+
+rm(df.trans, df.count)
+
+####
+
+df1<-as.data.frame(t(df.filtered))
+df1<-rownames_to_column(df1, "File Name")
+df1 <-right_join(orbitrapsequence, df1, by = "File Name") #join matching info from orbitrap sequence
+
+#####
+
+df1[4:ncol(df1)]<- lapply(df1[4:ncol(df1)], function(x) as.numeric(as.character(x)))
 #now lets calculate the TIC
 df1$TIC<-apply(df1[4:ncol(df1)], 1 ,sum)
 
@@ -246,7 +320,7 @@ tmp[which(LOGNORM == -Inf, arr.ind = TRUE)]<- log10zeroes
 df.norm.area<-tmp
 write.csv(df.norm.area, paste0(dirOutput, "/df.norm.area_no_metadata.csv"),row.names = FALSE)
 
-# analysis_info$nr_replaced_zeroes_lognorm<-length(log10zeroes)
+analysis_info$nr_replaced_zeroes_lognorm<-length(log10zeroes)
 rm(log10zeroes)
 
 full_metadata<-dplyr::left_join(orbitrapsequence, metadata, by = "Sample Name")

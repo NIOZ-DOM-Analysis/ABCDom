@@ -35,8 +35,8 @@ NMDS.ABCDom.T0<- bind_cols(df.area.ABCT0[1:(M-1)], as.data.frame(ord.mod.area$po
 stress <- round(ord.mod.area$stress, 4)
 stress <- paste0("ABCDom T0 bray curtis dissimilarity k=2 \nstress = ", stress)
 
-cost.col.fill<-c("dodgerblue3","firebrick3", "white", "white", "grey70", "grey70")
-cost.col.line<-c("dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1")
+cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70")
+cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3")
 fact.all.treat<-factor(NMDS.ABCDom.T0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control"))
 treat.labels <- c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control")
 
@@ -62,25 +62,28 @@ df.area.ABCT0.bray <- vegdist(df.area.ABCT0[,M:ncol(df.area.ABCT0)], method="bra
 
 clust.metabolites.t0 <- hclust(df.area.ABCT0.bray,method="ward.D") #cluster t0 samples
 plot(clust.metabolites.t0)
-clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("15","16","17","8","6","7","5","10","13","14","9","12", "11","4","1","2","3")) #rotate leaves of dendogram
+clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("12","15","16","17","8","7","6","10", "11","9", "14","13", "5",  "4","1","2","3")) #rotate leaves of dendogram
 plot(clust.metabolites.t0.1)
 clust.metabolites.t0.1$labels <- df.area.ABCT0$Treatment #adjust labels
 plot(clust.metabolites.t0.1)
 
 
-# plot legend (seperately) for heirarchical clustering plot and export as jpeg. Can just reuse 16S dendrogram legend.
-dev.off()
-jpeg("../figures/metabolomics_dendogram_legend.jpg", width=1500, height=2100, res=300)
-plot(NULL, axes=F, bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend(0, .5, legend=levels(df.area.ABCT0$Treatment), col=cost.col.line, pt.bg=cost.col.fill, pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
-dev.off()
+
 
 #plot heirarchical clustering plot, save as jpeg
+dev.off()
 df.area.ABCT0$Treatment <- factor(df.area.ABCT0$Treatment, levels=levels(fact.all.treat)) #make treatment a factor
 jpeg("../figures/metabolomics_dendogram.jpeg",width=2100, height=2100, res=300)
 clust.metabolites.t0.2 <- as.dendrogram(clust.metabolites.t0.1, hang=-1) #convert to dendrogram
 plot(clust.metabolites.t0.2, type="rectangle", dLeaf=.3, ylim=c(-1.5,2.5))
 symbols(1:17, rep(-.15,17), circles=rep(1,17), add=T, fg=cost.col.line[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], bg=cost.col.fill[df.area.ABCT0$Treatment][clust.metabolites.t0.1$order], inches=.09, xpd=T, lwd=3)
+
+
+# plot legend (separately) for hierarchical clustering plot and export as jpeg. Can just reuse 16S dendrogram legend.
+
+jpeg("../figures/metabolomics_dendogram_legend.jpg", width=1500, height=2100, res=300)
+plot(NULL, axes=F, bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend(0, .5, legend=levels(df.area.ABCT0$Treatment), col=cost.col.line, pt.bg=cost.col.fill, pch=21, pt.cex=2, pt.lwd=2.75, cex=.75, y.intersp=1.5, bty='n')
 dev.off()
 
 
@@ -106,6 +109,7 @@ pairwise.adonis.mb.t0.square.matrix1 <- pairwise.adonis.mb.t0.square.matrix[,-1]
 colnames(pairwise.adonis.mb.t0.square.matrix1) <- rownames(pairwise.adonis.mb.t0.square.matrix1) #update colnames
 
 #visualize
+dev.off()
 jpeg("../figures/MB_pairwise_adonis_clust.jpeg",width=2100, height=2000, res=300)
 pheatmap(pairwise.adonis.mb.t0.square.matrix1, color=viridis(n=256, alpha = 1, begin = 0, end = 1, direction = 1, option="B"))
 dev.off()

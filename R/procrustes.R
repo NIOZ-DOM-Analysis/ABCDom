@@ -90,15 +90,19 @@ protest(nmds.pro16.bray, nmds.proMeta, scores = "sites", permutations = 999)
 #make the procrustus plot in GGplot!
 library(ggplot2)
 library(grid)
-
-ctest <- data.frame(rda1=nmds.procrus$Yrot[,1],
-                    rda2=nmds.procrus$Yrot[,2],xrda1=nmds.procrus$X[,1],
-                    xrda2=nmds.procrus$X[,2],Treatment=pro.Meta$Treatment)
+# x = 16S y= metabolome
+ctest <- data.frame(rda1=nmds.procrus$X[,1], rda2=nmds.procrus$X[,2],
+                    Treatment=pro.Meta$Treatment, Dataset = "16S",
+                    xstart=nmds.procrus$Yrot[,1], ystart=nmds.procrus$Yrot[,2])
+ctest2 <- data.frame(rda1=nmds.procrus$Yrot[,1], rda2=nmds.procrus$Yrot[,2],
+                     Treatment=pro.Meta$Treatment, Dataset = "Metabolome")
+ctest<-bind_rows(ctest, ctest2)
 rot <- nmds.procrus$rotation
 
-cost.col.fill<-c("dodgerblue3","firebrick3", "white", "white", "grey70", "grey70", "grey70")
-cost.col.line<-c("dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "dodgerblue1", "firebrick1", "lightgrey")
-fact.all.treat<-factor(pro.Meta$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
+
+cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70", "grey70")
+cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "lightgrey")
+fact.all.treat<-factor(ctest$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
 
 
 
@@ -107,11 +111,14 @@ ggplot(ctest) +
   geom_vline(aes(xintercept = 0), linetype = 2)+
   geom_abline(aes(intercept = 0, slope = rot[1,2]/rot[1,1]), linetype = 1)+
   geom_abline(aes(intercept = 0, slope = rot[2,2]/rot[2,1]), linetype = 1)+
-  geom_point(aes(x=rda1, y=rda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 21) +
-  geom_point(aes(x=xrda1, y=xrda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 21) +
-  geom_segment(aes(x=rda1,y=rda2,xend=xrda1,yend=xrda2,colour=fact.all.treat),arrow=arrow(length=unit(0.2,"cm")))+
+  geom_point(aes(x=rda1, y=rda2, fill=fact.all.treat, colour=fact.all.treat, shape = Dataset), size=3, stroke=1.5) +
+  # geom_point(aes(x=xrda1, y=xrda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 24) +
+  geom_segment(aes(x=xstart,y=ystart,xend=rda1,yend=rda2,colour=fact.all.treat),arrow=arrow(length=unit(0.2,"cm")), show.legend = FALSE)+
   scale_color_manual(values=cost.col.line, name = "Treatment")+
   scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
+  scale_shape_manual(values = c(24, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
+  scale_x_continuous(name = "Dimension 1")+
+  scale_y_continuous(name = "Dimension 2")+
   theme_bw()
 ggsave("16S_metabolome_nmds_procrustes.jpeg", path = dirFigs,  width = 9, height = 5.5, units = "in", dpi = 320)
 

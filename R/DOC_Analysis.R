@@ -24,7 +24,7 @@ DOC_dat_t0 <- subset(DOC_dat1, Timepoint==0)
 DOC_dat_t0$Treatment = DOC_dat_t0$Treatment.x
 
 #create manual
-cost.col.fill<-c("blue2","red", "white", "white", "grey70", "grey70", "grey70")
+cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70", "grey70")
 cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "lightgrey")
 fact.all.treat<-factor(DOC_dat_t0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
 cost.shape <- c(21,24)

@@ -34,7 +34,7 @@ package_list <- c(
   "broom",
   "readxl",
   "multcomp",
-  "summarytools",
+  # "summarytools",
   "scales",
   "reshape",
   "reshape2",
@@ -68,7 +68,7 @@ package_list <- c(
   "DESeq2",
   "pheatmap",
   "openxlsx",
-  "BiodiversityR",
+  # "BiodiversityR",
   "devtools")
 
 

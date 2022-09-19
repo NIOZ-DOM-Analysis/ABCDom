@@ -26,10 +26,7 @@ source(paste0(dirR, '/DOC_analysis.R'))
 source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 source(paste0(dirR, '/FCM_analysis.R'))
 
-
-# #Symbiodiniaceae scripts
-# source(paste0(dirR, '/Symbiodiniaceae_density_workup.R'))
-# source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
+# 16S data
 
 # prep the blank removed data.
 file.edit(paste0(dirR, '/Cleaned_metabolite_Data_prep.R'))
