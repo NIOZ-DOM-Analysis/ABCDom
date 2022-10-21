@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<parameters>
+<parameter name="DEREPLICATOR_TASK">None</parameter>
+<parameter name="GNPS_TASK">b773e296619345bb93ad96c9f139af3b</parameter>
+<parameter name="MS2LDA_TASK">None</parameter>
+<parameter name="NAP_TASK">None</parameter>
+<parameter name="VARQUEST_TASK">None</parameter>
+<parameter name="desc">Molnetenhancer FBMN Moorea 19 data</parameter>
+<parameter name="email">milou.arts@nioz.nl</parameter>
+<parameter name="task">ff0061fa1874408f80377e183f83344d</parameter>
+<parameter name="user">MilouArts</parameter>
+<parameter name="uuid">1E49B152-58AB-0001-C08E-1102169016C8</parameter>
+<parameter name="workflow">MOLNETENHANCER</parameter>
+<parameter name="workflow_version">release_22</parameter>
+</parameters>
