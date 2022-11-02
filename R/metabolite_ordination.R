@@ -52,7 +52,8 @@ ggplot() +
              size=5, stroke=1.5, shape = 21) +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
-  ggtitle(stress)+
+  #ggtitle(stress)+
+  annotate("text", label="p > 0.001 \n stress = 0.084", x=-.175, y=.175)+
   theme_bw()+
   coord_fixed(ratio=1)
 ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
