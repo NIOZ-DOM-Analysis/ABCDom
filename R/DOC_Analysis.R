@@ -96,7 +96,6 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Con
   ylab ("Surface Area Normalized DOC (uM cm-2)")+
   xlab("")
 ggsave('DOC_Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
-#Use as panel A for Figure 2
 
 #first check the distribution of the data.
 hist(DOC_dat_t0$Control_Corrected_DOC_SA_Normalized) #kind of normal looking
@@ -109,7 +108,9 @@ mod.DOC.t0.corrected.SA.normalized = aov(Control_Corrected_DOC_SA_Normalized ~ T
 summary(mod.DOC.t0.corrected.SA.normalized) #still not significant.
 
 #Next, plot the DOC control corrected SA normalized fluxes for coral samples
-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_flux_SA_Normalized,color=Treatment,fill=Treatment))+
+DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized_v1 <- DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized*100 #convert from cm-2 to dm-2
+
+ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_flux_SA_Normalized_v1,color=Treatment,fill=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
@@ -118,9 +119,10 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Con
   # theme(legend.key.height=unit(0.5,"in"))+
   theme_classic()+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  ylab ("Surface Area Normalized DOC flux (uM cm-2 h-1)")+
+  ylab ("Surface Area Normalized DOC flux (uM dm-2 h-1)")+
   xlab("")
-ggsave('DOC_flux Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
+ggsave('DOC_flux Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 7.5, height = 5.5, dpi = 300)
+#Use as panel A for Figure 2
 
 #now run stats on DOC flux
 #first check the distribution of the data.
@@ -135,10 +137,10 @@ summary(mod.DOC.t0.corrected.SA.normalized.flux) #still not significant.
 
 #calculate DOC drawdown
 DOC_drawdown <- subset(DOC_dat1, Timepoint==0) #subset for t0
-DOC_drawdown1 <- DOC_drawdown[,c(1:14,18)] #subset columns
-colnames(DOC_drawdown1)[5:6] <- c("DOC_t0", "stdev_t0")
-DOC_drawdown2 <-merge(DOC_drawdown1, subset(DOC_dat1, Timepoint==36)[,c(5:6,18)], by.x="Bottle_NR.x", by.y="Bottle_NR.x") #merge t36 DOC data
-colnames(DOC_drawdown2)[16:17] <- c("DOC_t36", "stdev_t36")
+DOC_drawdown1 <- DOC_drawdown[,c(1:20)] #subset columns
+colnames(DOC_drawdown1)[7:8] <- c("DOC_t0", "stdev_t0")
+DOC_drawdown2 <-merge(DOC_drawdown1, subset(DOC_dat1, Timepoint==36)[,c(7:8,20)], by.x="Bottle_NR.x", by.y="Bottle_NR.x") #merge t36 DOC data
+colnames(DOC_drawdown2)[21:22] <- c("DOC_t36", "stdev_t36")
 DOC_drawdown2$DOC_drawdown <- DOC_drawdown2$DOC_t0 - DOC_drawdown2$DOC_t36 #calculate drawdown
 DOC_drawdown2$DOC_percent_drawdown <- 100*DOC_drawdown2$DOC_drawdown/DOC_drawdown2$DOC_t0
 
@@ -176,5 +178,12 @@ ggsave('DOC_percent_drawdown_per_treatment.jpeg', path = dirFigs, width = 11, he
 hist(DOC_drawdown2$DOC_percent_drawdown) #normal ish
 
 #run model
-mod.doc.percent.drawdown <- aov(DOC_percent_drawdown ~ Treatment.x, data=DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",])
+mod.doc.percent.drawdown <- aov(DOC_percent_drawdown ~ Treatment.x, data=DOC_drawdown2)
 summary(mod.doc.percent.drawdown) #not significant
+
+mod.doc.percent.drawdown1 <- aov(DOC_percent_drawdown ~ Treatment.x, data=DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",])
+summary(mod.doc.percent.drawdown1) #not significant
+
+kruskal.test(DOC_drawdown2$DOC_percent_drawdown, DOC_drawdown2$Treatment.x)
+
+kruskal.test(DOC_drawdown2$DOC_percent_drawdown[DOC_drawdown2$Treatment.x!="Bleached + Heated"], DOC_drawdown2$Treatment.x[DOC_drawdown2$Treatment.x!="Bleached + Heated"])

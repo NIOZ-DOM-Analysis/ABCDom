@@ -389,7 +389,8 @@ ggplot(abund.nosub.asv.longformat2.sig, aes(x=Genus_OTU, y=l2fc, fill=l2fc, size
   theme_bw()+
   theme(axis.text.x=element_text(angle=90), text=element_text(size=24))+
   ylab(label="log2 fold change")+
-  xlab("")
+  xlab("")+
+  geom_hline(yintercept=0, linetype="dashed")
 #scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
 ggsave("ASV l2fc dotplot v2.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
 

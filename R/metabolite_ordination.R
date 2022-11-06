@@ -7,6 +7,8 @@ library(vegan)
 library(pairwiseAdonis)
 library(pheatmap)
 library(viridis)
+library(dplyr)
+library(ggplot2)
 
 df.area.ABCT0 <- df.area %>% filter(Timepoint_char == "T0") %>%
   filter(Treatment != "Inoculum") %>%
@@ -40,6 +42,12 @@ cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodg
 fact.all.treat<-factor(NMDS.ABCDom.T0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control"))
 treat.labels <- c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control")
 
+#add a stress_status_v1 column to NMDS.ABCDom.T0
+NMDS.ABCDom.T0$stress_status_v1 <- NMDS.ABCDom.T0$Treatment #duplicate treatment
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Non-bleached + Ambient"] <- "Ambient"
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Ambient Water Control" |  NMDS.ABCDom.T0$stress_status_v1 == "Heated Water Control"] <- NA
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Ambient"] <- "Stressed"
+
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
   geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
@@ -53,9 +61,10 @@ ggplot() +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   #ggtitle(stress)+
-  annotate("text", label="p > 0.001 \n stress = 0.084", x=-.175, y=.175)+
+  annotate("text", label="p > 0.001 \n stress = 0.084", x=-.1, y=.04)+
   theme_bw()+
-  coord_fixed(ratio=1)
+  coord_fixed(ratio=1.2)+
+  ggforce::geom_mark_ellipse(data=NMDS.ABCDom.T0, aes(x=MDS1, y=MDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)
 ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
 #visualize as clusterding dendrogram
@@ -89,7 +98,7 @@ dev.off()
 
 
 #lets do stats
-adon.results<-adonis(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
+#adon.results<-adonis(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
 print(adon.results)
 
 adon2.results<-adonis2(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
