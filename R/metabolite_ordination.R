@@ -11,9 +11,9 @@ library(dplyr)
 library(ggplot2)
 
 df.area.ABCT0 <- df.area %>% filter(Timepoint_char == "T0") %>%
-  filter(Treatment != "Inoculum") %>%
-  filter(`Sample Name` != "ABC_022") %>%
-  filter(`Sample Name` != "PC_Blank")
+   filter(Treatment != "Inoculum") #  %>%
+  # filter(`Sample Name` != "ABC_022") %>%
+  # filter(`Sample Name` != "PC_Blank")
 write_csv(df.area.ABCT0, paste0(dirOutput, "/df.area.ABCT0.csv"))
 
 # #lets also do this with the normalized data
@@ -45,8 +45,8 @@ treat.labels <- c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached +
 #add a stress_status_v1 column to NMDS.ABCDom.T0
 NMDS.ABCDom.T0$stress_status_v1 <- NMDS.ABCDom.T0$Treatment #duplicate treatment
 NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Non-bleached + Ambient"] <- "Ambient"
-NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Ambient Water Control" |  NMDS.ABCDom.T0$stress_status_v1 == "Heated Water Control"] <- NA
-NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Ambient"] <- "Stressed"
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Ambient Water Control" |  NMDS.ABCDom.T0$stress_status_v1 == "Heated Water Control"] <- "Control"
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Ambient" & NMDS.ABCDom.T0$stress_status_v1 != "Control"] <- "Stressed"
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
@@ -72,7 +72,7 @@ df.area.ABCT0.bray <- vegdist(df.area.ABCT0[,M:ncol(df.area.ABCT0)], method="bra
 
 clust.metabolites.t0 <- hclust(df.area.ABCT0.bray,method="ward.D") #cluster t0 samples
 plot(clust.metabolites.t0)
-clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("12","15","16","17","8","7","6","10", "11","9", "14","13", "5",  "4","1","2","3")) #rotate leaves of dendogram
+clust.metabolites.t0.1 <- rotate(clust.metabolites.t0, order=c("15","17","16","8","7","6", "12", "11", "4", "9", "14","13", "5", "10", "1","2","3")) #rotate leaves of dendogram
 plot(clust.metabolites.t0.1)
 clust.metabolites.t0.1$labels <- df.area.ABCT0$Treatment #adjust labels
 plot(clust.metabolites.t0.1)
@@ -98,7 +98,7 @@ dev.off()
 
 
 #lets do stats
-#adon.results<-adonis(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
+adon.results<-adonis(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
 print(adon.results)
 
 adon2.results<-adonis2(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.all.treat, method="bray",perm=999)
@@ -153,38 +153,40 @@ dev.off()
 #   theme(legend.position="none")
 # panel.d
 
+#####   not run because takes forever.
 # # redundancy analyis ABCDomT0
-ABCDT0.hellinger <- disttransform(df.area.ABCT0[M:ncol(df.area.ABCT0)], method = 'hellinger')
-ord.mod.area2<-rda(ABCDT0.hellinger ~ Treatment, data = df.area.ABCT0[1:(M-1)], scaling = "species")
-summary(ord.mod.area2)
-ordi.plot2<-ordiplot(ord.mod.area2, choices = c(1,2))
-sites.long2<- sites.long(ordi.plot2, env.data = df.area.ABCT0[1:(M-1)])
-species.long2<-species.long(ordi.plot2)
-axis.long2<-axis.long(ord.mod.area2, choices = c(1,2))
 
-spec.envfit<-envfit(ordi.plot2, env = ABCDT0.hellinger, silent = TRUE)
-spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
-species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
-species.long3 <- species.long2[species.long2$r >= 0.7, ]
-Redun.ABCDom.T0 <- sites.long2
-drivers.redund.ABCDom.T0 <- species.long2
-
-ggplot()+
-  geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
-  geom_hline(yintercept = c(0), color = "grey70", linetype = 2)+
-  xlab(axis.long2[1, "label"])+
-  ylab(axis.long2[2, "label"])+
-  scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL))+
-  scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL))+
-  geom_point(data=Redun.ABCDom.T0, aes(x=axis1, y=axis2, fill = fact.all.treat, colour=fact.all.treat),
-             size=5, stroke=1.5, shape = 21)+
-  geom_segment(data=drivers.redund.ABCDom.T0[drivers.redund.ABCDom.T0$r >= 0.8,],
-               aes(x=0, y=0, xend=axis1*4, yend=axis2*4), colour="red", size=0.7, arrow=arrow())+
-  scale_shape_manual(values = 21)+
-  scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
-  scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
-  ggtitle("ABCDom T0, r>0.8")+
-  theme_bw()+
-  coord_fixed(ratio=1)
-ggsave("redundancy_ABCDom_T0_Treatment.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
-
+# ABCDT0.hellinger <- disttransform(df.area.ABCT0[M:ncol(df.area.ABCT0)], method = 'hellinger')
+# ord.mod.area2<-rda(ABCDT0.hellinger ~ Treatment, data = df.area.ABCT0[1:(M-1)], scaling = "species")
+# summary(ord.mod.area2)
+# ordi.plot2<-ordiplot(ord.mod.area2, choices = c(1,2))
+# sites.long2<- sites.long(ordi.plot2, env.data = df.area.ABCT0[1:(M-1)])
+# species.long2<-species.long(ordi.plot2)
+# axis.long2<-axis.long(ord.mod.area2, choices = c(1,2))
+#
+# spec.envfit<-envfit(ordi.plot2, env = ABCDT0.hellinger, silent = TRUE)
+# spec.data.envit <- data.frame(r=spec.envfit$vector$r, p=spec.envfit$vectors$pvals)
+# species.long2 <- species.long(ordi.plot2, spec.data=spec.data.envit)
+# species.long3 <- species.long2[species.long2$r >= 0.7, ]
+# Redun.ABCDom.T0 <- sites.long2
+# drivers.redund.ABCDom.T0 <- species.long2
+#
+# ggplot()+
+#   geom_vline(xintercept = c(0), color = "grey70", linetype = 2)+
+#   geom_hline(yintercept = c(0), color = "grey70", linetype = 2)+
+#   xlab(axis.long2[1, "label"])+
+#   ylab(axis.long2[2, "label"])+
+#   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL))+
+#   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL))+
+#   geom_point(data=Redun.ABCDom.T0, aes(x=axis1, y=axis2, fill = fact.all.treat, colour=fact.all.treat),
+#              size=5, stroke=1.5, shape = 21)+
+#   geom_segment(data=drivers.redund.ABCDom.T0[drivers.redund.ABCDom.T0$r >= 0.8,],
+#                aes(x=0, y=0, xend=axis1*4, yend=axis2*4), colour="red", size=0.7, arrow=arrow())+
+#   scale_shape_manual(values = 21)+
+#   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
+#   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
+#   ggtitle("ABCDom T0, r>0.8")+
+#   theme_bw()+
+#   coord_fixed(ratio=1)
+# ggsave("redundancy_ABCDom_T0_Treatment.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+#

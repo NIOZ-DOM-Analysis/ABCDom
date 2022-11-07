@@ -11,7 +11,7 @@
 
 <meta name="author" content="Milou G.I. Arts" />
 
-<meta name="date" content="2022-10-21" />
+<meta name="date" content="2022-11-07" />
 
 <title>ABCDom</title>
 
@@ -1530,7 +1530,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">ABCDom</h1>
 <h4 class="author">Milou G.I. Arts</h4>
-<h4 class="date">21 October 2022</h4>
+<h4 class="date">07 November 2022</h4>
 
 </div>
 
@@ -1541,19 +1541,18 @@ div.tocify {
 <h2>R</h2>
 <p>The freely available software R version 4.2.1 (2022-06-23) in
 combination with RStudio (version 2022.7.1) was used. Installed packages
-are ggplot2, textclean, rmarkdown, knitr, kableExtra, tictoc, expss,
-vegan, stringi, psych, nortest, binom, epitools, car, ape, wesanderson,
+are textclean, rmarkdown, knitr, kableExtra, tictoc, expss, vegan,
+stringi, psych, nortest, binom, epitools, car, ape, wesanderson,
 RColorBrewer, data.table, DescTools, broom, readxl, multcomp, scales,
 reshape, reshape2, cluster, ggfortify, rfPermute, plyr, tidyverse,
 tibble, dplyr, svglite, dunn.test, UpSetR, gridExtra, grid, ggpubr,
 rstatix, ComplexUpset, cowplot, scatterplot3d, pdftools, png, magick,
-devtools, FSA, pairwiseAdonis, stats, dendextend, scales, phyloseq,
-DESeq2, pheatmap, openxlsx, devtools.</p>
+devtools.</p>
 </div>
 <div id="raw-data" class="section level2">
 <h2>Raw data</h2>
-<p>Mzmine detected 54040 features in a total of 799 runs. Analysis was
-done on 45 runs of which 36 were samples and 9 blanks. Of those blanks,
+<p>Mzmine detected 54040 features in a total of 800 runs. Analysis was
+done on 44 runs of which 35 were samples and 9 blanks. Of those blanks,
 9 were method blanks and 0 were instrument blanks (extraction
 solvents).</p>
 </div>
@@ -1566,11 +1565,11 @@ thus over all samples. By comparing the datasets before and after
 gapfiling, the peak area background noise level was set on 5^{4}.
 Transient features are features that do not pass the background noise in
 at least 2 samples. These transient features were removed. Feature peak
-areas were relativized by the total ion current of each sample followed
-by <span class="math inline">\(asin(sqrt(x))\)</span> normalization..
-For all statistical analysis on normalized peak areas, a dataset was use
-where all peak areas that were replaced by + random number between 0 and
-1 before the transformation.</p>
+areas were normalized by <span class="math inline">\(log10(peak
+area)\)</span> transformation. For all statistical analysis on
+normalized peak areas, a dataset was use where all peak areas that were
+replaced by 1000 + random number between 0 and 1 before the
+transformation.</p>
 </div>
 </div>
 <div id="gnps" class="section level2">

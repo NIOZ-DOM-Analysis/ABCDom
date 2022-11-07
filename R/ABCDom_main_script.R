@@ -29,7 +29,7 @@ source(paste0(dirR, '/FCM_analysis.R'))
 # 16S data
 
 # prep the blank removed data.
-file.edit(paste0(dirR, '/Cleaned_metabolite_Data_prep.R'))
+# file.edit(paste0(dirR, '/Cleaned_metabolite_Data_prep.R'))
 
 # open the ordination of metabolite data here
 file.edit(paste0(dirR, '/metabolite_ordination.R'))
