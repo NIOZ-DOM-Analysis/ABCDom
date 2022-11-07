@@ -108,6 +108,21 @@ fact.coral.treat <- fact.all.treat[fact.all.treat!="Ambient Water Control" & fac
 adon2.coral.results <- adonis2(df.area.ABCT0[df.area.ABCT0$Origin_PlanC!="control",M:ncol(df.area.ABCT0)] ~ fact.coral.treat, method="bray",perm=999)
 print(adon2.coral.results)
 
+
+#make 3 groups
+fact.coral.control.treat <- fact.all.treat
+levels(fact.coral.control.treat)[levels(fact.coral.control.treat) == "Ambient Water Control"] <- "Control"
+levels(fact.coral.control.treat)[levels(fact.coral.control.treat) == "Heated Water Control"] <- "Control"
+levels(fact.coral.control.treat)[levels(fact.coral.control.treat) == "Non-bleached + Ambient"]<- "Ambient"
+levels(fact.coral.control.treat)[levels(fact.coral.control.treat) != "Ambient" & levels(fact.coral.control.treat) != "Control"]<- "Stressed"
+fact.coral.control.treat
+adon2.coral.control.results <- adonis2(df.area.ABCT0[,M:ncol(df.area.ABCT0)] ~ fact.coral.control.treat, method="bray",perm=999)
+print(adon2.coral.control.results)
+
+
+
+
+
 #run pairwise adonis
 pairwise.adonis.mb.t0 <- pairwise.adonis(df.area.ABCT0.bray, factors=df.area.ABCT0$Treatment)
 write.csv(pairwise.adonis.mb.t0, file.path(dirOutput, "pairwise.adonis.mb.t0.csv"), ) #export

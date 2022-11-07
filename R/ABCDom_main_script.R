@@ -36,5 +36,7 @@ file.edit(paste0(dirR, '/metabolite_ordination.R'))
 
 file.edit(paste0(dirR, '/metabolite_diversity.R'))
 
+file.edit(paste0(dirR, '/procrustes.R'))
+
 #ABCDOM 2 analysis
 # analyze the difference over time in the metabolite data
