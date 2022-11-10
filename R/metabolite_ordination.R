@@ -43,10 +43,10 @@ fact.all.treat<-factor(NMDS.ABCDom.T0$Treatment, levels = c("Non-bleached + Ambi
 treat.labels <- c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control")
 
 #add a stress_status_v1 column to NMDS.ABCDom.T0
-NMDS.ABCDom.T0$stress_status_v1 <- NMDS.ABCDom.T0$Treatment #duplicate treatment
+NMDS.ABCDom.T0$stress_status_v1 <- as.character(NMDS.ABCDom.T0$Treatment) #duplicate treatment
 NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Non-bleached + Ambient"] <- "Ambient"
-NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Ambient Water Control" |  NMDS.ABCDom.T0$stress_status_v1 == "Heated Water Control"] <- "Control"
-NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Ambient" & NMDS.ABCDom.T0$stress_status_v1 != "Control"] <- "Stressed"
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Ambient Water Control" |  NMDS.ABCDom.T0$stress_status_v1 == "Heated Water Control"] <- NA
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Ambient" & is.na(NMDS.ABCDom.T0$stress_status_v1) == FALSE] <- "Stressed"
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
@@ -61,7 +61,7 @@ ggplot() +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   #ggtitle(stress)+
-  annotate("text", label="p > 0.001 \n stress = 0.084", x=-.1, y=.04)+
+  annotate("text", label="p > 0.001 \n stress = 0.0467", x=-.1, y=.04)+
   theme_bw()+
   coord_fixed(ratio=1.2)+
   ggforce::geom_mark_ellipse(data=NMDS.ABCDom.T0, aes(x=MDS1, y=MDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)
