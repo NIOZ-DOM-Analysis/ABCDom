@@ -498,22 +498,38 @@ relabund.tend2.family <- relabund.tend1.family[,-1] #remove family column
 relabund.tend2.family.t <- as.data.frame(t(relabund.tend2.family)) #transpose
 
 #cull low abundance familes.
-cull.otu(relabund.tend2.family.t, 1, .03, .03) #cull
+cull.otu(relabund.tend2.family.t, 1, .01, .01) #cull
 relabund.tend.family.cull.t <- relabund.df.cull #save output as new df
 relabund.tend.family.cull <- as.data.frame(t(relabund.tend.family.cull.t)) #transpose
+
+#add a column corresponding to culled families called "other".
+calculate.rare <- function(x) { #generate a function to calculate rare, "other" portions of community
+
+  #rare.vec <- c()
+
+  rare.vec <- 1-sum(x)
+
+  rare.vec <<- rare.vec
+
+}
+
+relabund.tend.family.cull.rare <- apply(relabund.tend.family.cull, 2, FUN=calculate.rare) #apply function to df
+
+relabund.tend.family.cull1 <- rbind(relabund.tend.family.cull, relabund.tend.family.cull.rare) #merge rare row back with df.
+rownames(relabund.tend.family.cull1)[28] <- "Other" #rename rare families as "other"
 
 #work up metadata.tend
 metadata.tend$Sample_ID <- metadata.tend$Sample_Name_Unique #add Sample_ID column
 
 #work up taxonomy.
-taxonomy.tend.family.cull <- as.data.frame(rownames(relabund.tend.family.cull)) #extract culed fmaily names
+taxonomy.tend.family.cull <- as.data.frame(rownames(relabund.tend.family.cull1)) #extract culed fmaily names
 colnames(taxonomy.tend.family.cull) <- "Family" #update colnames
 taxonomy.tend.family.cull1 <- merge(taxonomy.tend.family.cull, taxonomy1[,4:8], by.x="Family", by.y="Family", all.x=T, all.y=F)
 taxonomy.tend.family.cull1$OTUNumber <- taxonomy.tend.family.cull1$Family #create otunumber column for long format generation
 taxonomy.tend.family.cull2 <- taxonomy.tend.family.cull1[duplicated(taxonomy.tend.family.cull1)==FALSE,]
 
 #generate longformat of
-generate.long.format(relabund.tend.family.cull, metadata.tend, taxonomy.tend.family.cull2)
+generate.long.format(relabund.tend.family.cull1, metadata.tend, taxonomy.tend.family.cull2)
 family.relabund.tend.longformat <- abund.longformat #save as new output
 
 #order samples according to multivariate clustering dendrogram
@@ -528,6 +544,45 @@ ggplot(family.relabund.tend.longformat, aes(x=Sample, y=abund, fill=Family))+
   scale_fill_manual(values=met.brewer(name="Signac",n=13,type="discrete",direction=-1))+
   ylab("Relative Abundance")
 ggsave("16S_Stackedbar_Family_v1.jpg", path=dirFigs, width=10.5, height=10.5, dpi=600)
+
+#visualize pie charts seperated out by treatment
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Non-bleached + Ambient"), aes(x="", y=abund, fill=Family))+
+  geom_bar(stat="summary", fun.y="mean", color="black")+
+  theme_void()+
+  theme(legend.position="none")+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+ggsave("16S piechart family NbA.png", path=dirFigs, height=6, width=6, dpi=600)
+
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Non-bleached + Heated"), aes(x="", y=abund, fill=Family))+
+  geom_bar(stat="summary", fun.y="mean", color="black")+
+  theme_void()+
+  theme(legend.position="none")+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+ggsave("16S piechart family NbH.png", path=dirFigs, height=6, width=6, dpi=600)
+
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Ambient"), aes(x="", y=abund, fill=Family))+
+  geom_bar(stat="summary", fun.y="mean", color="black")+
+  theme_void()+
+  theme(legend.position="none")+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+ggsave("16S piechart family BA.png", path=dirFigs, height=6, width=6, dpi=600)
+
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Heated"), aes(x="", y=abund, fill=Family))+
+  geom_bar(stat="summary", fun.y="mean", color="black")+
+  theme_void()+
+  theme(legend.position="none")+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+ggsave("16S piechart family BH.png", path=dirFigs, height=6, width=6, dpi=600)
+
+ggplot(subset(family.relabund.tend.longformat, Treatment!="Ambient Water Control" & Treatment!="Heated Water Control"), aes(x="", y=abund, fill=Family))+
+  geom_bar(stat="summary", fun.y="mean", color="black")+
+  facet_wrap(.~Treatment)+
+  theme_classic()+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+
+  coord_polar("y", start=0)
+ggsave("16S piechart family.png", path=dirFigs, height=6, width=10, dpi=600)
+
+
 
 #work up relabund.tend.family.cull.t to use as a supplemental table in MS
 relabund.tend.family.cull.t1 <- relabund.tend.family.cull.t #duplicate df
