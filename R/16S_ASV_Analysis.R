@@ -18,6 +18,7 @@ library(gridExtra)
 library(stringr)
 library(cowplot)
 library(MetBrewer)
+library(ggvenn)
 
 #load custom functions
 
@@ -39,7 +40,7 @@ metadata.tend <- subset(metadata1_16S, Timepoint_char=="Tend")
 metadata.coral.tend <- subset(metadata.tend, Origin_PlanC!="control")
 
 #Subset abund df to correspond to the associated metadata.
-abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_Name_Unique,]
+abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_ID,]
 
 #Cull abund.nosub asvs
 nosub.asv.info <- merge(nosub.asv.list, nosub.taxonomy, by.x="ESV", by.y="ESV") #merge asv list and taxonomy
@@ -96,6 +97,13 @@ mean(sd.abund.nosub.coral.tend.t.cull$CV) + sd(sd.abund.nosub.coral.tend.t.cull$
 #cull ASVS who's CV in control is above this threshold
 abund.nosub.coral.tend.t.cull1 <- abund.nosub.coral.tend.t.cull[,sd.abund.nosub.coral.tend.t.cull$CV <=  0.9111981] #that leaves 159
 abund.nosub.coral.tend.cull1 <- as.data.frame(t(abund.nosub.coral.tend.t.cull1)) #transpose
+
+#visualize using ggvenn
+abund.nosub.coral.tend.mean.t.venn <- as.data.frame(abund.nosub.coral.tend.mean.t > 0) #convert to presence/absence
+abund.nosub.coral.tend.mean.t.venn$OTU <- abund.nosub.coral.tend.mean.t$OTU
+colnames(abund.nosub.coral.tend.mean.t.venn) <- c("B+A", "B+H", "Nb+A", "Nb+H", "OTU")
+ggvenn(abund.nosub.coral.tend.mean.t.venn[-160,])
+ggvenn(abund.nosub.coral.tend.mean.t.venn[-160,c(1,2,4)])
 
 #work up data for deseq2
 
@@ -535,6 +543,9 @@ family.relabund.tend.longformat <- abund.longformat #save as new output
 #order samples according to multivariate clustering dendrogram
 family.relabund.tend.longformat$Sample <- factor(family.relabund.tend.longformat$Sample, levels=levels(as.factor(family.relabund.tend.longformat$Sample))[clust.tend1$order]) #convert sample to factor and reorder leels to match clustering dendrogram
 
+#order treatments
+family.relabund.tend.longformat$Treatment <- factor(family.relabund.tend.longformat$Treatment, levels=c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated"))
+
 #visualize
 ggplot(family.relabund.tend.longformat, aes(x=Sample, y=abund, fill=Family))+
   geom_bar(stat="identity", color="black")+
@@ -578,6 +589,7 @@ ggplot(subset(family.relabund.tend.longformat, Treatment!="Ambient Water Control
   geom_bar(stat="summary", fun.y="mean", color="black")+
   facet_wrap(.~Treatment)+
   theme_classic()+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(),  axis.text.y=element_blank(), axis.title.y=element_blank())+
   scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+
   coord_polar("y", start=0)
 ggsave("16S piechart family.png", path=dirFigs, height=6, width=10, dpi=600)
