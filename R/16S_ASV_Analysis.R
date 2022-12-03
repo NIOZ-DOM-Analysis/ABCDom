@@ -403,10 +403,46 @@ ggplot(abund.nosub.asv.longformat2.sig, aes(x=Genus_OTU, y=l2fc, fill=l2fc, size
 ggsave("ASV l2fc dotplot v2.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
 
 #next, plot sig asvs as boxplots.
+#add a column to sig asvs that includes if it's enriched or depleted.
+sig.asvs.v2$heated.enrich <- rep("", times=159) #create dummy column
+sig.asvs.v2$heated.enrich[sig.asvs.v2$heated.l2fc>0] <- "enriched" #for all heated l2fc values greater than 0, code as "enriched"
+sig.asvs.v2$heated.enrich[sig.asvs.v2$heated.l2fc<0] <- "depleted" #do the opposite for depleted
+#repeat for bleached
+sig.asvs.v2$bleached.enrich <- rep("", times=159) #create dummy column
+sig.asvs.v2$bleached.enrich[sig.asvs.v2$bleached.l2fc>0] <- "enriched"
+sig.asvs.v2$bleached.enrich[sig.asvs.v2$bleached.l2fc<0] <- "depleted"
+#repeat for bleached.heated
+sig.asvs.v2$bleached.heated.enrich <- rep("", times=159) #create dummy column
+sig.asvs.v2$bleached.heated.enrich[sig.asvs.v2$bleached.heated.l2fc>0] <- "enriched"
+sig.asvs.v2$bleached.heated.enrich[sig.asvs.v2$bleached.heated.l2fc<0] <- "depleted"
+
+#merge sig.asvs.v2 with abund.nosub.asv1
+sig.asvs.v3 <- merge(sig.asvs.v2, abund.nosub.asv1[,c(1,31:35)], by.x="ASV", by.y="ASV", all.x=T, all.y=T)
+
+#
+sig.asvs.v3$sig.asvs.v3$sig.enrichment <- rep("", times=159) #create dummy variable
+for (i in 1:nrow(sig.asvs.v3)) {
+
+  sig.asvs.v3$sig.asvs.v3$sig.enrichment[i] <- paste(ifelse(sig.asvs.v3$heated.sig[i]=="Y", sig.asvs.v3$heated.enrich[i], ""), ifelse(sig.asvs.v3$bleached.sig[i]=="Y", sig.asvs.v3$bleached.enrich[i], ""), ifelse(sig.asvs.v3$bleached.heated.sig[i]=="Y", sig.asvs.v3$bleached.heated.enrich[i], ""), sep="")
+
+}
+
+#replace duplicates with just one
+sig.asvs.v3$sig.enrichment[sig.asvs.v3$sig.enrichment=="NAenrichedenriched" | sig.asvs.v3$sig.enrichment=="NAenriched" | sig.asvs.v3$sig.enrichment=="enrichedenrichedenriched" | sig.asvs.v3$sig.enrichment=="enrichedenriched" | sig.asvs.v3$sig.enrichment=="enriched"] <- "enriched"
+sig.asvs.v3$sig.enrichment[sig.asvs.v3$sig.enrichment=="NAdepleted" | sig.asvs.v3$sig.enrichment=="depleteddepleted" | sig.asvs.v3$sig.enrichment=="depleted"] <- "depleted"
+
+
 relabund.nosub.longformat.sig <- relabund.nosub.longformat[relabund.nosub.longformat$OTU %in% abund.nosub.asv1$ASV[abund.nosub.asv1$sig=="Y"],] #subset for just sig asvs
 relabund.nosub.longformat.sig$Family_Genus_OTU <- paste(relabund.nosub.longformat.sig$Family, relabund.nosub.longformat.sig$Genus, relabund.nosub.longformat.sig$OTU, sep="_") #generate new column
 relabund.nosub.longformat.sig$Treatment <- factor(relabund.nosub.longformat.sig$Treatment, levels=levels(fact.all.treat)) #adjust treatment factor levels
-relabund.nosub.longformat.sig.v1 <- merge(relabund.nosub.longformat.sig, sig.asvs.v2[,c(1,27)], by.x="OTU", by.y="ASV", all.x=T, all.y=F)
+relabund.nosub.longformat.sig.v1 <- merge(relabund.nosub.longformat.sig, sig.asvs.v3[,c(1,39:40)], by.x="OTU", by.y="ASV", all.x=T, all.y=F)
+
+ggplot(relabund.nosub.longformat.sig.v1, aes(y=abund, x=Treatment, fill=Family, group=OTU))+
+  facet_grid(rows=vars(sig.enrichment), scale="free")+
+  geom_bar(stat="summary", color="black", fun.y="mean")+
+  scale_fill_manual(values=met.brewer(name="Signac",n=13,type="discrete",direction=1))+
+  ylab("Relative Abundance")
+ggsave("16S Stacked Bar Family Sig ASVs.png", path=dirFigs, width=9, height=4.5, dpi=600)
 
 ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+
