@@ -38,26 +38,41 @@ FCM_dat_mean_24$posthoc <- c("B/C","A/B/C","A/B","C","B/C","A")
 ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=10)+
   geom_line(size=3)+
-  scale_shape_manual(values=c(21,21,21,21,21,21))+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill)+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   theme_classic()+
   theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)+
   ylab(label="Concentration (cells per uL)")+
   xlab(label="Time (hours)")+
-  geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=3.5)
+  geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=8)
 ggsave('Microbialgrowthcurve_per_treatment.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
+
+fig2C<-ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
+  geom_point(size=5)+
+  geom_line(size=3)+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  theme_classic()+
+  theme(legend.position="right")+
+  ylab(label="Concentration (cells per uL)")+
+  xlab(label="Time (hours)")+
+  geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=5)
+fig2C
+
 
 #Visualize without water controls.
 
 ggplot(subset(FCM_dat_mean, Treatment != "Ambient Water Control" & Treatment != "Heated Water Control"),aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=10)+
   geom_line(size=3)+
-  scale_shape_manual(values=c(21,21,21,21,21,21))+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=c("dodgerblue3","firebrick3","dodgerblue3","firebrick3","black","gray"))+
-  scale_fill_manual(values=c("dodgerblue1","firebrick1","NA","NA","NA","NA"))+
+  scale_color_manual(values=c("dodgerblue3","firebrick3","dodgerblue3","firebrick3","black","gray"), labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_fill_manual(values=c("dodgerblue1","firebrick1","NA","NA","NA","NA"), labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   theme_classic()+
   theme(text=element_text(size=30),legend.key.height=unit(1.75,"cm"),complete=FALSE)+
   ylab(label="Concentration (cells per uL)")+
@@ -126,17 +141,37 @@ ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatm
   stat_boxplot(geom = 'errorbar', size = 2.5)+
   geom_boxplot(size = 2)+
   # geom_point(size = 3)+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   theme_classic()+
   # theme(legend.key.height=unit(2,"cm"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   ylab ("Specific Growth Rate (log10 cells per hour)")+
   xlab("")+
-  theme(text=element_text(size=24))+
+  theme(text=element_text(size=24), legend.position = "none")+
   geom_text(data=FCM_dat_growth_max, aes(x=Treatment, y=max+.005, label=posthoc), color="black", size=6)
   # annotate("rect", xmin=-Inf, xmax=-Inf, ymin=, ymax =)
 ggsave('Specific_growth_rate.jpeg', path = dirFigs, dpi = 300, height=9, width=15)
+
+fig2D<-ggplot(FCM_dat_growth[!is.na(FCM_dat_growth$Specific_Growth_Rate),],aes(x=Treatment,y=Specific_Growth_Rate,color=Treatment,fill=Treatment))+
+  stat_boxplot(geom = 'errorbar', size = 2.5)+
+  geom_boxplot(size = 2)+
+  # geom_point(size = 3)+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  theme_classic()+
+  # theme(legend.key.height=unit(2,"cm"))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  ylab ("Specific Growth Rate (log10 cells per hour)")+
+  xlab("")+
+  theme(legend.position = "none")+
+  geom_text(data=FCM_dat_growth_max, aes(x=Treatment, y=max+.005, label=posthoc), color="black", size=5)
+fig2D
+
+#now make figure 2 complete
+fig2<-plot_grid(fig2A, fig2B, fig2C, fig2D, labels="AUTO", nrow =2, rel_widths = c(1, 1.4), align = c("hv"), axis = "lt")
+fig2
+ggsave("figure2.jpg", fig2, path = dirFigs, dpi = 300, height=12, width=15)
 
 #run stats on specific growth rate.
 hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emough.
