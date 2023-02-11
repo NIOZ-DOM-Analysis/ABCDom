@@ -167,14 +167,34 @@ ggplot() +
   geom_point(data=nmds.16S.tend.scores1,
              aes(x=NMDS1, y=NMDS2, fill=Treatment, color=Treatment),
              size=5, stroke=1.5, shape=21) +
-  scale_color_manual(values = cost.col.line, name = "Treatment")+
-  scale_fill_manual(values = cost.col.fill, name = "Treatment")+
+  scale_color_manual(values = cost.col.line, name = "Treatment", labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values = cost.col.fill, name = "Treatment", labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   #ggtitle("Microbial Communities")+
   coord_fixed(ratio=1.9)+
   theme_bw()+
   ggforce::geom_mark_ellipse(data=nmds.16S.tend.scores1, aes(x=NMDS1, y=NMDS2, linetype=Stress_status_v1, label=Stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)+
   annotate("text", label="p > 0.001 \n stress = 0.082", x=-.225, y=-.125)
 ggsave("NMDS_16S_tfinal.jpg", path = dirFigs, width = 7.5, height = 5.37, units = "in", dpi = 320)
+
+fig3A<-ggplot() +
+  geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
+  geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
+  xlab("NMDS1") +
+  ylab("NMDS2") +
+  scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  geom_point(data=nmds.16S.tend.scores1,
+             aes(x=NMDS1, y=NMDS2, fill=Treatment, color=Treatment),
+             size=5, stroke=1.5, shape=21) +
+  scale_color_manual(values = cost.col.line, name = "Treatment", labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values = cost.col.fill, name = "Treatment", labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  #ggtitle("Microbial Communities")+
+  coord_fixed(ratio=1.9)+
+  theme_bw()+
+  ggforce::geom_mark_ellipse(data=nmds.16S.tend.scores1, aes(x=NMDS1, y=NMDS2, linetype=Stress_status_v1, label=Stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)+
+  annotate("text", label="p > 0.001 \n stress = 0.082", x=-.225, y=-.125)
+
+
 
 #Test statistical effects using permanova.
 #first test the effect of timepoint on all samples.
@@ -229,11 +249,11 @@ levels(adiv.tend$Treatment) <- levels(fact.all.treat) #reorder levels
 adiv.tend.sobs <- ggplot(adiv.tend, aes(x=Treatment, y=sobs, fill=Treatment, col=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   theme_classic()+
   theme(legend.position="none")+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   ylab("Observed ASVs")+
   xlab("")+
   ggtitle("Observed ASVs")
@@ -241,10 +261,10 @@ adiv.tend.sobs <- ggplot(adiv.tend, aes(x=Treatment, y=sobs, fill=Treatment, col
 adiv.tend.chao <- ggplot(adiv.tend, aes(x=Treatment, y=chao, fill=Treatment, col=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   theme_classic()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   ylab("Chao Diversity")+
   xlab("")+
   ggtitle("Chao Diversity")
@@ -252,11 +272,11 @@ adiv.tend.chao <- ggplot(adiv.tend, aes(x=Treatment, y=chao, fill=Treatment, col
 adiv.tend.shannon <- ggplot(adiv.tend, aes(x=Treatment, y=shannon, fill=Treatment, col=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   theme_classic()+
   theme(legend.position="none")+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_x_discrete( labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   ylab("Shannon Diversity")+
   xlab("")+
   ggtitle("Shannon Diversity")
@@ -264,17 +284,17 @@ adiv.tend.shannon <- ggplot(adiv.tend, aes(x=Treatment, y=shannon, fill=Treatmen
 adiv.tend.shannoneven <- ggplot(adiv.tend, aes(x=Treatment, y=shannoneven, fill=Treatment, col=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   theme_classic()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control\n+ Heated"))+
   ylab("Shannon's Eveness")+
   xlab("")+
   ggtitle("Shannon's Eveness")
 
 #export
-jpeg("../figures/16S_tend_alpha_diversity.jpg",width=4900, height=2800, res=300)
-plot_grid(adiv.tend.sobs, adiv.tend.chao, adiv.tend.shannon, adiv.tend.shannoneven, nrow=2, ncol=2, rel_widths=c(1,1.3))
+jpeg("../figures/16S_tend_alpha_diversity.jpg",width=5000, height=2800, res=300)
+plot_grid(adiv.tend.sobs, adiv.tend.chao, adiv.tend.shannon, adiv.tend.shannoneven, nrow=2, ncol=2, rel_widths=c(1,1.3), align = c("hv"), axis = "lt" )
 dev.off()
 
 #run stats on adiv data

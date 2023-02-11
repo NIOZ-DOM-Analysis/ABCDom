@@ -35,10 +35,12 @@ ggplot(DOC_dat_t0,aes(x=Treatment,y=uMC,color=Treatment,fill=Treatment))+
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  # scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_fill_manual(values=cost.col.fill)+
   theme_classic()+
   # theme(legend.key.height=unit(0.5,"in"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  theme(legend.position = "none")+
   ylab("DOC (uM)")+
   xlab("")
 #use this figure for a potential supplement
@@ -61,10 +63,11 @@ ggplot(DOC_dat_t0,aes(x=Treatment,y=Control_Corrected_DOC,color=Treatment,fill=T
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_fill_manual(values=cost.col.fill)+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   theme_classic()+
+  theme(legend.position = "none")+
   # theme(legend.key.height=unit(0.5,"in"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab("Control Corrected DOC (uM)")+
   xlab("")
 ggsave('DOC_control corrected_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
@@ -75,11 +78,12 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
-  theme_classic()+
   scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  scale_fill_manual(values=cost.col.fill)+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  theme_classic()+
+  theme(legend.position = "none")+
   # theme(legend.key.height=unit(0.5,"in"))+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   ylab ("Surface Area Normalized DOC (uM cm-2)")+
   xlab ("")
 ggsave('DOC_Surface area normalized_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
@@ -89,10 +93,10 @@ ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Con
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_fill_manual(values=cost.col.fill)+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   theme_classic()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  theme(legend.position = "none")+
   ylab ("Surface Area Normalized DOC (uM cm-2)")+
   xlab("")
 ggsave('DOC_Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, dpi = 300)
@@ -110,15 +114,15 @@ summary(mod.DOC.t0.corrected.SA.normalized) #still not significant.
 #Next, plot the DOC control corrected SA normalized fluxes for coral samples
 DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized_v1 <- DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized*100 #convert from cm-2 to dm-2
 
-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_flux_SA_Normalized_v1,color=Treatment,fill=Treatment))+
+fig2A<-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_flux_SA_Normalized_v1,color=Treatment,fill=Treatment))+
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_fill_manual(values=cost.col.fill)+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   theme_classic()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  theme(legend.position = "none")+
   ylab ("Surface Area Normalized DOC flux (uM dm-2 h-1)")+
   xlab("")
 ggsave('DOC_flux Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 7.5, height = 5.5, dpi = 300)
@@ -149,14 +153,14 @@ ggplot(DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",], aes(x=Tre
   stat_boxplot(geom = 'errorbar', size = 2)+
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
-  scale_color_manual(values=cost.col.line)+
-  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
-  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_color_manual(values=cost.col.line[-4])+
+  scale_fill_manual(values=cost.col.fill[-4])+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Negative Control", "Negative Control + Heated"))+
   theme_classic()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  theme(legend.position = "none")+
   ylab ("DOC Drawdown (uM)")+
   xlab("")+
-  labs(x="Treatment", color="Treatment", fill="Treatment")
+  labs(x="", color="Treatment", fill="Treatment")
 
 #visualize percent DOC drawdown
 ggplot(DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",], aes(x=Treatment.x, y=DOC_percent_drawdown, color=Treatment.x, fill=Treatment.x))+
@@ -164,14 +168,27 @@ ggplot(DOC_drawdown2[DOC_drawdown2$Treatment.x!="Bleached + Heated",], aes(x=Tre
   geom_boxplot(size = 1.2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line[-4])+
-  scale_fill_manual(values=cost.col.fill[-4], guide = guide_legend(override.aes = list(size = 1)))+
-  # theme(legend.key.height=unit(0.5,"in"))+
+  scale_fill_manual(values=cost.col.fill[-4])+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Negative Control", "Negative Control + Heated"))+
   theme_classic()+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  theme(legend.position = "none")+
   ylab ("DOC Percent Drawdown")+
-  xlab("")+
-  labs(x="Treatment", color="Treatment", fill="Treatment")
+  xlab("")
 ggsave('DOC_percent_drawdown_per_treatment.jpeg', path = dirFigs, width = 11, height = 8, dpi = 300)
+
+fig2B<-ggplot(DOC_drawdown2[], aes(x=Treatment.x, y=DOC_percent_drawdown, color=Treatment.x, fill=Treatment.x))+
+  stat_boxplot(geom = 'errorbar', size = 2)+
+  geom_boxplot(size = 1.2)+
+  # geom_point(size = 3)+
+  scale_color_manual(values=c("dodgerblue3", "firebrick3", "dodgerblue3", "white", "dodgerblue3", "firebrick3", "lightgrey"))+
+  scale_fill_manual(values=cost.col.fill[])+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  theme_classic()+
+  theme(legend.position = "none")+
+  ylab ("DOC Percent Drawdown")+
+  xlab("")
+fig2B
+
 
 #run stats on percent drawdown
 #first visualize distribution
