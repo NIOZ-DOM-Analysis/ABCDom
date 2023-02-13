@@ -26,6 +26,7 @@ source(file="generate.square.dist.script.07.27.2020.R")
 source(file="generate.long.format.script.R")
 source(file="cull.otu.script.R")
 source(file="log.2.fold.change.calculation.05272021.R")
+source(file="zscore.calculation.script.R")
 
 #Read in data/metadata.
 metadata1_16S <- read.csv(file.path(dirOutput, "metadata1_16S.csv"))
@@ -387,12 +388,19 @@ ggplot(abund.nosub.asv.longformat2.sig, aes(x=Family_OTU, y=l2fc, fill=l2fc, siz
 #scale_x_discrete(labels=sort(subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$Family[subset(abund.nosub.asv.longformat2, Treatment=="Non-bleached + Heated")$significant1=="Y"], ascending=T))
 ggsave("ASV l2fc dotplot v1.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
 
+#updated treatment names
+treatment_names <- c(
+  `Non-bleached + Heated` = "Heated",
+  `Bleached + Heated` = "Bleached + Heated",
+  `Bleached + Ambient` = "Bleached"
+)
+
 ggplot(abund.nosub.asv.longformat2.sig, aes(x=Genus_OTU, y=l2fc, fill=l2fc, size=Mean_Abundance))+
   geom_point(color="black", shape=21)+
   scale_size_continuous(range=c(5,20))+
   geom_linerange(color="black", size=.5, aes(ymin=l2fc-l2fcSE, ymax=l2fc+l2fcSE))+
   scale_size_continuous(range=c(5,20))+
-  facet_grid(rows=vars(Treatment))+
+  facet_grid(rows=vars(Treatment), labeller=as_labeller(treatment_names))+
   scale_fill_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
   theme_bw()+
   theme(axis.text.x=element_text(angle=90), text=element_text(size=24))+
@@ -571,6 +579,23 @@ colnames(taxonomy.tend.family.cull) <- "Family" #update colnames
 taxonomy.tend.family.cull1 <- merge(taxonomy.tend.family.cull, taxonomy1[,4:8], by.x="Family", by.y="Family", all.x=T, all.y=F)
 taxonomy.tend.family.cull1$OTUNumber <- taxonomy.tend.family.cull1$Family #create otunumber column for long format generation
 taxonomy.tend.family.cull2 <- taxonomy.tend.family.cull1[duplicated(taxonomy.tend.family.cull1)==FALSE,]
+
+#generate summed family clustering heatmap
+hist(unlist(relabund.tend.family.cull1)) #not normal
+relabund.tend.family.cull1.trans <- asin(sqrt(relabund.tend.family.cull1)) #transform
+relabund.tend.family.cull1.zscore <- as.data.frame(apply(relabund.tend.family.cull1.trans, 1, FUN=zscore.calculation)) #zscore
+pheatmap(relabund.tend.family.cull1.zscore) #looks bad, calculate mean and then replot
+
+#generate summed family clustering heatmap, mean for each treatment
+rownames(relabund.tend.family.cull.t2.mean) <- relabund.tend.family.cull.t2.mean$Treatment #add rownames
+relabund.tend.family.cull.t2.mean.v1 <- relabund.tend.family.cull.t2.mean[,c(-1,-15)] #remove treatment columns
+relabund.tend.family.cull.t2.mean.trans <- asin(sqrt(relabund.tend.family.cull.t2.mean.v1)) #transform
+relabund.tend.family.cull.t2.mean.zscore <- as.data.frame(apply(relabund.tend.family.cull.t2.mean.trans, 2, FUN=zscore.calculation)) #zscore
+relabund.tend.family.cull.t2.mean.zscore1 <- relabund.tend.family.cull.t2.mean.zscore[c(1,4,5,6,3,2),]
+rownames(relabund.tend.family.cull.t2.mean.zscore1) <- c("Negative Control", "Negative Control + Heated", "Control", "Heated", "Bleached + Heated", "Bleached")
+png("../figures/family heatmap mean.png", width=7.5, height=5, units="in", res=600)
+pheatmap(relabund.tend.family.cull.t2.mean.zscore1, cluster_rows=F) #looks bad, calculate mean and then replot
+dev.off()
 
 #generate longformat of
 generate.long.format(relabund.tend.family.cull1, metadata.tend, taxonomy.tend.family.cull2)

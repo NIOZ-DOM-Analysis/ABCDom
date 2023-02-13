@@ -2,6 +2,10 @@
 
 #load libraries
 library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(pbkrtest)
+library(emmeans)
 
 # Check distribution of concentration data.
 hist(FCM_dat$Concentration) #not normal, strong right skew
@@ -109,6 +113,10 @@ summary(mod.24) #treatment is significant
 TukeyHSD(mod.24, "Treatment.y")
 #For now we will stick with these stats since in the post hoc there are significant differences within the coral treatment.
 
+#run a test on the 24 data without neg controls
+mod.24.nowater <- aov(Concentration ~ Treatment.y, data=subset(FCM_dat_24, Origin_PlanC != "control"))
+summary(mod.24.nowater) #treatment is marginally significant. Don't bother using tests without the water controls.
+
 #visualize T0 vs Tmax(24h) cell concentrations for Fig 1
 FCM_dat_24_0 <- subset(FCM_dat, Timepoint..h. == 0 | Timepoint..h. == 24) #subset for the appropriate timepoints
 
@@ -179,3 +187,30 @@ hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emou
 mod.growth.rate <- aov(Specific_Growth_Rate ~ Treatment, data=FCM_dat_growth) #run model
 summary(mod.growth.rate) #examine model
 TukeyHSD(mod.growth.rate, "Treatment") #run posthoc
+
+#run mixed mod on fcm data
+FCM_dat$sqrt_concentration <- sqrt(FCM_dat$Concentration)
+FCM_dat_v1 <- FCM_dat[is.na(FCM_dat$Timepoint..h.)==FALSE,] #remove controls
+
+#for full dataset
+mod.fcm.lm <- lmer(sqrt_concentration ~ Treatment.y*Timepoint..h. + (1|Bottle_NR), data=FCM_dat)
+summary(mod.fcm.lm, ddf="Kenward-Roger") #ranef explains 2.5x compared to residiuals (fixed)
+anova(mod.fcm.lm, ddf="Kenward-Roger") #Time and Treatment*Time are significant, no treatment on its own.
+mod.fcm.lm.ph <- lsmeans(mod.fcm.lm, "Treatment.y", adjust="tukey") #Post Hoc analysis for the Gut_SubSection factor. This function averages across Species so that it is ONLY testing the differences between Gut_SubSection.
+contrast(mod.fcm.lm.ph, alpha=.05, method="pairwise", adjust="tukey")
+mod.fcm.lm.ph1 <- lsmeans(mod.fcm.lm, ~Treatment.y*Timepoint..h., adjust="tukey") #Post Hoc analysis for the Gut_SubSection factor. This function averages across Species so that it is ONLY testing the differences between Gut_SubSection.
+contrast(mod.fcm.lm.ph1, alpha=.05, method="pairwise", adjust="tukey")
+
+#for data just up to 24 hours (peak growth)
+mod.fcm.lm.v1 <- lmer(sqrt_concentration ~ Treatment.y*Timepoint..h. + (1|Bottle_NR), data=subset(FCM_dat, Timepoint..h.!=32 & Timepoint..h.!=36))
+summary(mod.fcm.lm.v1, ddf="Kenward-Roger") #ranef explains similar variation compared to residiuals (fixed)
+anova(mod.fcm.lm.v1, ddf="Kenward-Roger") #Time and Treatment*Time are significant, no treatment on its own.
+
+#try just using lm
+mod.fcm.lm.v3 <- aov(sqrt_concentration ~ Treatment.y*Timepoint..h., data=FCM_dat)
+anova(mod.fcm.lm.v3) #Time and Treatment*Time and Ttreatment are significant.
+TukeyHSD(mod.fcm.lm.v3, "Treatment.y")
+
+
+
+

@@ -94,8 +94,8 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   facet_wrap(.~Species, scales="fixed")+
   stat_boxplot(geom = 'errorbar', size = 2.5)+
   geom_boxplot(size=2)+
-  scale_color_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue3", "dodgerblue3"))+
-  scale_fill_manual(labels = c("Non-bleached", "Bleached"), values=c("dodgerblue1", "white"))+
+  scale_color_manual(labels = c("Unbleached", "Bleached"), values=c("dodgerblue3", "dodgerblue3"))+
+  scale_fill_manual(labels = c("Unbleached", "Bleached"), values=c("dodgerblue1", "white"))+
   scale_x_discrete(labels=NULL)+
   theme_classic()+
   theme(text=element_text(size=34),legend.key.height=unit(2,"cm"), plot.margin=unit(c(1,1,1,1.5), "cm"), strip.text.x=element_text(size=18))+
@@ -116,7 +116,6 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   theme_classic()+
   theme(text=element_text(size=24),legend.key.height=unit(2,"cm"))+
   labs(y="Log10 Symbiodiniaceae cells per cm^2",x="Bleaching Status at Collection",color="Bleaching Status at Collection",fill="Bleaching Status at Collection")
-##save and use as panel A for Fig 1. Add posthoc values manually
 ggsave('Symbiont cells per cm2_Bleaching status at collection_v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 # Now, visualize the distribution and run the statistics on the t0 sym_dat

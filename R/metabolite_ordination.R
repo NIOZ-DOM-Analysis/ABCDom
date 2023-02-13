@@ -40,7 +40,7 @@ stress <- paste0("ABCDom T0 bray curtis dissimilarity k=2 \nstress = ", stress)
 cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70")
 cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3")
 fact.all.treat<-factor(NMDS.ABCDom.T0$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control"))
-treat.labels <- c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", 'Bleached + Heated', "Ambient Water Control", "Heated Water Control")
+treat.labels <- c("Control", "Heated", "Bleached", 'Bleached + Heated', "Negative Control", "Negative Control + Heated")
 
 #add a stress_status_v1 column to NMDS.ABCDom.T0
 NMDS.ABCDom.T0$stress_status_v1 <- as.character(NMDS.ABCDom.T0$Treatment) #duplicate treatment
@@ -61,7 +61,7 @@ ggplot() +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   #ggtitle(stress)+
-  annotate("text", label="p > 0.001 \n stress = 0.0467", x=-.1, y=.04)+
+  annotate("text", label="p > 0.001 \n stress = 0.0467", x=-.11, y=.05)+
   theme_bw()+
   coord_fixed(ratio=1.2)+
   ggforce::geom_mark_ellipse(data=NMDS.ABCDom.T0, aes(x=MDS1, y=MDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)
