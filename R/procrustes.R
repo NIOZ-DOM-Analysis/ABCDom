@@ -113,8 +113,8 @@ ggplot(ctest) +
   geom_point(aes(x=rda1, y=rda2, fill=fact.all.treat, colour=fact.all.treat, shape = Dataset), size=3, stroke=1.5) +
   # geom_point(aes(x=xrda1, y=xrda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 24) +
   geom_segment(aes(x=xstart,y=ystart,xend=rda1,yend=rda2,colour=fact.all.treat),arrow=arrow(length=unit(0.2,"cm")), show.legend = FALSE)+
-  scale_color_manual(values=cost.col.line, name = "Treatment")+
-  scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
+  scale_color_manual(values=cost.col.line, name = "Treatment", labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)), labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   scale_shape_manual(values = c(24, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
   scale_x_continuous(name = "Dimension 1")+
   scale_y_continuous(name = "Dimension 2")+

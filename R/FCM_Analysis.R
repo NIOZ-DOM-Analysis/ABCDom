@@ -211,6 +211,10 @@ mod.fcm.lm.v3 <- aov(sqrt_concentration ~ Treatment.y*Timepoint..h., data=FCM_da
 anova(mod.fcm.lm.v3) #Time and Treatment*Time and Ttreatment are significant.
 TukeyHSD(mod.fcm.lm.v3, "Treatment.y")
 
+#for just coral treatments
+mod.fcm.lm.justcoral <- lmer(sqrt_concentration ~ Treatment.y*Timepoint..h. + (1|Bottle_NR), data=subset(FCM_dat_v1, Origin_PlanC!="control"))
+summary(mod.fcm.lm.justcoral, ddf="Kenward-Roger") #ranef explains 2.5x compared to residiuals (fixed)
+anova(mod.fcm.lm.justcoral, ddf="Kenward-Roger") #Time and Treatment*Time are significant, no treatment on its own.
 
 
 

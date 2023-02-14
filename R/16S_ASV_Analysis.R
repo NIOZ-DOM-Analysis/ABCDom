@@ -262,16 +262,19 @@ ggplot(abund.nosub.asv.longformat1, aes(y=Genus_OTU, x=Treatment, size=Mean_Abun
 abund.nosub.asv.longformat2 <- subset(abund.nosub.asv.longformat1, Class!="Bacteria_unclassified" & Class!="Acidimicrobiia" & Class!="Proteobacteria_unclassified" & Class!="Oxyphotobacteria")
 abund.nosub.asv.longformat2$Class1 <- factor(abund.nosub.asv.longformat2$Class, levels=c(levels(abund.nosub.asv.longformat2$Class), "Other")) #duplicate calss, add new "Other" Class
 abund.nosub.asv.longformat2$Class1[abund.nosub.asv.longformat2$Class1=="Deltaproteobacteria" | abund.nosub.asv.longformat2$Class1=="Thermoplasmata"] = "Other" #rename Thermoplasmata an deltaprot as "other"
+abund.nosub.asv.longformat2$Treatment[abund.nosub.asv.longformat2$Treatment=="Bleached + Ambient"] <- "Bleached"
+abund.nosub.asv.longformat2$Treatment[abund.nosub.asv.longformat2$Treatment=="Non-bleached + Heated"] <- "Heated"
+
 
 #visualize again
 #Visualize significant ASVs
-test=ggplot(abund.nosub.asv.longformat2, aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
-  geom_point()+
-  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
-  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=abund.nosub.asv.longformat2$fontface))+
-  labs(size="Abundance", color="Log2 Fold Change")+
-  facet_wrap(.~Class1, scales="free_y")
-ggsave('ASV bubbpleplot class.png', path=dirFigs, units="in", width=20, height=20, dpi=600)
+#test=ggplot(abund.nosub.asv.longformat2, aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
+#  geom_point()+
+#  scale_color_gradientn(colours=c("blue4","blue","white","red","red4"),values=c(0,.4,.5,.6,1), limits=c(-26,26))+
+#  theme(axis.text.x=element_text(angle=90,vjust=.5,size = 15), axis.text.y=element_text(face=abund.nosub.asv.longformat2$fontface))+
+#  labs(size="Abundance", color="Log2 Fold Change")+
+#  facet_wrap(.~Class1, scales="free_y")
+#ggsave('ASV bubbpleplot class.png', path=dirFigs, units="in", width=20, height=20, dpi=600)
 
 #visualize again without "Other" AKA just bacterial ASVs no Archeae
 ggplot(subset(abund.nosub.asv.longformat2, Class1!="Other"), aes(y=Family_Genus_OTU, x=Treatment, size=Mean_Abundance, color=l2fc, group=Genus_OTU))+
@@ -428,10 +431,10 @@ sig.asvs.v2$bleached.heated.enrich[sig.asvs.v2$bleached.heated.l2fc<0] <- "deple
 sig.asvs.v3 <- merge(sig.asvs.v2, abund.nosub.asv1[,c(1,31:35)], by.x="ASV", by.y="ASV", all.x=T, all.y=T)
 
 #
-sig.asvs.v3$sig.asvs.v3$sig.enrichment <- rep("", times=159) #create dummy variable
+sig.asvs.v3$sig.enrichment <- rep("", times=159) #create dummy variable
 for (i in 1:nrow(sig.asvs.v3)) {
 
-  sig.asvs.v3$sig.asvs.v3$sig.enrichment[i] <- paste(ifelse(sig.asvs.v3$heated.sig[i]=="Y", sig.asvs.v3$heated.enrich[i], ""), ifelse(sig.asvs.v3$bleached.sig[i]=="Y", sig.asvs.v3$bleached.enrich[i], ""), ifelse(sig.asvs.v3$bleached.heated.sig[i]=="Y", sig.asvs.v3$bleached.heated.enrich[i], ""), sep="")
+  sig.asvs.v3$sig.enrichment[i] <- paste(ifelse(sig.asvs.v3$heated.sig[i]=="Y", sig.asvs.v3$heated.enrich[i], ""), ifelse(sig.asvs.v3$bleached.sig[i]=="Y", sig.asvs.v3$bleached.enrich[i], ""), ifelse(sig.asvs.v3$bleached.heated.sig[i]=="Y", sig.asvs.v3$bleached.heated.enrich[i], ""), sep="")
 
 }
 
@@ -443,14 +446,39 @@ sig.asvs.v3$sig.enrichment[sig.asvs.v3$sig.enrichment=="NAdepleted" | sig.asvs.v
 relabund.nosub.longformat.sig <- relabund.nosub.longformat[relabund.nosub.longformat$OTU %in% abund.nosub.asv1$ASV[abund.nosub.asv1$sig=="Y"],] #subset for just sig asvs
 relabund.nosub.longformat.sig$Family_Genus_OTU <- paste(relabund.nosub.longformat.sig$Family, relabund.nosub.longformat.sig$Genus, relabund.nosub.longformat.sig$OTU, sep="_") #generate new column
 relabund.nosub.longformat.sig$Treatment <- factor(relabund.nosub.longformat.sig$Treatment, levels=levels(fact.all.treat)) #adjust treatment factor levels
-relabund.nosub.longformat.sig.v1 <- merge(relabund.nosub.longformat.sig, sig.asvs.v3[,c(1,39:40)], by.x="OTU", by.y="ASV", all.x=T, all.y=F)
+relabund.nosub.longformat.sig.v1 <- merge(relabund.nosub.longformat.sig, sig.asvs.v3[,c(1,30,38:39)], by.x="OTU", by.y="ASV", all.x=T, all.y=F)
+
+#updated DA_in names
+DA_names <- c(
+  `Non-bleached + Heated` = "Heated",
+  `Bleached + Heated` = "Bleached + Heated",
+  `Bleached + Ambient` = "Bleached",
+  `Bleached + Ambient and Bleached + Heated` = "Bleached, Bleached + Heated",
+  `Non-bleached + Heated and Bleached + Ambient` = "Heated, Bleached",
+  `Non-bleached + Heated and Bleached + Ambient and Bleached + Heated` = "Heated, Bleached, Bleached + Heated",
+  `Non-bleached + Heated and Bleached + Heated` = "Heated, Bleached + Heated"
+)
 
 ggplot(relabund.nosub.longformat.sig.v1, aes(y=abund, x=Treatment, fill=Family, group=OTU))+
-  facet_grid(rows=vars(sig.enrichment), scale="free")+
+  facet_grid(cols=vars(sig.enrichment), rows=vars(DA_in), labeller=as_labeller(DA_names), scale="free")+
+  geom_bar(stat="summary", color="black", fun.y="mean")+
+  scale_fill_manual(values=met.brewer(name="Signac",n=13,type="discrete",direction=1))+
+  ylab("Relative Abundance")+
+  theme(strip.text.y = element_text(size = 8))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))
+ggsave("16S Stacked Bar Family Sig ASVs by DA.png", path=dirFigs, width=9, height=15, dpi=600)
+
+ggplot(relabund.nosub.longformat.sig.v1, aes(y=abund, x=Treatment, fill=Family, group=OTU))+
+  facet_grid(cols=vars(sig.enrichment), rows=vars(Family), scale="free")+
   geom_bar(stat="summary", color="black", fun.y="mean")+
   scale_fill_manual(values=met.brewer(name="Signac",n=13,type="discrete",direction=1))+
   ylab("Relative Abundance")
-ggsave("16S Stacked Bar Family Sig ASVs.png", path=dirFigs, width=9, height=4.5, dpi=600)
+
+#ggplot(relabund.nosub.longformat.sig.v1, aes(y=abund, x=Treatment, fill=Family))+
+#  facet_grid(cols=vars(sig.enrichment), rows=vars(OTU), scale="free")+
+#  geom_boxplot()+
+#  scale_fill_manual(values=met.brewer(name="Signac",n=13,type="discrete",direction=1))+
+#  ylab("Relative Abundance")
 
 ggplot(relabund.nosub.longformat.sig, aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
   geom_boxplot()+

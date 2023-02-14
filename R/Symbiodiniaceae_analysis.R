@@ -191,6 +191,18 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(
 #save and
 ggsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
+#next, plot a line graph of sym densities for synthesis figure
+ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers)))+
+  geom_point(stat="summary", fun.y="mean")+
+  geom_line()
+
+
+
+
+
+
+
+
 # Now, visualize the distribution and run the statistics on the t7 aquaria data with ONLY abcDOM samples.
 
 hist(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(sym_dat_aquaria_final$Sample.Name)==FALSE,]$sym.SA.normalized.no.outliers)#normal-ish
