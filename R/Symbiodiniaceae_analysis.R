@@ -192,9 +192,21 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7" & is.na(
 ggsave('Symbiont cells per cm2_per treatment v1.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
 
 #next, plot a line graph of sym densities for synthesis figure
-ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers)))+
-  geom_point(stat="summary", fun.y="mean")+
-  geom_line()
+sym_dat_aquaria_final_t7 <- sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",]
+sym_dat_aquaria_final_t7_mean <- aggregate(sym_dat_aquaria_final_t7[,7], by=list(sym_dat_aquaria_final_t7$Treatment_v1), FUN=mean) #calculate mean
+sym_dat_aquaria_final_t7_mean_v1 <- cbind(sym_dat_aquaria_final_t7_mean, aggregate(sym_dat_aquaria_final_t7[,7], by=list(sym_dat_aquaria_final_t7$Treatment_v1), FUN=stderror)[,2])
+colnames(sym_dat_aquaria_final_t7_mean_v1) <- c("Treatment", "mean_sym.SA.normalized.no.outliers", "se")
+sym_dat_aquaria_final_t7_mean_v1$Treatment <- factor(sym_dat_aquaria_final_t7_mean_v1$Treatment,levels=c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Heated", "Bleached + Ambient"))
+
+ggplot(sym_dat_aquaria_final_t7_mean_v1, aes(color=Treatment, fill=Treatment, x=Treatment, y=log10(mean_sym.SA.normalized.no.outliers)))+
+  geom_point(size=10, shape=21)+
+  geom_pointrange(aes(x=Treatment, y=log10(mean_sym.SA.normalized.no.outliers), ymin=log10(mean_sym.SA.normalized.no.outliers-se), ymax=log10(mean_sym.SA.normalized.no.outliers+se)))+
+  scale_color_manual(values=c("dodgerblue3","firebrick3","firebrick3","dodgerblue3"), labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_fill_manual(values=c("dodgerblue1","firebrick1","NA","NA","NA","NA"), labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  ylab("log10 Symbiodiniaceae cells per cm^2")+
+  theme_classic()+
+  theme(axis.text.x=element_blank(), axis.title.x=element_blank(), legend.position="none")
+ggsave('Symbiont cells per cm2_per treatment dotplot.png', path = dirFigs, dpi = 600, width=12, height=3)
 
 
 

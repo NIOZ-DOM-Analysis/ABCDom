@@ -37,7 +37,7 @@ FCM_dat_mean <- FCM_dat_mean[-37,] #remove NA row
 
 #calculate maximum concentration for each treatment at t 24
 FCM_dat_mean_24 <- subset(FCM_dat_mean, Timepoint==24) #subset for t24
-FCM_dat_mean_24$posthoc <- c("B/C","A/B/C","A/B","C","B/C","A")
+FCM_dat_mean_24$posthoc <- c("C/D","B","A/B","D","B/C","A")
 
 ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=10)+
@@ -56,15 +56,15 @@ ggsave('Microbialgrowthcurve_per_treatment.jpeg', path = dirFigs, dpi = 300, hei
 fig2C<-ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=5)+
   geom_line(size=3)+
-  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
-  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_color_manual(values=cost.col.line, labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
   theme_classic()+
   theme(legend.position="right")+
   ylab(label="Concentration (cells per uL)")+
-  xlab(label="Time (hours)")+
-  geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=5)
+  xlab(label="Time (hours)")
+  #geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=5)
 fig2C
 
 
@@ -180,6 +180,10 @@ fig2D
 fig2<-plot_grid(fig2A, fig2B, fig2C, fig2D, labels="AUTO", nrow =2, rel_widths = c(1, 1.4), align = c("hv"), axis = "lt")
 fig2
 ggsave("figure2.jpg", fig2, path = dirFigs, dpi = 300, height=12, width=15)
+fig2_v1<-plot_grid(fig2A, fig2C, labels="AUTO", nrow =2, rel_widths = c(1, 1.4), align = c("hv"), axis = "lt")
+fig2_v1
+ggsave("figure2_v1.jpg", fig2_v1, path = dirFigs, dpi = 300, height=10, width=7)
+
 
 #run stats on specific growth rate.
 hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emough.

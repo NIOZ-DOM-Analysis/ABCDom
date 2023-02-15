@@ -578,7 +578,7 @@ relabund.tend2.family <- relabund.tend1.family[,-1] #remove family column
 relabund.tend2.family.t <- as.data.frame(t(relabund.tend2.family)) #transpose
 
 #cull low abundance familes.
-cull.otu(relabund.tend2.family.t, 1, .01, .01) #cull
+cull.otu(relabund.tend2.family.t, 2, .005, .1) #cull
 relabund.tend.family.cull.t <- relabund.df.cull #save output as new df
 relabund.tend.family.cull <- as.data.frame(t(relabund.tend.family.cull.t)) #transpose
 
@@ -596,7 +596,7 @@ calculate.rare <- function(x) { #generate a function to calculate rare, "other" 
 relabund.tend.family.cull.rare <- apply(relabund.tend.family.cull, 2, FUN=calculate.rare) #apply function to df
 
 relabund.tend.family.cull1 <- rbind(relabund.tend.family.cull, relabund.tend.family.cull.rare) #merge rare row back with df.
-rownames(relabund.tend.family.cull1)[28] <- "Other" #rename rare families as "other"
+rownames(relabund.tend.family.cull1)[24] <- "Other" #rename rare families as "other"
 
 #work up metadata.tend
 metadata.tend$Sample_ID <- metadata.tend$Sample_Name_Unique #add Sample_ID column
@@ -612,9 +612,21 @@ taxonomy.tend.family.cull2 <- taxonomy.tend.family.cull1[duplicated(taxonomy.ten
 hist(unlist(relabund.tend.family.cull1)) #not normal
 relabund.tend.family.cull1.trans <- asin(sqrt(relabund.tend.family.cull1)) #transform
 relabund.tend.family.cull1.zscore <- as.data.frame(apply(relabund.tend.family.cull1.trans, 1, FUN=zscore.calculation)) #zscore
+rownames(relabund.tend.family.cull1.zscore) <- paste(metadata.tend$Treatment_old, metadata.tend$Sample_Name_Unique)
 pheatmap(relabund.tend.family.cull1.zscore) #looks bad, calculate mean and then replot
 
 #generate summed family clustering heatmap, mean for each treatment
+relabund.tend.family.cull1.t <- as.data.frame(t(relabund.tend.family.cull1))
+relabund.tend.family.cull1.t$Treatment <- metadata.tend$Treatment_old #add treatment column
+relabund.tend.family.cull1.t.mean <- aggregate(relabund.tend.family.cull1.t[,-25], by=list(relabund.tend.family.cull1.t$Treatment), FUN=mean) #calculate mean
+colnames(relabund.tend.family.cull1.t.mean)[1] <- "Treatment"
+rownames(relabund.tend.family.cull1.t.mean) <- relabund.tend.family.cull1.t.mean$Treatment
+relabund.tend.family.cull1.t.mean1 <- relabund.tend.family.cull1.t.mean[,-1]
+relabund.tend.family.cull1.t.mean.trans <- asin(sqrt(relabund.tend.family.cull1.t.mean1)) #trans
+relabund.tend.family.cull1.t.mean.zscore <- apply(relabund.tend.family.cull1.t.mean.trans, 2, FUN=zscore.calculation)
+family.cull.heatmap <- pheatmap(relabund.tend.family.cull1.t.mean.zscore)
+ggsave("family.cull.heatmap.png", family.cull.heatmap, path=dirFigs, dpi=600, width=6, height=4)
+
 rownames(relabund.tend.family.cull.t2.mean) <- relabund.tend.family.cull.t2.mean$Treatment #add rownames
 relabund.tend.family.cull.t2.mean.v1 <- relabund.tend.family.cull.t2.mean[,c(-1,-15)] #remove treatment columns
 relabund.tend.family.cull.t2.mean.trans <- asin(sqrt(relabund.tend.family.cull.t2.mean.v1)) #transform
