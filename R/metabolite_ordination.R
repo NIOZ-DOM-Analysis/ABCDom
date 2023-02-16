@@ -44,9 +44,9 @@ treat.labels <- c("Control", "Heated", "Bleached", 'Bleached + Heated', "Negativ
 
 #add a stress_status_v1 column to NMDS.ABCDom.T0
 NMDS.ABCDom.T0$stress_status_v1 <- as.character(NMDS.ABCDom.T0$Treatment) #duplicate treatment
-NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Non-bleached + Ambient"] <- "Ambient"
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Non-bleached + Ambient"] <- "Control"
 NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 == "Ambient Water Control" |  NMDS.ABCDom.T0$stress_status_v1 == "Heated Water Control"] <- NA
-NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Ambient" & is.na(NMDS.ABCDom.T0$stress_status_v1) == FALSE] <- "Stressed"
+NMDS.ABCDom.T0$stress_status_v1[NMDS.ABCDom.T0$stress_status_v1 != "Control" & is.na(NMDS.ABCDom.T0$stress_status_v1) == FALSE] <- "Stressed"
 
 ggplot() +
   geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +

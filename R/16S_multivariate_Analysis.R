@@ -151,10 +151,11 @@ nmds.16S.tend <- metaMDS(unifrac.dist.tend, k=2, trymax=100) #generate nmds. str
 nmds.16S.tend.scores <- as.data.frame(scores(nmds.16S.tend)) #extract scores
 nmds.16S.tend.scores$Sample <- rownames(nmds.16S.tend.scores) #add sample names column
 nmds.16S.tend.scores1 <- merge(nmds.16S.tend.scores, metadata1, by.x="Sample", by.y="Sample_Name_Unique", all.x=T, all.y=F) #merge with metadata
-nmds.16S.tend.scores1$Stress_status_v1 <- nmds.16S.tend.scores1$Stress_status #duplicate stress status column
-nmds.16S.tend.scores1$Stress_status_v1 <- factor(nmds.16S.tend.scores1$Stress_status_v1, levels=c(levels(nmds.16S.tend.scores1$Stress_status_v1), "Stressed")) #update levels
+nmds.16S.tend.scores1$Stress_status_v1 <- as.character(nmds.16S.tend.scores1$Stress_status) #duplicate stress status column
+#nmds.16S.tend.scores1$Stress_status_v1 <- factor(nmds.16S.tend.scores1$Stress_status_v1, levels=c(levels(nmds.16S.tend.scores1$Stress_status_v1), "Stressed")) #update levels
 nmds.16S.tend.scores1$Stress_status_v1[nmds.16S.tend.scores1$Origin_PlanC=="control"] <- NA
 nmds.16S.tend.scores1$Stress_status_v1[nmds.16S.tend.scores1$Treatment=="Bleached + Heated" | nmds.16S.tend.scores1$Treatment=="Bleached + Ambient" | nmds.16S.tend.scores1$Treatment=="Non-bleached + Heated"] <- "Stressed" #assign a new value for all stress treatments
+nmds.16S.tend.scores1$Stress_status_v1[nmds.16S.tend.scores1$Stress_status_v1=="Ambient"] <- "Control"
 
 #plot nmds.
 ggplot() +

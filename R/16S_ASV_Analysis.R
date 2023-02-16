@@ -621,6 +621,7 @@ relabund.tend.family.cull1.t$Treatment <- metadata.tend$Treatment_old #add treat
 relabund.tend.family.cull1.t.mean <- aggregate(relabund.tend.family.cull1.t[,-25], by=list(relabund.tend.family.cull1.t$Treatment), FUN=mean) #calculate mean
 colnames(relabund.tend.family.cull1.t.mean)[1] <- "Treatment"
 rownames(relabund.tend.family.cull1.t.mean) <- relabund.tend.family.cull1.t.mean$Treatment
+rownames(relabund.tend.family.cull1.t.mean)[c(1,6)] <- c("Negative Control", "Negative Control + Heated")
 relabund.tend.family.cull1.t.mean1 <- relabund.tend.family.cull1.t.mean[,-1]
 relabund.tend.family.cull1.t.mean.trans <- asin(sqrt(relabund.tend.family.cull1.t.mean1)) #trans
 relabund.tend.family.cull1.t.mean.zscore <- apply(relabund.tend.family.cull1.t.mean.trans, 2, FUN=zscore.calculation)
@@ -634,7 +635,7 @@ relabund.tend.family.cull.t2.mean.zscore <- as.data.frame(apply(relabund.tend.fa
 relabund.tend.family.cull.t2.mean.zscore1 <- relabund.tend.family.cull.t2.mean.zscore[c(1,4,5,6,3,2),]
 rownames(relabund.tend.family.cull.t2.mean.zscore1) <- c("Negative Control", "Negative Control + Heated", "Control", "Heated", "Bleached + Heated", "Bleached")
 png("../figures/family heatmap mean.png", width=7.5, height=5, units="in", res=600)
-pheatmap(relabund.tend.family.cull.t2.mean.zscore1, cluster_rows=F) #looks bad, calculate mean and then replot
+pheatmap(relabund.tend.family.cull.t2.mean.zscore1, cluster_rows=F)
 dev.off()
 
 #generate longformat of
