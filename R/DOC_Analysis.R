@@ -41,7 +41,7 @@ ggplot(DOC_dat_t0,aes(x=Treatment,y=uMC,color=Treatment,fill=Treatment))+
   # theme(legend.key.height=unit(0.5,"in"))+
   scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   theme(legend.position = "none")+
-  ylab("DOC (uM)")+
+  ylab("DOC (µM)")+
   xlab("")
 #use this figure for a potential supplement
 ggsave('DOC_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, units = "in", dpi = 320)
@@ -123,7 +123,7 @@ fig2A<-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatmen
   scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   theme_classic()+
   theme(legend.position = "none")+
-  ylab ("Surface Area Normalized DOC flux (uM dm-2 h-1)")+
+  ylab (expression("Surface Area Normalized DOC flux (µM (dm"^2*")"^-1*"h"^-1*")"))+
   xlab("")
 ggsave('DOC_flux Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 7.5, height = 5.5, dpi = 300)
 #Use as panel A for Figure 2

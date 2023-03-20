@@ -67,6 +67,27 @@ ggplot() +
   ggforce::geom_mark_ellipse(data=NMDS.ABCDom.T0, aes(x=MDS1, y=MDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)
 ggsave("NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
+fig4A<-ggplot() +
+  geom_vline(xintercept = c(0), color = "grey70", linetype = 2) +
+  geom_hline(yintercept = c(0), color = "grey70", linetype = 2) +
+  xlab("NMDS1") +
+  ylab("NMDS2") +
+  scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
+  geom_point(data=NMDS.ABCDom.T0,
+             aes(x=MDS1, y=MDS2, fill = fact.all.treat, colour=fact.all.treat),
+             size=5, stroke=1.5, shape = 21) +
+  scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
+  scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
+  #ggtitle(stress)+
+  annotate("text", label="p > 0.001 \n stress = 0.0467", x=-.11, y=.05)+
+  theme_bw()+
+  theme(axis.ticks.x.top = element_blank(), axis.ticks.y.right = element_blank())+
+  coord_fixed(ratio=1.2)+
+  ggforce::geom_mark_ellipse(data=NMDS.ABCDom.T0, aes(x=MDS1, y=MDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)
+fig4A
+
+
 #visualize as clusterding dendrogram
 df.area.ABCT0.bray <- vegdist(df.area.ABCT0[,M:ncol(df.area.ABCT0)], method="bray") #generate bray curtis dist matrix
 

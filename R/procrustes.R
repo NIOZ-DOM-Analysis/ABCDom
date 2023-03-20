@@ -121,6 +121,28 @@ ggplot(ctest) +
   theme_bw()
 ggsave("16S_metabolome_nmds_procrustes.jpeg", path = dirFigs,  width = 9, height = 5.5, units = "in", dpi = 320)
 
+fact.all.treat.proc<-factor(ctest$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
+
+fig4B<-ggplot(ctest) +
+  geom_hline(aes(yintercept = 0), linetype = 2)+
+  geom_vline(aes(xintercept = 0), linetype = 2)+
+  geom_abline(aes(intercept = 0, slope = rot[1,2]/rot[1,1]), linetype = 1)+
+  geom_abline(aes(intercept = 0, slope = rot[2,2]/rot[2,1]), linetype = 1)+
+  geom_point(aes(x=rda1, y=rda2, fill=fact.all.treat.proc, colour=fact.all.treat.proc, shape = Dataset), size=3, stroke=1.5) +
+  # geom_point(aes(x=xrda1, y=xrda2, fill=fact.all.treat, colour=fact.all.treat), size=3, stroke=1.5, shape = 24) +
+  geom_segment(aes(x=xstart,y=ystart,xend=rda1,yend=rda2,colour=fact.all.treat.proc),arrow=arrow(length=unit(0.2,"cm")), show.legend = FALSE)+
+  scale_color_manual(values=cost.col.line, name = "Treatment", labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)), labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
+  scale_shape_manual(values = c(24, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
+  scale_x_continuous(name = "Dimension 1")+
+  scale_y_continuous(name = "Dimension 2")+
+  coord_fixed(ratio=1.48)+
+  theme_bw()
+ fig4B
+
+fig4<-plot_grid(fig4A, fig4B, labels="AUTO", nrow =2, rel_heights = c(1, 1), align = c("hv"), axis = "l")
+fig4
+ggsave("figure4.jpg", plot = fig4, path = dirFigs, width = 8, height = 10, units = "in", dpi = 320)
 
 #Next, run a mantel test between pro.16 and pro.Meta
 mantel.results <- mantel(pro.16, pro.Meta.dist)

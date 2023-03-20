@@ -54,7 +54,7 @@ ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Tr
 ggsave('Microbialgrowthcurve_per_treatment.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
 
 fig2C<-ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
-  geom_point(size=5)+
+  geom_point(size=8)+
   geom_line(size=3)+
   scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
@@ -62,7 +62,7 @@ fig2C<-ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,s
   scale_fill_manual(values=cost.col.fill, labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
   theme_classic()+
   theme(legend.position="right")+
-  ylab(label="Concentration (cells per uL)")+
+  ylab(label="Concentration (cells/µL)")+
   xlab(label="Time (hours)")
   #geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=5)
 fig2C
@@ -182,7 +182,7 @@ fig2
 ggsave("figure2.jpg", fig2, path = dirFigs, dpi = 300, height=12, width=15)
 fig2_v1<-plot_grid(fig2A, fig2C, labels="AUTO", nrow =2, rel_widths = c(1, 1.4), align = c("hv"), axis = "lt")
 fig2_v1
-ggsave("figure2_v1.jpg", fig2_v1, path = dirFigs, dpi = 300, height=10, width=7)
+ggsave("figure2_v2.jpg", fig2_v1, path = dirFigs, dpi = 300, height=10, width=7)
 
 
 #run stats on specific growth rate.
