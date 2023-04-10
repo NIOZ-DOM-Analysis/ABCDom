@@ -56,10 +56,10 @@ ggsave('Microbialgrowthcurve_per_treatment.jpeg', path = dirFigs, dpi = 300, hei
 fig2C<-ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=8)+
   geom_line(size=3)+
-  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"))+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=cost.col.line, labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
-  scale_fill_manual(values=cost.col.fill, labels = c("Control [B/C]", "Heated [A]", "Bleached [B]", "Bleached + Heated [A/B]", "Negative Control [C/D]", "Negative Control + Heated [D]"))+
+  scale_color_manual(values=cost.col.line, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"))+
   theme_classic()+
   theme(legend.position="right")+
   ylab(label="Concentration (cells/µL)")+
@@ -220,5 +220,9 @@ mod.fcm.lm.justcoral <- lmer(sqrt_concentration ~ Treatment.y*Timepoint..h. + (1
 summary(mod.fcm.lm.justcoral, ddf="Kenward-Roger") #ranef explains 2.5x compared to residiuals (fixed)
 anova(mod.fcm.lm.justcoral, ddf="Kenward-Roger") #Time and Treatment*Time are significant, no treatment on its own.
 
+#try just using lm with timepoint as a factor
+mod.fcm.lm.v3.factor <- aov(sqrt_concentration ~ Treatment.y*as.factor(Timepoint..h.), data=FCM_dat)
+anova(mod.fcm.lm.v3.factor) #Time and Treatment*Time and Ttreatment are significant. Use this model for final stats!!
+TukeyHSD(mod.fcm.lm.v3.factor, "Treatment.y")
 
 

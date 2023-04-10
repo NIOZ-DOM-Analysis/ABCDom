@@ -194,7 +194,7 @@ sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="NYY" | sig.asvs.v2$DA_in=="NAYY"] <- "Blea
 sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YYY"] <- "Non-bleached + Heated and Bleached + Ambient and Bleached + Heated"
 
 #export.
-#write.csv(sig.asvs.v2, file.path(dirOutput, "sig.asvs.v2.csv"), )
+write.csv(sig.asvs.v2, "sig.asvs.v2.csv")
 
 #calculate mean abundance for each treatment
 abund.nosub.coral.tend.t.cull2 <- abund.nosub.coral.tend.t.cull1 #duplicate df
@@ -560,6 +560,50 @@ sig.NbH.and.BH.boxplot <- ggplot(subset(relabund.nosub.longformat.sig.v1, DA_in=
 ggsave('sig.NbH.and.BH.boxplot.jpeg', path=dirFigs, width=4.5, height=7.333333, dpi=300)
 
 plot_grid(sig.BA.boxplot, sig.BH.boxplot, sig.NbH.boxplot, sig.BA.and.BH.boxplot, sig.NbH.and.BA.boxplot, sig.NbH.and.BH.boxplot, sig.NbH.and.BA.and.BH.boxplot)
+
+#plot boxplots for defense presentation
+ggplot(subset(relabund.nosub.longformat.sig.v1, OTU=="Otu00649" | OTU=="Otu00823"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free")+
+  scale_color_manual(values=cost.col.line)+
+  theme_bw()+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(legend.position="none")+
+  ylab("Relative Abundance")+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))
+ggsave('pathogens boxplot.jpeg', path=dirFigs, width=8.5, height=3.6, dpi=300)
+
+#copiotrophs
+ggplot(subset(relabund.nosub.longformat.sig.v1, OTU=="Otu00002" | OTU=="Otu00195" | OTU=="Otu01224" | OTU=="Otu01296"), aes(y=abund, x=Treatment, color=Treatment, fill=Treatment))+
+  geom_boxplot()+
+  facet_wrap(.~Family_Genus_OTU, scales="free")+
+  scale_color_manual(values=cost.col.line)+
+  theme_bw()+
+  scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
+  theme(legend.position="none")+
+  ylab("Relative Abundance")+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))
+ggsave('copiotrophs boxplot.jpeg', path=dirFigs, width=8.5, height=7.333333, dpi=300)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #visualize relabund data as stacked barcharts
 

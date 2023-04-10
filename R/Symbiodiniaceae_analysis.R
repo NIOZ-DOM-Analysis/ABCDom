@@ -279,7 +279,7 @@ summary(mod.t7.sym.log.1way) #not significant
 TukeyHSD(mod.t7.sym.log.1way, "Treatment_v1")
 
 mod.t7.sym.log.2way=aov(log10(sym.SA.normalized.no.outliers) ~ Stress_status*Bleaching_Status, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",])
-summary(mod.t7.sym.log.2way) #bleaching status is significant.
+summary(mod.t7.sym.log.2way) #bleaching status is significant. USE this for results.
 
 #next run on raw values
 mod.t7.sym.raw.1way=aov(sym.SA.normalized.no.outliers ~ Treatment_v1, data=sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",])
