@@ -1,0 +1,69 @@
+---
+title: "Network Analysis"
+author: "Wesley Sparagon"
+date: "2023-05-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load libraries and data/metadata.
+
+```{r}
+library(SpiecEasi)
+library(igraph)
+
+if(!requireNamespace("BiocManager")){
+  install.packages("BiocManager")
+}
+BiocManager::install("phyloseq")
+
+library(phyloseq)
+
+```
+
+Work up abund.nosub.coral.tend.cull1 to include water samples for network visualization.
+
+```{r}
+abund.nosub.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.tend$Sample_Name_Unique] #subset for just tend samples
+
+abund.nosub.tend.cull <- abund.nosub.tend[rownames(abund.nosub.tend) %in% rownames(abund.nosub.coral.tend.cull1),] #subset for just 159 ASVs run thru DESEQ2
+
+#use taxonomy.cull as the taxonomy.
+```
+
+
+Construct network using spiec.easi on a phyloseq object.
+
+```{r}
+#first convert taxonomy, otu table, and metadata into a phyloseq object.
+taxonomy.cull.physeq <- tax_table(as.matrix(taxonomy.cull))
+abund.nosub.tend.cull.physeq <- otu_table(abund.nosub.tend.cull, taxa_are_rows=T)
+rownames(metadata.tend) <- metadata.tend$Sample_Name_Unique
+metadata.tend.physeq <- sample_data(metadata.tend)
+
+physeq.cull.tend <- phyloseq(taxonomy.cull.physeq, abund.nosub.tend.cull.physeq, metadata.tend.physeq)
+
+```
+
+
+
+
+Construct network using spiec.easi.
+
+```{r}
+net.c <- spiec.easi(as.matrix(t(abund.nosub.tend.cull)), method='mb')
+
+net.c$lambda
+net.c$select$stars$summary
+
+net.c.ig <- adj2igraph(getRefit(net.c))
+
+plot(net.c.ig, vertex.size=8, vertex.label=NA, main="MB")
+
+#export
+write.graph(net.c.ig, file=file.path(dirOutput,"net.c.ig.csv"), format="ncol")
+```
+

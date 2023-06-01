@@ -40,6 +40,18 @@ nosub.taxonomy <- read.csv(file.path(dirRAW, "16s", "all_multipletonsFilter_100.
 metadata.tend <- subset(metadata1_16S, Timepoint_char=="Tend")
 metadata.coral.tend <- subset(metadata.tend, Origin_PlanC!="control")
 
+#cull relabund data
+relabund.tend.t <- as.data.frame(t(relabund.tend[,-16]))
+relabund.tend.t.cull <- cull.otu(relabund.tend.t, 3, .001, .01)
+relabund.tend.cull <- as.data.frame(t(relabund.tend.t.cull))
+
+#export
+write.csv(relabund.tend.t.cull, file.path(dirOutput, "relabund.tend.t.cull.csv"))
+write.csv(relabund.tend.cull, file.path(dirOutput, "relabund.tend.cull.csv"))
+
+#generate otu taxonomy data for relabund.tend.t.cull for network constuction
+
+
 #Subset abund df to correspond to the associated metadata.
 abund.coral.tend <- abund[abund$Group %in% metadata.coral.tend$Sample_ID,]
 
@@ -76,6 +88,7 @@ abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose.
 cull.otu(abund.nosub.coral.tend.t,3,50,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 187 ASVs remain.
 abund.nosub.coral.tend.t.cull <- relabund.df.cull #save as new df
 abund.nosub.coral.tend.cull <- as.data.frame(t(abund.nosub.coral.tend.t.cull)) #transpose
+#write.csv(abund.nosub.coral.tend.cull, file="abund.nosub.coral.tend.cull.csv")
 
 #because we will be working with log 2 fold change relative to the control, we need to additionally cull ASVs that exhibit high degrees of variance in the control. To do this we will calculate SD for each ASV in the controls and normalize to the mean abund of that ASV in each control (CV).
 sd.abund.nosub.coral.tend.t.cull <- as.data.frame(apply(abund.nosub.coral.tend.t.cull[8:10,], 2, FUN=sd)) #calculate stderror for each ASV in the controls, save as new df
