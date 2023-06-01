@@ -27,6 +27,8 @@ source(paste0(dirR, '/Symbiodiniaceae_analysis.R'))
 source(paste0(dirR, '/FCM_analysis.R'))
 
 # 16S data
+file.edit(paste0(dirR, '/16S_ASV_Analysis.R'))
+file.edit(paste0(dirR, '/16S_multivariate_Analysis.R'))
 
 # prep the blank removed data.
 # file.edit(paste0(dirR, '/Cleaned_metabolite_Data_prep.R'))
