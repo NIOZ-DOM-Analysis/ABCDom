@@ -49,14 +49,24 @@ physeq.cull.tend <- phyloseq(taxonomy.cull.physeq, abund.nosub.tend.cull.physeq,
 ```
 
 
+<<<<<<< HEAD
 Construct network using spiec.easi.
 
 ```{r}
 net.c <- spiec.easi(physeq.cull.tend, method='mb')
+=======
+
+
+Construct network using spiec.easi.
+
+```{r}
+net.c <- spiec.easi(as.matrix(t(abund.nosub.tend.cull)), method='mb')
+>>>>>>> 1fb7be5ce0ab88fa4b40924424051f048e0d757a
 
 net.c$lambda
 net.c$select$stars$summary
 
+<<<<<<< HEAD
 net.c.ig <- adj2igraph(getRefit(net.c), vertex.attr=list(name=taxa_names(physeq.cull.tend)))
 
 plot(net.c.ig, vertex.size=8, type="taxa", main="MB")
@@ -100,5 +110,13 @@ taxonomy.cull.cytoscape$NbA.relabund <- as.numeric(relabund.mean.nosub.tend.cull
 taxonomy.cull.cytoscape$NbH.relabund <- as.numeric(relabund.mean.nosub.tend.cull[6,1:159])
 
 write.csv(taxonomy.cull.cytoscape, file.path(dirOutput,"taxonomy.cull.cytoscape.csv"))
+=======
+net.c.ig <- adj2igraph(getRefit(net.c))
+
+plot(net.c.ig, vertex.size=8, vertex.label=NA, main="MB")
+
+#export
+write.graph(net.c.ig, file=file.path(dirOutput,"net.c.ig.csv"), format="ncol")
+>>>>>>> 1fb7be5ce0ab88fa4b40924424051f048e0d757a
 ```
 
