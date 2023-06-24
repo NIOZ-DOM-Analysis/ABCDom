@@ -1,0 +1,104 @@
+---
+title: "Network Analysis"
+author: "Wesley Sparagon"
+date: "2023-05-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load libraries and data/metadata.
+
+```{r}
+library(SpiecEasi)
+library(igraph)
+
+if(!requireNamespace("BiocManager")){
+  install.packages("BiocManager")
+}
+BiocManager::install("phyloseq")
+
+library(phyloseq)
+
+```
+
+Work up abund.nosub.coral.tend.cull1 to include water samples for network visualization.
+
+```{r}
+abund.nosub.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.tend$Sample_Name_Unique] #subset for just tend samples
+
+abund.nosub.tend.cull <- abund.nosub.tend[rownames(abund.nosub.tend) %in% rownames(abund.nosub.coral.tend.cull1),] #subset for just 159 ASVs run thru DESEQ2
+
+#use taxonomy.cull as the taxonomy.
+```
+
+
+Construct network using spiec.easi on a phyloseq object.
+
+```{r}
+#first convert taxonomy, otu table, and metadata into a phyloseq object.
+taxonomy.cull.physeq <- tax_table(as.matrix(taxonomy.cull))
+abund.nosub.tend.cull.physeq <- otu_table(abund.nosub.tend.cull, taxa_are_rows=T)
+rownames(metadata.tend) <- metadata.tend$Sample_Name_Unique
+metadata.tend.physeq <- sample_data(metadata.tend)
+
+physeq.cull.tend <- phyloseq(taxonomy.cull.physeq, abund.nosub.tend.cull.physeq, metadata.tend.physeq)
+
+```
+
+
+Construct network using spiec.easi.
+
+```{r}
+net.c <- spiec.easi(physeq.cull.tend, method='mb')
+
+net.c$lambda
+net.c$select$stars$summary
+
+net.c.ig <- adj2igraph(getRefit(net.c), vertex.attr=list(name=taxa_names(physeq.cull.tend)))
+
+plot(net.c.ig, vertex.size=8, type="taxa", main="MB")
+
+#export
+write.graph(net.c.ig, file=file.path(dirOutput,"net.c.ig.txt"),format="ncol")
+
+```
+
+Work up taxonomy for importing into cytoscape.
+
+```{r}
+taxonomy.cull.cytoscape <- taxonomy.cull[,1:8] #duplicate
+
+taxonomy.cull.cytoscape$mean_abund <- apply(abund.nosub.tend.cull, 1, FUN=mean) #add a mean abund column
+
+#First calculate mean abund. then calculate relabund from those values
+#need to first add metadata to abund.nosub.tend.cull
+abund.nosub.tend.cull.t <- as.data.frame(t(abund.nosub.tend.cull)) #
+abund.nosub.tend.cull.t$SampleID <- rownames(abund.nosub.tend.cull.t) #add sample ID
+abund.nosub.tend.cull.t.v1 <- merge(abund.nosub.tend.cull.t, metadata.tend, by.x="SampleID", by.y="Sample_Name_Unique")
+
+#calculate mean abund by tratment
+mean.treatment.abund.nosub.tend.cull <- aggregate(abund.nosub.tend.cull.t.v1[,2:160], by=list(abund.nosub.tend.cull.t.v1$Treatment), FUN=mean) #calculate mean otu abund for each treatment
+#rename control treatments
+mean.treatment.abund.nosub.tend.cull$Group.1 <- as.character(mean.treatment.abund.nosub.tend.cull$Group.1)
+mean.treatment.abund.nosub.tend.cull[1,1] <- "Negative Control"
+mean.treatment.abund.nosub.tend.cull[4,1] <- "Negative Control + Heated"
+
+#calcualte the relative abundance of each mean otu
+relabund.mean.nosub.tend.cull <- as.data.frame(apply(mean.treatment.abund.nosub.tend.cull[,2:160], 2, FUN=relabund.calculate))
+rownames(relabund.mean.nosub.tend.cull) <- mean.treatment.abund.nosub.tend.cull$Group.1 #update rownames
+relabund.mean.nosub.tend.cull$SampleID <- rownames(relabund.mean.nosub.tend.cull) #add sample ID column
+
+#add mean relabund for each otu for each treatment to taxonomy.cull.cytoscape df
+taxonomy.cull.cytoscape$NC.relabund <- as.numeric(relabund.mean.nosub.tend.cull[1,1:159])
+taxonomy.cull.cytoscape$BA.relabund <- as.numeric(relabund.mean.nosub.tend.cull[2,1:159])
+taxonomy.cull.cytoscape$BH.relabund <- as.numeric(relabund.mean.nosub.tend.cull[3,1:159])
+taxonomy.cull.cytoscape$NCH.relabund <- as.numeric(relabund.mean.nosub.tend.cull[4,1:159])
+taxonomy.cull.cytoscape$NbA.relabund <- as.numeric(relabund.mean.nosub.tend.cull[5,1:159])
+taxonomy.cull.cytoscape$NbH.relabund <- as.numeric(relabund.mean.nosub.tend.cull[6,1:159])
+
+write.csv(taxonomy.cull.cytoscape, file.path(dirOutput,"taxonomy.cull.cytoscape.csv"))
+```
+
