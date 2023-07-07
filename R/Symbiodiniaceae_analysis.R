@@ -192,6 +192,20 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=
   theme_classic()
 ggsave('Symbiont cells per cm2_per treatment vMARCH.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
 
+##facet by species, adjusted in march
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Treatment,y=log10(sym.SA),color=Treatment, fill=Treatment)))+
+  facet_wrap(.~Species, scales="fixed")+
+  stat_boxplot(geom = 'errorbar', size = 0.81)+
+  geom_boxplot(size=1)+
+  scale_color_manual(name="Treatment", values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_fill_manual(name= "Treatment", values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"), name = "")+
+  scale_x_discrete(name = NULL, labels=NULL)+
+  scale_y_continuous( name = expression("Log"[10]*" Symbiodiniaceae cells per cm"^2))+
+  # theme(text=element_text(size=45), plot.margin=unit(c(1,1,1,1), units = "in"), strip.text.x=element_text(size=45))+
+  theme_classic()
+ggsave('Symbiont cells per cm2_per treatment vMARCH species facet.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
+
 
 
 #visualize again with only PLANC aquaria that were included in abcDOM
