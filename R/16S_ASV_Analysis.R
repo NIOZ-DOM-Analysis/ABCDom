@@ -720,28 +720,32 @@ ggplot(subset(family.relabund.tend.longformat, Treatment=="Non-bleached + Ambien
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
-  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+  coord_polar("y", start=0)+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
 ggsave("16S piechart family NbA.png", path=dirFigs, height=6, width=6, dpi=600)
 
 ggplot(subset(family.relabund.tend.longformat, Treatment=="Non-bleached + Heated"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
-  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+  coord_polar("y", start=0)+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
 ggsave("16S piechart family NbH.png", path=dirFigs, height=6, width=6, dpi=600)
 
 ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Ambient"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
-  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+  coord_polar("y", start=0)+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
 ggsave("16S piechart family BA.png", path=dirFigs, height=6, width=6, dpi=600)
 
 ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Heated"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
-  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+coord_polar("y", start=0)
+  coord_polar("y", start=0)+
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
 ggsave("16S piechart family BH.png", path=dirFigs, height=6, width=6, dpi=600)
 
 ggplot(subset(family.relabund.tend.longformat, Treatment!="Ambient Water Control" & Treatment!="Heated Water Control"), aes(x="", y=abund, fill=Family))+
@@ -749,9 +753,10 @@ ggplot(subset(family.relabund.tend.longformat, Treatment!="Ambient Water Control
   facet_wrap(.~Treatment)+
   theme_classic()+
   theme(axis.text.x=element_blank(), axis.title.x=element_blank(),  axis.text.y=element_blank(), axis.title.y=element_blank())+
-  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=7,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+
-  coord_polar("y", start=0)
-ggsave("16S piechart family.png", path=dirFigs, height=6, width=10, dpi=600)
+  scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))+
+  coord_polar("y", start=0)+
+  guides(fill=guide_legend(nrow=2))
+ggsave("16S piechart family.png", path=dirFigs, height=6, width=20, dpi=600)
 
 
 
