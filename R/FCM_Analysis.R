@@ -182,8 +182,13 @@ fig2
 ggsave("figure2.jpg", fig2, path = dirFigs, dpi = 300, height=12, width=15)
 fig2_v1<-plot_grid(fig2A, fig2C, labels="AUTO", nrow =2, rel_widths = c(1, 1.4), align = c("hv"), axis = "lt")
 fig2_v1
-ggsave("figure2_v2.jpg", fig2_v1, path = dirFigs, dpi = 300, height=10, width=7)
-
+ggsave("figure2_v1.jpg", fig2_v1, path = dirFigs, dpi = 300, height=10, width=7)
+fig2_v2<-plot_grid(fig2A_v1, fig2C, labels="AUTO", nrow =2, rel_widths = c(1, 1.4), align = c("hv"), axis = "lt")
+fig2_v2
+ggsave("figure2_v2.jpg", fig2_v2, path = dirFigs, dpi = 300, height=10, width=7)
+fig2_v3<-plot_grid(fig2A_v1, fig2C, labels="AUTO", nrow =1, rel_widths = c(1, 2), align = c("hv"), axis = "lt")
+fig2_v3
+ggsave("figure2_v3.jpg", fig2_v3, path = dirFigs, dpi = 300, height=6, width=13)
 
 #run stats on specific growth rate.
 hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emough.

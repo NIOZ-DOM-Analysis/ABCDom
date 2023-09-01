@@ -128,6 +128,21 @@ fig2A<-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatmen
 ggsave('DOC_flux Surface area normalized_control corrected_per treatment.jpeg', path = dirFigs, width = 7.5, height = 5.5, dpi = 300)
 #Use as panel A for Figure 2
 
+#repeat but with barplot
+fig2A_v1<-ggplot(DOC_dat_t0[DOC_dat_t0$Origin_PlanC.x != "control",],aes(x=Treatment,y=Control_Corrected_DOC_flux_SA_Normalized_v1,color=Treatment,fill=Treatment))+
+  stat_summary(geom="bar", fun="mean", size=3)+
+  stat_summary(fun.data = mean_se, geom = "linerange")+
+  geom_point(pch=21, size=6)+
+  scale_color_manual(values=cost.col.line)+
+  scale_fill_manual(values=cost.col.fill)+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  theme_classic()+
+  theme(legend.position = "none")+
+  ylab (expression("Surface Area Normalized DOC flux (µM (dm"^2*")"^-1*"h"^-1*")"))+
+  xlab("")
+ggsave('DOC_flux Surface area normalized_control corrected_per treatment barplot.jpeg', path = dirFigs, width = 7.5, height = 5.5, dpi = 300)
+#Use as panel A for Figure 2
+
 #now run stats on DOC flux
 #first check the distribution of the data.
 hist(DOC_dat_t0$Control_Corrected_DOC_flux_SA_Normalized) #kind of normal looking

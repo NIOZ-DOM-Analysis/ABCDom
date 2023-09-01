@@ -118,6 +118,20 @@ ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Sp
   theme_classic()
 ggsave('Symbiont cells per cm2_Bleaching status at collection_vMARCH.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
 
+#replot but with all points displayed
+ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
+  facet_wrap(.~Species, scales="fixed")+
+  stat_boxplot(geom = 'errorbar', size = 0.81)+
+  geom_boxplot(size=1)+
+  geom_point(pch=21)+
+  scale_color_manual(name = "Bleaching Status\nat Collection", labels = c("Unbleached", "Bleached"), values=c("dodgerblue3", "dodgerblue3"))+
+  scale_fill_manual(name = "Bleaching Status\nat Collection", labels = c("Unbleached", "Bleached"), values=c("dodgerblue1", "white"))+
+  scale_x_discrete(name = NULL, labels=NULL)+
+  scale_y_continuous(limits = c(3,6), name = expression("Log"[10]*" Symbiodiniaceae cells per cm"^2))+
+  # theme(text=element_text(size=45), plot.margin=unit(c(1,1,1,1), units = "in"), strip.text.x=element_text(size=45))+
+  theme_classic()
+ggsave('Symbiont cells per cm2_Bleaching status at collection_vMARCH with points.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
+
 
 #make the same plot but with free scales
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T0" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Collection_Bleaching_Level1,y=log10(sym.SA),color=Collection_Bleaching_Level1, fill=Collection_Bleaching_Level1)))+
@@ -168,7 +182,22 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=
 ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers),color=Treatment_v1,fill=Treatment_v1))+
   stat_boxplot(geom = 'errorbar', size = 0.8)+
   geom_boxplot(size=1)+
-  # geom_point(size=3)+
+  geom_point(size=3, pch=21)+
+  scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"), name = "")+
+  theme_classic()+
+  theme(text=element_text(size=34),legend.key.height=unit(2,"cm"),axis.text.x=element_blank(), plot.margin=unit(c(1,1,1,1.5), "cm"))+
+  ylab(expression(paste("Log10 Symbiodiniaceae\ncells per cm^2")))+
+  labs(color="Treatment",fill="Treatment")
+ggsave('Symbiont cells per cm2_per treatment v2.jpeg', path = dirFigs, dpi = 300, width=15, height=9)
+
+#visualize with log10 densities. use barplot with SE error bars. Use for panel 1D
+ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers),color=Treatment_v1,fill=Treatment_v1))+
+  stat_summary(geom="bar", fun="mean", size=3)+
+  stat_summary(fun.data = mean_se, geom = "linerange", size=3)+
+  #geom_point(pch=21, size=6)+
+  scale_y_continuous(limits=c(2,5.5),oob = rescale_none)+
   scale_color_manual(values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   scale_fill_manual(values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
   scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"), name = "")+
@@ -191,6 +220,21 @@ ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=
   # theme(text=element_text(size=45), plot.margin=unit(c(1,1,1,1), units = "in"), strip.text.x=element_text(size=45))+
   theme_classic()
 ggsave('Symbiont cells per cm2_per treatment vMARCH.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
+
+##adjusted in march, make barplot with errorbar
+ggplot(sym_dat_aquaria_final[sym_dat_aquaria_final$Timepoint_char=="T7",],aes(x=Treatment_v1,y=log10(sym.SA.normalized.no.outliers),color=Treatment_v1,fill=Treatment_v1))+
+  stat_summary(geom="bar", fun="mean", size=3)+
+  stat_summary(fun.data = mean_se, geom = "linerange", size=3)+
+  #geom_point(pch=21, size=6)+
+  scale_color_manual(name="Treatment", values=cost.col.line, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_fill_manual(name= "Treatment", values=cost.col.fill, labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))+
+  scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"), name = "")+
+  scale_x_discrete(name = NULL, labels=NULL)+
+  scale_y_continuous(limits=c(2,5.5),oob = rescale_none,name = expression("Log"[10]*" Symbiodiniaceae cells per cm"^2))+
+  # theme(text=element_text(size=45), plot.margin=unit(c(1,1,1,1), units = "in"), strip.text.x=element_text(size=45))+
+  theme_classic()
+ggsave('Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
+
 
 ##facet by species, adjusted in march
 ggplot(sym_dat[sym_dat$Outlier!="Y" & sym_dat$Timepoint=="T7" & is.na(sym_dat$Species)!=TRUE,],(aes(x=Treatment,y=log10(sym.SA),color=Treatment, fill=Treatment)))+
