@@ -56,16 +56,36 @@ ggsave('Microbialgrowthcurve_per_treatment.jpeg', path = dirFigs, dpi = 300, hei
 fig2C<-ggplot(FCM_dat_mean,aes(x=Timepoint,y=Mean_Concentration,fill=Treatment,shape=Treatment,color=Treatment,group=Treatment))+
   geom_point(size=8)+
   geom_line(size=3)+
-  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"))+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"), name = "Treatment")+
   geom_pointrange(aes(ymin=Mean_Concentration-SE,ymax=Mean_Concentration+SE))+
-  scale_color_manual(values=cost.col.line, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"))+
-  scale_fill_manual(values=cost.col.fill, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"))+
+  scale_color_manual(values=cost.col.line, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"), name = "Treatment")+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"), name = "Treatment")+
   theme_classic()+
   theme(legend.position="right")+
   ylab(label="Concentration (cells/µL)")+
   xlab(label="Time (hours)")
   #geom_text(data=FCM_dat_mean_24, aes(x=Timepoint, y=Mean_Concentration+120, hjust=1.25, label=posthoc), color="black", size=5)
 fig2C
+
+
+#### visualize sperate points
+FCM_dat2 <- FCM_dat %>% filter(!is.na(Treatment.y))
+FCM_dat2$Treatment.y <- factor(FCM_dat2$Treatment.y, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient","Bleached + Heated","Ambient Water Control", "Heated Water Control"))
+
+fig2B_v2<- ggplot()+
+  geom_pointrange(data=FCM_dat_mean, aes(x=Timepoint, xmin=Timepoint, xmax=Timepoint, y = Mean_Concentration, ymin = Mean_Concentration-SE, ymax= Mean_Concentration+SE,group=Treatment, color=Treatment, fill=Treatment), alpha = .1)+
+  geom_point(data=FCM_dat_mean, aes(x=Timepoint, y=Mean_Concentration, fill=Treatment,shape=Treatment,color=Treatment,group=Treatment) ,size = 4, shape = 22, alpha = .5)+
+  geom_line(data=FCM_dat_mean, aes(x=Timepoint, y=Mean_Concentration, color=Treatment,group=Treatment), size =2, alpha = 0.5)+
+  geom_point(data= FCM_dat2, aes(x=Timepoint, y=Concentration, fill=Treatment.y,shape=Treatment.y,color=Treatment.y,group=Treatment.y), size =4, alpha = 1, stroke = 2)+
+  scale_shape_manual(values=c(21,21,21,21,21,21), labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"), name = "Treatment")+
+  scale_color_manual(values=cost.col.line, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"), name = "Treatment")+
+  scale_fill_manual(values=cost.col.fill, labels = c("Control [C]", "Heated [A]", "Bleached [B/C]", "Bleached + Heated [B]", "Negative Control [D]", "Negative Control + Heated [E]"), name = "Treatment")+
+  theme_classic()+
+  guides(size = F)+
+  theme(legend.position="right")+
+  ylab(label="Concentration (cells/µL)")+
+  xlab(label="Time (hours)")
+ggsave('Microbialgrowthcurve_per_treatment_with individualpoints.jpeg', path = dirFigs, dpi = 300, height=10, width=14)
 
 
 #Visualize without water controls.
@@ -189,6 +209,10 @@ ggsave("figure2_v2.jpg", fig2_v2, path = dirFigs, dpi = 300, height=10, width=7)
 fig2_v3<-plot_grid(fig2A_v1, fig2C, labels="AUTO", nrow =1, rel_widths = c(1, 2), align = c("hv"), axis = "lt")
 fig2_v3
 ggsave("figure2_v3.jpg", fig2_v3, path = dirFigs, dpi = 300, height=6, width=13)
+
+fig2_v4<- plot_grid(fig2A_v1, fig2B_v2, labels="AUTO", nrow =1, rel_widths = c(1, 2), align = c("hv"), axis = "lt")
+ggsave("figure2_v4.jpg", fig2_v4, path = dirFigs, dpi = 300, height=6, width=13)
+
 
 #run stats on specific growth rate.
 hist(FCM_dat_growth$Specific_Growth_Rate) #check distribution. Looks normal emough.
