@@ -1,0 +1,154 @@
+File Name,Sample Name,Injection_Type,Bleaching_Status,Stress_status,Treatment,Sample_Type,Timepoint_char,Treatment_Time,Timepoint,Bottle_NR,Notes,PLANC_aquaria,Well,Gate Name,Concentration
+NA,ABC_109,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T0,Bleached + Heated_T0,0,1,NA,PB1_T7H,A1,SYBR Polygon,167.285714
+NA,ABC_110,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T0,Bleached + Heated_T0,0,2,NA,PB2_T7H,A2,SYBR Polygon,163.102041
+NA,ABC_111,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T0,Bleached + Heated_T0,0,3,NA,PB3_T7H,A3,SYBR Polygon,174.857143
+NA,ABC_113,NA,Non Bleached,Thermal Stress,Heated,FCM,T0,Heated_T0,0,5,NA,HE2_T7H,A4,SYBR Polygon,332.55102
+NA,ABC_114,NA,Non Bleached,Thermal Stress,Heated,FCM,T0,Heated_T0,0,6,NA,HE3_T7H,A5,SYBR Polygon,159.959184
+NA,ABC_115,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T0,Negative Control + Heated_T0,0,7,NA,NA,A6,SYBR Polygon,125.591837
+NA,ABC_116,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T0,Negative Control + Heated_T0,0,8,NA,NA,A7,SYBR Polygon,119.714286
+NA,ABC_117,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T0,Negative Control + Heated_T0,0,9,NA,NA,A8,SYBR Polygon,134.714286
+NA,ABC_118,NA,Bleached,Ambient,Bleached,FCM,T0,Bleached_T0,0,10,NA,BL1_T7C,A9,SYBR Polygon,118.98
+NA,ABC_119,NA,Bleached,Ambient,Bleached,FCM,T0,Bleached_T0,0,11,NA,BL2_T7C,A10,SYBR Polygon,140.938776
+NA,ABC_120,NA,Bleached,Ambient,Bleached,FCM,T0,Bleached_T0,0,12,NA,BL3_T7C,A11,SYBR Polygon,174.020408
+NA,ABC_121,NA,Non Bleached,Ambient,Control,FCM,T0,Control_T0,0,13,NA,HE1_T7C,A12,SYBR Polygon,148.72
+NA,ABC_122,NA,Non Bleached,Ambient,Control,FCM,T0,Control_T0,0,14,NA,HE2_T7C,B1,SYBR Polygon,145.061224
+NA,ABC_123,NA,Non Bleached,Ambient,Control,FCM,T0,Control_T0,0,15,NA,HE3_T7C,B2,SYBR Polygon,207.836735
+NA,ABC_124,NA,NA,Ambient,Negative Control,FCM,T0,Negative Control_T0,0,16,NA,NA,B3,SYBR Polygon,131.183673
+NA,ABC_125,NA,NA,Ambient,Negative Control,FCM,T0,Negative Control_T0,0,17,NA,NA,B4,SYBR Polygon,129.938776
+NA,ABC_126,NA,NA,Ambient,Negative Control,FCM,T0,Negative Control_T0,0,18,NA,NA,B5,SYBR Polygon,139.061224
+NA,ABC_127,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T2,Bleached + Heated_T2,2,1,NA,PB1_T7H,B6,SYBR Polygon,139.72
+NA,ABC_128,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T2,Bleached + Heated_T2,2,2,NA,PB2_T7H,B7,SYBR Polygon,171.285714
+NA,ABC_129,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T2,Bleached + Heated_T2,2,3,NA,PB3_T7H,B8,SYBR Polygon,196.66
+NA,ABC_131,NA,Non Bleached,Thermal Stress,Heated,FCM,T2,Heated_T2,2,5,NA,HE2_T7H,B9,SYBR Polygon,177.77551
+NA,ABC_132,NA,Non Bleached,Thermal Stress,Heated,FCM,T2,Heated_T2,2,6,NA,HE3_T7H,B10,SYBR Polygon,179.795918
+NA,ABC_133,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T2,Negative Control + Heated_T2,2,7,NA,NA,B11,SYBR Polygon,132.469388
+NA,ABC_134,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T2,Negative Control + Heated_T2,2,8,NA,NA,B12,SYBR Polygon,143.18
+NA,ABC_135,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T2,Negative Control + Heated_T2,2,9,NA,NA,C1,SYBR Polygon,167.142857
+NA,ABC_136,NA,Bleached,Ambient,Bleached,FCM,T2,Bleached_T2,2,10,NA,BL1_T7C,C2,SYBR Polygon,139.428571
+NA,ABC_137,NA,Bleached,Ambient,Bleached,FCM,T2,Bleached_T2,2,11,NA,BL2_T7C,C3,SYBR Polygon,135.204082
+NA,ABC_138,NA,Bleached,Ambient,Bleached,FCM,T2,Bleached_T2,2,12,NA,BL3_T7C,C4,SYBR Polygon,166.244898
+NA,ABC_139,NA,Non Bleached,Ambient,Control,FCM,T2,Control_T2,2,13,NA,HE1_T7C,C5,SYBR Polygon,189.1
+NA,ABC_140,NA,Non Bleached,Ambient,Control,FCM,T2,Control_T2,2,14,NA,HE2_T7C,C6,SYBR Polygon,169.04
+NA,ABC_141,NA,Non Bleached,Ambient,Control,FCM,T2,Control_T2,2,15,NA,HE3_T7C,C7,SYBR Polygon,192.693878
+NA,ABC_142,NA,NA,Ambient,Negative Control,FCM,T2,Negative Control_T2,2,16,NA,NA,C8,SYBR Polygon,144.408163
+NA,ABC_143,NA,NA,Ambient,Negative Control,FCM,T2,Negative Control_T2,2,17,NA,NA,C9,SYBR Polygon,146.040816
+NA,ABC_144,NA,NA,Ambient,Negative Control,FCM,T2,Negative Control_T2,2,18,NA,NA,C10,SYBR Polygon,145.367347
+NA,ABC_145,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T8,Bleached + Heated_T8,8,1,NA,PB1_T7H,C11,SYBR Polygon,679.66
+NA,ABC_146,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T8,Bleached + Heated_T8,8,2,NA,PB2_T7H,C12,SYBR Polygon,862.52
+NA,ABC_147,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T8,Bleached + Heated_T8,8,3,NA,PB3_T7H,D1,SYBR Polygon,522.04
+NA,ABC_149,NA,Non Bleached,Thermal Stress,Heated,FCM,T8,Heated_T8,8,5,NA,HE2_T7H,D2,SYBR Polygon,1602.74
+NA,ABC_150,NA,Non Bleached,Thermal Stress,Heated,FCM,T8,Heated_T8,8,6,NA,HE3_T7H,D3,SYBR Polygon,618.877551
+NA,ABC_151,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T8,Negative Control + Heated_T8,8,7,NA,NA,D4,SYBR Polygon,296.897959
+NA,ABC_152,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T8,Negative Control + Heated_T8,8,8,NA,NA,D5,SYBR Polygon,312.469388
+NA,ABC_153,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T8,Negative Control + Heated_T8,8,9,NA,NA,D6,SYBR Polygon,254.78
+NA,ABC_154,NA,Bleached,Ambient,Bleached,FCM,T8,Bleached_T8,8,10,NA,BL1_T7C,D7,SYBR Polygon,433.68
+NA,ABC_155,NA,Bleached,Ambient,Bleached,FCM,T8,Bleached_T8,8,11,NA,BL2_T7C,D8,SYBR Polygon,589.326531
+NA,ABC_156,NA,Bleached,Ambient,Bleached,FCM,T8,Bleached_T8,8,12,NA,BL3_T7C,D9,SYBR Polygon,1155.56
+NA,ABC_157,NA,Non Bleached,Ambient,Control,FCM,T8,Control_T8,8,13,NA,HE1_T7C,D10,SYBR Polygon,498.04
+NA,ABC_158,NA,Non Bleached,Ambient,Control,FCM,T8,Control_T8,8,14,NA,HE2_T7C,D11,SYBR Polygon,437.959184
+NA,ABC_159,NA,Non Bleached,Ambient,Control,FCM,T8,Control_T8,8,15,NA,HE3_T7C,D12,SYBR Polygon,516.938776
+NA,ABC_160,NA,NA,Ambient,Negative Control,FCM,T8,Negative Control_T8,8,16,NA,NA,E1,SYBR Polygon,287.489796
+NA,ABC_161,NA,NA,Ambient,Negative Control,FCM,T8,Negative Control_T8,8,17,NA,NA,E2,SYBR Polygon,272.84
+NA,ABC_162,NA,NA,Ambient,Negative Control,FCM,T8,Negative Control_T8,8,18,NA,NA,E3,SYBR Polygon,242.591837
+NA,ABC_163,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T12,Bleached + Heated_T12,12,1,NA,PB1_T7H,E4,SYBR Polygon,1369.26
+NA,ABC_164,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T12,Bleached + Heated_T12,12,2,NA,PB2_T7H,E5,SYBR Polygon,1723.755102
+NA,ABC_165,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T12,Bleached + Heated_T12,12,3,NA,PB3_T7H,E6,SYBR Polygon,1640.408163
+NA,ABC_167,NA,Non Bleached,Thermal Stress,Heated,FCM,T12,Heated_T12,12,5,NA,HE2_T7H,E7,SYBR Polygon,2744.326531
+NA,ABC_168,NA,Non Bleached,Thermal Stress,Heated,FCM,T12,Heated_T12,12,6,NA,HE3_T7H,E8,SYBR Polygon,1631.204082
+NA,ABC_169,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T12,Negative Control + Heated_T12,12,7,NA,NA,E9,SYBR Polygon,503.367347
+NA,ABC_170,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T12,Negative Control + Heated_T12,12,8,NA,NA,E10,SYBR Polygon,549.122449
+NA,ABC_171,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T12,Negative Control + Heated_T12,12,9,NA,NA,E11,SYBR Polygon,389.653061
+NA,ABC_172,NA,Bleached,Ambient,Bleached,FCM,T12,Bleached_T12,12,10,NA,BL1_T7C,E12,SYBR Polygon,1123.081633
+NA,ABC_173,NA,Bleached,Ambient,Bleached,FCM,T12,Bleached_T12,12,11,NA,BL2_T7C,F1,SYBR Polygon,1202.714286
+NA,ABC_174,NA,Bleached,Ambient,Bleached,FCM,T12,Bleached_T12,12,12,NA,BL3_T7C,F2,SYBR Polygon,1834.58
+NA,ABC_175,NA,Non Bleached,Ambient,Control,FCM,T12,Control_T12,12,13,NA,HE1_T7C,F3,SYBR Polygon,1040.18
+NA,ABC_176,NA,Non Bleached,Ambient,Control,FCM,T12,Control_T12,12,14,NA,HE2_T7C,F4,SYBR Polygon,907.877551
+NA,ABC_177,NA,Non Bleached,Ambient,Control,FCM,T12,Control_T12,12,15,NA,HE3_T7C,F5,SYBR Polygon,1309.68
+NA,ABC_178,NA,NA,Ambient,Negative Control,FCM,T12,Negative Control_T12,12,16,NA,NA,F6,SYBR Polygon,629.52
+NA,ABC_179,NA,NA,Ambient,Negative Control,FCM,T12,Negative Control_T12,12,17,NA,NA,F7,SYBR Polygon,428.44
+NA,ABC_180,NA,NA,Ambient,Negative Control,FCM,T12,Negative Control_T12,12,18,NA,NA,F8,SYBR Polygon,1126.1
+NA,ABC_181,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T16,Bleached + Heated_T16,16,1,NA,PB1_T7H,F9,SYBR Polygon,1875.1
+NA,ABC_182,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T16,Bleached + Heated_T16,16,2,NA,PB2_T7H,F10,SYBR Polygon,2057.38
+NA,ABC_183,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T16,Bleached + Heated_T16,16,3,NA,PB3_T7H,F11,SYBR Polygon,1877
+NA,ABC_185,NA,Non Bleached,Thermal Stress,Heated,FCM,T16,Heated_T16,16,5,NA,HE2_T7H,F12,SYBR Polygon,2859.9
+NA,ABC_186,NA,Non Bleached,Thermal Stress,Heated,FCM,T16,Heated_T16,16,6,NA,HE3_T7H,G1,SYBR Polygon,2034.061224
+NA,ABC_187,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T16,Negative Control + Heated_T16,16,7,NA,NA,G2,SYBR Polygon,622.040816
+NA,ABC_188,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T16,Negative Control + Heated_T16,16,8,NA,NA,G3,SYBR Polygon,595.06
+NA,ABC_189,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T16,Negative Control + Heated_T16,16,9,NA,NA,G4,SYBR Polygon,413.02
+NA,ABC_190,NA,Bleached,Ambient,Bleached,FCM,T16,Bleached_T16,16,10,NA,BL1_T7C,G5,SYBR Polygon,1271.897959
+NA,ABC_191,NA,Bleached,Ambient,Bleached,FCM,T16,Bleached_T16,16,11,NA,BL2_T7C,G6,SYBR Polygon,1464.244898
+NA,ABC_192,NA,Bleached,Ambient,Bleached,FCM,T16,Bleached_T16,16,12,NA,BL3_T7C,G7,SYBR Polygon,1925.62
+NA,ABC_193,NA,Non Bleached,Ambient,Control,FCM,T16,Control_T16,16,13,NA,HE1_T7C,G8,SYBR Polygon,1684.12
+NA,ABC_194,NA,Non Bleached,Ambient,Control,FCM,T16,Control_T16,16,14,NA,HE2_T7C,G9,SYBR Polygon,1194.959184
+NA,ABC_195,NA,Non Bleached,Ambient,Control,FCM,T16,Control_T16,16,15,NA,HE3_T7C,G10,SYBR Polygon,1335.02
+NA,ABC_196,NA,NA,Ambient,Negative Control,FCM,T16,Negative Control_T16,16,16,NA,NA,G11,SYBR Polygon,771.28
+NA,ABC_197,NA,NA,Ambient,Negative Control,FCM,T16,Negative Control_T16,16,17,NA,NA,G12,SYBR Polygon,687.693878
+NA,ABC_198,NA,NA,Ambient,Negative Control,FCM,T16,Negative Control_T16,16,18,NA,NA,H1,SYBR Polygon,1608.8
+NA,ABC_199,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T20,Bleached + Heated_T20,20,1,NA,PB1_T7H,H2,SYBR Polygon,2062
+NA,ABC_200,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T20,Bleached + Heated_T20,20,2,NA,PB2_T7H,H3,SYBR Polygon,2012.5
+NA,ABC_201,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T20,Bleached + Heated_T20,20,3,NA,PB3_T7H,H4,SYBR Polygon,2170.9
+NA,ABC_203,NA,Non Bleached,Thermal Stress,Heated,FCM,T20,Heated_T20,20,5,NA,HE2_T7H,H5,SYBR Polygon,4045.38
+NA,ABC_204,NA,Non Bleached,Thermal Stress,Heated,FCM,T20,Heated_T20,20,6,NA,HE3_T7H,A1,SYBR Polygon,2133.755102
+NA,ABC_205,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T20,Negative Control + Heated_T20,20,7,NA,NA,A2,SYBR Polygon,651.183673
+NA,ABC_206,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T20,Negative Control + Heated_T20,20,8,NA,NA,A3,SYBR Polygon,710.86
+NA,ABC_207,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T20,Negative Control + Heated_T20,20,9,NA,NA,A4,SYBR Polygon,549.734694
+NA,ABC_208,NA,Bleached,Ambient,Bleached,FCM,T20,Bleached_T20,20,10,NA,BL1_T7C,A5,SYBR Polygon,1508.469388
+NA,ABC_209,NA,Bleached,Ambient,Bleached,FCM,T20,Bleached_T20,20,11,NA,BL2_T7C,A6,SYBR Polygon,1823.68
+NA,ABC_210,NA,Bleached,Ambient,Bleached,FCM,T20,Bleached_T20,20,12,NA,BL3_T7C,A7,SYBR Polygon,2506.26
+NA,ABC_211,NA,Non Bleached,Ambient,Control,FCM,T20,Control_T20,20,13,NA,HE1_T7C,A8,SYBR Polygon,1899.428571
+NA,ABC_212,NA,Non Bleached,Ambient,Control,FCM,T20,Control_T20,20,14,NA,HE2_T7C,A9,SYBR Polygon,1374.54
+NA,ABC_213,NA,Non Bleached,Ambient,Control,FCM,T20,Control_T20,20,15,NA,HE3_T7C,A10,SYBR Polygon,1771.64
+NA,ABC_214,NA,NA,Ambient,Negative Control,FCM,T20,Negative Control_T20,20,16,NA,NA,A11,SYBR Polygon,956.66
+NA,ABC_215,NA,NA,Ambient,Negative Control,FCM,T20,Negative Control_T20,20,17,NA,NA,A12,SYBR Polygon,922.1
+NA,ABC_216,NA,NA,Ambient,Negative Control,FCM,T20,Negative Control_T20,20,18,NA,NA,B1,SYBR Polygon,1788.897959
+NA,ABC_217,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T24,Bleached + Heated_T24,24,1,NA,PB1_T7H,B2,SYBR Polygon,2199.367347
+NA,ABC_218,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T24,Bleached + Heated_T24,24,2,NA,PB2_T7H,B3,SYBR Polygon,2129.42
+NA,ABC_219,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T24,Bleached + Heated_T24,24,3,NA,PB3_T7H,B4,SYBR Polygon,2116.62
+NA,ABC_221,NA,Non Bleached,Thermal Stress,Heated,FCM,T24,Heated_T24,24,5,NA,HE2_T7H,B5,SYBR Polygon,3950.326531
+NA,ABC_222,NA,Non Bleached,Thermal Stress,Heated,FCM,T24,Heated_T24,24,6,NA,HE3_T7H,B6,SYBR Polygon,2369.795918
+NA,ABC_223,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T24,Negative Control + Heated_T24,24,7,NA,NA,B7,SYBR Polygon,736.489796
+NA,ABC_224,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T24,Negative Control + Heated_T24,24,8,NA,NA,B8,SYBR Polygon,733.22449
+NA,ABC_225,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T24,Negative Control + Heated_T24,24,9,NA,NA,B9,SYBR Polygon,611.88
+NA,ABC_226,NA,Bleached,Ambient,Bleached,FCM,T24,Bleached_T24,24,10,NA,BL1_T7C,B10,SYBR Polygon,1276.04
+NA,ABC_227,NA,Bleached,Ambient,Bleached,FCM,T24,Bleached_T24,24,11,NA,BL2_T7C,B11,SYBR Polygon,1508.14
+NA,ABC_228,NA,Bleached,Ambient,Bleached,FCM,T24,Bleached_T24,24,12,NA,BL3_T7C,B12,SYBR Polygon,2533.58
+NA,ABC_229,NA,Non Bleached,Ambient,Control,FCM,T24,Control_T24,24,13,NA,HE1_T7C,C1,SYBR Polygon,1827.122449
+NA,ABC_230,NA,Non Bleached,Ambient,Control,FCM,T24,Control_T24,24,14,NA,HE2_T7C,C2,SYBR Polygon,1367.44898
+NA,ABC_231,NA,Non Bleached,Ambient,Control,FCM,T24,Control_T24,24,15,NA,HE3_T7C,C3,SYBR Polygon,1491.38
+NA,ABC_232,NA,NA,Ambient,Negative Control,FCM,T24,Negative Control_T24,24,16,NA,NA,C4,SYBR Polygon,922.16
+NA,ABC_233,NA,NA,Ambient,Negative Control,FCM,T24,Negative Control_T24,24,17,NA,NA,C5,SYBR Polygon,894.52
+NA,ABC_234,NA,NA,Ambient,Negative Control,FCM,T24,Negative Control_T24,24,18,NA,NA,C6,SYBR Polygon,1802.28
+NA,ABC_235,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T32,Bleached + Heated_T32,32,1,NA,PB1_T7H,C7,SYBR Polygon,1984.285714
+NA,ABC_236,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T32,Bleached + Heated_T32,32,2,NA,PB2_T7H,C8,SYBR Polygon,1963.76
+NA,ABC_237,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,T32,Bleached + Heated_T32,32,3,NA,PB3_T7H,C9,SYBR Polygon,2079.2
+NA,ABC_238,NA,Non Bleached,Thermal Stress,Heated,FCM,T32,Heated_T32,32,5,NA,HE2_T7H,C10,SYBR Polygon,3912.34
+NA,ABC_239,NA,Non Bleached,Thermal Stress,Heated,FCM,T32,Heated_T32,32,6,NA,HE3_T7H,C11,SYBR Polygon,2101.94
+NA,ABC_240,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T32,Negative Control + Heated_T32,32,7,NA,NA,C12,SYBR Polygon,782.959184
+NA,ABC_241,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T32,Negative Control + Heated_T32,32,8,NA,NA,D1,SYBR Polygon,758.142857
+NA,ABC_242,NA,NA,Thermal Stress,Negative Control + Heated,FCM,T32,Negative Control + Heated_T32,32,9,NA,NA,D2,SYBR Polygon,645.469388
+NA,ABC_243,NA,Bleached,Ambient,Bleached,FCM,T32,Bleached_T32,32,10,NA,BL1_T7C,D3,SYBR Polygon,1403.56
+NA,ABC_244,NA,Bleached,Ambient,Bleached,FCM,T32,Bleached_T32,32,11,NA,BL2_T7C,D4,SYBR Polygon,1900.836735
+NA,ABC_245,NA,Bleached,Ambient,Bleached,FCM,T32,Bleached_T32,32,12,NA,BL3_T7C,D5,SYBR Polygon,2463.12
+NA,ABC_246,NA,Non Bleached,Ambient,Control,FCM,T32,Control_T32,32,13,NA,HE1_T7C,D6,SYBR Polygon,1771.489796
+NA,ABC_247,NA,Non Bleached,Ambient,Control,FCM,T32,Control_T32,32,14,NA,HE2_T7C,D7,SYBR Polygon,1289.06
+NA,ABC_248,NA,Non Bleached,Ambient,Control,FCM,T32,Control_T32,32,15,NA,HE3_T7C,D8,SYBR Polygon,1263.244898
+NA,ABC_249,NA,NA,Ambient,Negative Control,FCM,T32,Negative Control_T32,32,16,NA,NA,D9,SYBR Polygon,921.285714
+NA,ABC_250,NA,NA,Ambient,Negative Control,FCM,T32,Negative Control_T32,32,17,NA,NA,D10,SYBR Polygon,922.04
+NA,ABC_251,NA,NA,Ambient,Negative Control,FCM,T32,Negative Control_T32,32,18,NA,NA,D11,SYBR Polygon,1726.86
+NA,ABC_252,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,Tend,Bleached + Heated_Tend,36,1,NA,PB1_T7H,D12,SYBR Polygon,1641.14
+NA,ABC_253,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,Tend,Bleached + Heated_Tend,36,2,NA,PB2_T7H,E1,SYBR Polygon,1653.68
+NA,ABC_254,NA,Bleached,Thermal Stress,Bleached + Heated,FCM,Tend,Bleached + Heated_Tend,36,3,NA,PB3_T7H,E2,SYBR Polygon,1678.3
+NA,ABC_255,NA,Non Bleached,Thermal Stress,Heated,FCM,Tend,Heated_Tend,36,5,NA,HE2_T7H,E3,SYBR Polygon,3415.04
+NA,ABC_256,NA,Non Bleached,Thermal Stress,Heated,FCM,Tend,Heated_Tend,36,6,NA,HE3_T7H,E4,SYBR Polygon,1683.52
+NA,ABC_257,NA,NA,Thermal Stress,Negative Control + Heated,FCM,Tend,Negative Control + Heated_Tend,36,7,NA,NA,E5,SYBR Polygon,731.78
+NA,ABC_258,NA,NA,Thermal Stress,Negative Control + Heated,FCM,Tend,Negative Control + Heated_Tend,36,8,NA,NA,E6,SYBR Polygon,727.32
+NA,ABC_259,NA,NA,Thermal Stress,Negative Control + Heated,FCM,Tend,Negative Control + Heated_Tend,36,9,NA,NA,E7,SYBR Polygon,650.62
+NA,ABC_260,NA,Bleached,Ambient,Bleached,FCM,Tend,Bleached_Tend,36,10,NA,BL1_T7C,E8,SYBR Polygon,1334.32
+NA,ABC_261,NA,Bleached,Ambient,Bleached,FCM,Tend,Bleached_Tend,36,11,NA,BL2_T7C,E9,SYBR Polygon,1764.8
+NA,ABC_262,NA,Bleached,Ambient,Bleached,FCM,Tend,Bleached_Tend,36,12,NA,BL3_T7C,E10,SYBR Polygon,2448.204082
+NA,ABC_263,NA,Non Bleached,Ambient,Control,FCM,Tend,Control_Tend,36,13,NA,HE1_T7C,E11,SYBR Polygon,1699.755102
+NA,ABC_264,NA,Non Bleached,Ambient,Control,FCM,Tend,Control_Tend,36,14,NA,HE2_T7C,E12,SYBR Polygon,1087.14
+NA,ABC_265,NA,Non Bleached,Ambient,Control,FCM,Tend,Control_Tend,36,15,NA,HE3_T7C,F1,SYBR Polygon,1027
+NA,ABC_266,NA,NA,Ambient,Negative Control,FCM,Tend,Negative Control_Tend,36,16,NA,NA,F2,SYBR Polygon,787.78
+NA,ABC_267,NA,NA,Ambient,Negative Control,FCM,Tend,Negative Control_Tend,36,17,NA,NA,F3,SYBR Polygon,830.12
+NA,ABC_268,NA,NA,Ambient,Negative Control,FCM,Tend,Negative Control_Tend,36,18,NA,NA,F4,SYBR Polygon,1563.08

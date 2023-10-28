@@ -1,295 +1,270 @@
-Sample Name,Temp,Origin_PlanC,Field_Treatment,Bleaching_Status,Bleaching_Susceptability,Stress_status,Treatment_old,Treatment,Sample_Type,Timepoint_char,Treatment_Time,Timepoint,Bottle_NR,Notes,PLANC_aquaria,Experiment
-ABC_001,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,Sterivex,T0,Bleached + Heated_T0,0,1,,PB1_T7H,
-ABC_002,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,Sterivex,T0,Bleached + Heated_T0,0,2,,PB2_T7H,
-ABC_003,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,Sterivex,T0,Bleached + Heated_T0,0,3,,PB3_T7H,
-ABC_004,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,Sterivex,T0,Non-bleached + Heated_T0,0,4,Not taken,HE1_T7H,ABCDOM
-ABC_005,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,Sterivex,T0,Non-bleached + Heated_T0,0,5,,HE2_T7H,ABCDOM
-ABC_006,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,Sterivex,T0,Non-bleached + Heated_T0,0,6,,HE3_T7H,ABCDOM
-ABC_007,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,Sterivex,T0,Heated Water Control_T0,0,7,,,ABCDOM
-ABC_008,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,Sterivex,T0,Heated Water Control_T0,0,8,,,ABCDOM
-ABC_009,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,Sterivex,T0,Heated Water Control_T0,0,9,,,ABCDOM
-ABC_010,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,Sterivex,T0,Bleached + Ambient_T0,0,10,,BL1_T7C,ABCDOM
-ABC_011,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,Sterivex,T0,Bleached + Ambient_T0,0,11,,BL2_T7C,ABCDOM
-ABC_012,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,Sterivex,T0,Bleached + Ambient_T0,0,12,,BL3_T7C,ABCDOM
-ABC_013,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,Sterivex,T0,Non-bleached + Ambient_T0,0,13,,HE1_T7C,ABCDOM
-ABC_014,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,Sterivex,T0,Non-bleached + Ambient_T0,0,14,,HE2_T7C,ABCDOM
-ABC_015,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,Sterivex,T0,Non-bleached + Ambient_T0,0,15,,HE3_T7C,ABCDOM
-ABC_016,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,Sterivex,T0,Ambient Water Control_T0,0,16,,,ABCDOM
-ABC_017,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,Sterivex,T0,Ambient Water Control_T0,0,17,,,ABCDOM
-ABC_018,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,Sterivex,T0,Ambient Water Control_T0,0,18,,,ABCDOM
-ABC_019,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,1,,PB1_T7H,ABCDOM
-ABC_020,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,2,,PB2_T7H,ABCDOM
-ABC_021,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,3,,PB3_T7H,ABCDOM
-ABC_022,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,T0,Non-bleached + Heated_T0,0,4,Not taken,HE1_T7H,ABCDOM
-ABC_023,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,T0,Non-bleached + Heated_T0,0,5,,HE2_T7H,ABCDOM
-ABC_024,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,T0,Non-bleached + Heated_T0,0,6,,HE3_T7H,ABCDOM
-ABC_025,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,T0,Heated Water Control_T0,0,7,,,ABCDOM
-ABC_026,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,T0,Heated Water Control_T0,0,8,,,ABCDOM
-ABC_027,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,T0,Heated Water Control_T0,0,9,,,ABCDOM
-ABC_028,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,T0,Bleached + Ambient_T0,0,10,,BL1_T7C,ABCDOM
-ABC_029,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,T0,Bleached + Ambient_T0,0,11,,BL2_T7C,ABCDOM
-ABC_030,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,T0,Bleached + Ambient_T0,0,12,,BL3_T7C,ABCDOM
-ABC_031,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,T0,Non-bleached + Ambient_T0,0,13,,HE1_T7C,ABCDOM
-ABC_032,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,T0,Non-bleached + Ambient_T0,0,14,,HE2_T7C,ABCDOM
-ABC_033,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,T0,Non-bleached + Ambient_T0,0,15,,HE3_T7C,ABCDOM
-ABC_034,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,Ambient Water Control_T0,0,16,,,ABCDOM
-ABC_035,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,Ambient Water Control_T0,0,17,,,ABCDOM
-ABC_036,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,Ambient Water Control_T0,0,18,,,ABCDOM
-ABC_037,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,DOC,T0,Bleached + Heated_T0,0,1,,PB1_T7H,ABCDOM
-ABC_038,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,DOC,T0,Bleached + Heated_T0,0,2,,PB2_T7H,ABCDOM
-ABC_039,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,DOC,T0,Bleached + Heated_T0,0,3,,PB3_T7H,ABCDOM
-ABC_040,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,DOC,T0,Non-bleached + Heated_T0,0,4,Not taken,HE1_T7H,ABCDOM
-ABC_041,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,DOC,T0,Non-bleached + Heated_T0,0,5,,HE2_T7H,ABCDOM
-ABC_042,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,DOC,T0,Non-bleached + Heated_T0,0,6,,HE3_T7H,ABCDOM
-ABC_043,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,DOC,T0,Heated Water Control_T0,0,7,,,ABCDOM
-ABC_044,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,DOC,T0,Heated Water Control_T0,0,8,,,ABCDOM
-ABC_045,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,DOC,T0,Heated Water Control_T0,0,9,,,ABCDOM
-ABC_046,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,DOC,T0,Bleached + Ambient_T0,0,10,,BL1_T7C,ABCDOM
-ABC_047,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,DOC,T0,Bleached + Ambient_T0,0,11,,BL2_T7C,ABCDOM
-ABC_048,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,DOC,T0,Bleached + Ambient_T0,0,12,,BL3_T7C,ABCDOM
-ABC_049,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,DOC,T0,Non-bleached + Ambient_T0,0,13,,HE1_T7C,ABCDOM
-ABC_050,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,DOC,T0,Non-bleached + Ambient_T0,0,14,,HE2_T7C,ABCDOM
-ABC_051,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,DOC,T0,Non-bleached + Ambient_T0,0,15,,HE3_T7C,ABCDOM
-ABC_052,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,DOC,T0,Ambient Water Control_T0,0,16,,,ABCDOM
-ABC_053,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,DOC,T0,Ambient Water Control_T0,0,17,,,ABCDOM
-ABC_054,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,DOC,T0,Ambient Water Control_T0,0,18,,,ABCDOM
-ABC_055,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,Sterivex,Tend,Bleached + Heated_Tend,36,1,,PB1_T7H,ABCDOM
-ABC_056,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,Sterivex,Tend,Bleached + Heated_Tend,36,2,,PB2_T7H,ABCDOM
-ABC_057,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,Sterivex,Tend,Bleached + Heated_Tend,36,3,,PB3_T7H,ABCDOM
-ABC_058,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,Sterivex,Tend,Non-bleached + Heated_Tend,36,4,Not taken,HE1_T7H,ABCDOM
-ABC_059,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,Sterivex,Tend,Non-bleached + Heated_Tend,36,5,,HE2_T7H,ABCDOM
-ABC_060,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,Sterivex,Tend,Non-bleached + Heated_Tend,36,6,,HE3_T7H,ABCDOM
-ABC_061,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,Sterivex,Tend,Heated Water Control_Tend,36,7,,,ABCDOM
-ABC_062,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,Sterivex,Tend,Heated Water Control_Tend,36,8,,,ABCDOM
-ABC_063,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,Sterivex,Tend,Heated Water Control_Tend,36,9,,,ABCDOM
-ABC_064,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,Sterivex,Tend,Bleached + Ambient_Tend,36,10,,BL1_T7C,ABCDOM
-ABC_065,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,Sterivex,Tend,Bleached + Ambient_Tend,36,11,,BL2_T7C,ABCDOM
-ABC_066,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,Sterivex,Tend,Bleached + Ambient_Tend,36,12,,BL3_T7C,ABCDOM
-ABC_067,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,Sterivex,Tend,Non-bleached + Ambient_Tend,36,13,,HE1_T7C,ABCDOM
-ABC_068,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,Sterivex,Tend,Non-bleached + Ambient_Tend,36,14,,HE2_T7C,ABCDOM
-ABC_069,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,Sterivex,Tend,Non-bleached + Ambient_Tend,36,15,,HE3_T7C,ABCDOM
-ABC_070,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,Sterivex,Tend,Ambient Water Control_Tend,36,16,,,ABCDOM
-ABC_071,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,Sterivex,Tend,Ambient Water Control_Tend,36,17,,,ABCDOM
-ABC_072,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,Sterivex,Tend,Ambient Water Control_Tend,36,18,,,ABCDOM
-ABC_073,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,Tend,Bleached + Heated_Tend,36,1,,PB1_T7H,ABCDOM
-ABC_074,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,Tend,Bleached + Heated_Tend,36,2,,PB2_T7H,ABCDOM
-ABC_075,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,Tend,Bleached + Heated_Tend,36,3,,PB3_T7H,ABCDOM
-ABC_076,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,Tend,Non-bleached + Heated_Tend,36,4,Not taken,HE1_T7H,ABCDOM
-ABC_077,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,Tend,Non-bleached + Heated_Tend,36,5,,HE2_T7H,ABCDOM
-ABC_078,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,Tend,Non-bleached + Heated_Tend,36,6,,HE3_T7H,ABCDOM
-ABC_079,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,Tend,Heated Water Control_Tend,36,7,,,ABCDOM
-ABC_080,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,Tend,Heated Water Control_Tend,36,8,,,ABCDOM
-ABC_081,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,Tend,Heated Water Control_Tend,36,9,,,ABCDOM
-ABC_082,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,Tend,Bleached + Ambient_Tend,36,10,,BL1_T7C,ABCDOM
-ABC_083,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,Tend,Bleached + Ambient_Tend,36,11,,BL2_T7C,ABCDOM
-ABC_084,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,Tend,Bleached + Ambient_Tend,36,12,,BL3_T7C,ABCDOM
-ABC_085,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,Tend,Non-bleached + Ambient_Tend,36,13,,HE1_T7C,ABCDOM
-ABC_086,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,Tend,Non-bleached + Ambient_Tend,36,14,,HE2_T7C,ABCDOM
-ABC_087,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,Tend,Non-bleached + Ambient_Tend,36,15,,HE3_T7C,ABCDOM
-ABC_088,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,Tend,Ambient Water Control_Tend,36,16,,,ABCDOM
-ABC_089,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,Tend,Ambient Water Control_Tend,36,17,,,ABCDOM
-ABC_090,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,Tend,Ambient Water Control_Tend,36,18,,,ABCDOM
-ABC_091,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,DOC,Tend,Bleached + Heated_Tend,36,1,,PB1_T7H,ABCDOM
-ABC_092,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,DOC,Tend,Bleached + Heated_Tend,36,2,,PB2_T7H,ABCDOM
-ABC_093,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,DOC,Tend,Bleached + Heated_Tend,36,3,,PB3_T7H,ABCDOM
-ABC_094,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,DOC,Tend,Non-bleached + Heated_Tend,36,4,Not taken,HE1_T7H,ABCDOM
-ABC_095,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,DOC,Tend,Non-bleached + Heated_Tend,36,5,,HE2_T7H,ABCDOM
-ABC_096,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,DOC,Tend,Non-bleached + Heated_Tend,36,6,,HE3_T7H,ABCDOM
-ABC_097,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,DOC,Tend,Heated Water Control_Tend,36,7,,,ABCDOM
-ABC_098,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,DOC,Tend,Heated Water Control_Tend,36,8,,,ABCDOM
-ABC_099,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,DOC,Tend,Heated Water Control_Tend,36,9,,,ABCDOM
-ABC_100,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,DOC,Tend,Bleached + Ambient_Tend,36,10,,BL1_T7C,ABCDOM
-ABC_101,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,DOC,Tend,Bleached + Ambient_Tend,36,11,,BL2_T7C,ABCDOM
-ABC_102,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,DOC,Tend,Bleached + Ambient_Tend,36,12,,BL3_T7C,ABCDOM
-ABC_103,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,DOC,Tend,Non-bleached + Ambient_Tend,36,13,,HE1_T7C,ABCDOM
-ABC_104,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,DOC,Tend,Non-bleached + Ambient_Tend,36,14,,HE2_T7C,ABCDOM
-ABC_105,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,DOC,Tend,Non-bleached + Ambient_Tend,36,15,,HE3_T7C,ABCDOM
-ABC_106,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,DOC,Tend,Ambient Water Control_Tend,36,16,,,ABCDOM
-ABC_107,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,DOC,Tend,Ambient Water Control_Tend,36,17,,,ABCDOM
-ABC_108,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,DOC,Tend,Ambient Water Control_Tend,36,18,,,ABCDOM
-ABC_109,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T0,Bleached + Heated_T0,0,1,,PB1_T7H,ABCDOM
-ABC_110,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T0,Bleached + Heated_T0,0,2,,PB2_T7H,ABCDOM
-ABC_111,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T0,Bleached + Heated_T0,0,3,,PB3_T7H,ABCDOM
-ABC_112,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T0,Non-bleached + Heated_T0,0,4,Not taken,HE1_T7H,ABCDOM
-ABC_113,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T0,Non-bleached + Heated_T0,0,5,,HE2_T7H,ABCDOM
-ABC_114,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T0,Non-bleached + Heated_T0,0,6,,HE3_T7H,ABCDOM
-ABC_115,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T0,Heated Water Control_T0,0,7,,,ABCDOM
-ABC_116,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T0,Heated Water Control_T0,0,8,,,ABCDOM
-ABC_117,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T0,Heated Water Control_T0,0,9,,,ABCDOM
-ABC_118,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T0,Bleached + Ambient_T0,0,10,,BL1_T7C,ABCDOM
-ABC_119,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T0,Bleached + Ambient_T0,0,11,,BL2_T7C,ABCDOM
-ABC_120,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T0,Bleached + Ambient_T0,0,12,,BL3_T7C,ABCDOM
-ABC_121,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T0,Non-bleached + Ambient_T0,0,13,,HE1_T7C,ABCDOM
-ABC_122,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T0,Non-bleached + Ambient_T0,0,14,,HE2_T7C,ABCDOM
-ABC_123,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T0,Non-bleached + Ambient_T0,0,15,,HE3_T7C,ABCDOM
-ABC_124,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T0,Ambient Water Control_T0,0,16,,,ABCDOM
-ABC_125,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T0,Ambient Water Control_T0,0,17,,,ABCDOM
-ABC_126,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T0,Ambient Water Control_T0,0,18,,,ABCDOM
-ABC_127,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T2,Bleached + Heated_T2,2,1,,PB1_T7H,ABCDOM
-ABC_128,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T2,Bleached + Heated_T2,2,2,,PB2_T7H,ABCDOM
-ABC_129,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T2,Bleached + Heated_T2,2,3,,PB3_T7H,ABCDOM
-ABC_130,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T2,Non-bleached + Heated_T2,2,4,Not taken,HE1_T7H,ABCDOM
-ABC_131,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T2,Non-bleached + Heated_T2,2,5,,HE2_T7H,ABCDOM
-ABC_132,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T2,Non-bleached + Heated_T2,2,6,,HE3_T7H,ABCDOM
-ABC_133,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T2,Heated Water Control_T2,2,7,,,ABCDOM
-ABC_134,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T2,Heated Water Control_T2,2,8,,,ABCDOM
-ABC_135,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T2,Heated Water Control_T2,2,9,,,ABCDOM
-ABC_136,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T2,Bleached + Ambient_T2,2,10,,BL1_T7C,ABCDOM
-ABC_137,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T2,Bleached + Ambient_T2,2,11,,BL2_T7C,ABCDOM
-ABC_138,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T2,Bleached + Ambient_T2,2,12,,BL3_T7C,ABCDOM
-ABC_139,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T2,Non-bleached + Ambient_T2,2,13,,HE1_T7C,ABCDOM
-ABC_140,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T2,Non-bleached + Ambient_T2,2,14,,HE2_T7C,ABCDOM
-ABC_141,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T2,Non-bleached + Ambient_T2,2,15,,HE3_T7C,ABCDOM
-ABC_142,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T2,Ambient Water Control_T2,2,16,,,ABCDOM
-ABC_143,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T2,Ambient Water Control_T2,2,17,,,ABCDOM
-ABC_144,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T2,Ambient Water Control_T2,2,18,,,ABCDOM
-ABC_145,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T8,Bleached + Heated_T8,8,1,,PB1_T7H,ABCDOM
-ABC_146,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T8,Bleached + Heated_T8,8,2,,PB2_T7H,ABCDOM
-ABC_147,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T8,Bleached + Heated_T8,8,3,,PB3_T7H,ABCDOM
-ABC_148,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T8,Non-bleached + Heated_T8,8,4,Not taken,HE1_T7H,ABCDOM
-ABC_149,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T8,Non-bleached + Heated_T8,8,5,,HE2_T7H,ABCDOM
-ABC_150,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T8,Non-bleached + Heated_T8,8,6,,HE3_T7H,ABCDOM
-ABC_151,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T8,Heated Water Control_T8,8,7,,,ABCDOM
-ABC_152,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T8,Heated Water Control_T8,8,8,,,ABCDOM
-ABC_153,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T8,Heated Water Control_T8,8,9,,,ABCDOM
-ABC_154,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T8,Bleached + Ambient_T8,8,10,,BL1_T7C,ABCDOM
-ABC_155,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T8,Bleached + Ambient_T8,8,11,,BL2_T7C,ABCDOM
-ABC_156,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T8,Bleached + Ambient_T8,8,12,,BL3_T7C,ABCDOM
-ABC_157,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T8,Non-bleached + Ambient_T8,8,13,,HE1_T7C,ABCDOM
-ABC_158,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T8,Non-bleached + Ambient_T8,8,14,,HE2_T7C,ABCDOM
-ABC_159,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T8,Non-bleached + Ambient_T8,8,15,,HE3_T7C,ABCDOM
-ABC_160,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T8,Ambient Water Control_T8,8,16,,,ABCDOM
-ABC_161,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T8,Ambient Water Control_T8,8,17,,,ABCDOM
-ABC_162,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T8,Ambient Water Control_T8,8,18,,,ABCDOM
-ABC_163,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T12,Bleached + Heated_T12,12,1,,PB1_T7H,ABCDOM
-ABC_164,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T12,Bleached + Heated_T12,12,2,,PB2_T7H,ABCDOM
-ABC_165,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T12,Bleached + Heated_T12,12,3,,PB3_T7H,ABCDOM
-ABC_166,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T12,Non-bleached + Heated_T12,12,4,Not taken,HE1_T7H,ABCDOM
-ABC_167,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T12,Non-bleached + Heated_T12,12,5,,HE2_T7H,ABCDOM
-ABC_168,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T12,Non-bleached + Heated_T12,12,6,,HE3_T7H,ABCDOM
-ABC_169,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T12,Heated Water Control_T12,12,7,,,ABCDOM
-ABC_170,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T12,Heated Water Control_T12,12,8,,,ABCDOM
-ABC_171,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T12,Heated Water Control_T12,12,9,,,ABCDOM
-ABC_172,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T12,Bleached + Ambient_T12,12,10,,BL1_T7C,ABCDOM
-ABC_173,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T12,Bleached + Ambient_T12,12,11,,BL2_T7C,ABCDOM
-ABC_174,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T12,Bleached + Ambient_T12,12,12,,BL3_T7C,ABCDOM
-ABC_175,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T12,Non-bleached + Ambient_T12,12,13,,HE1_T7C,ABCDOM
-ABC_176,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T12,Non-bleached + Ambient_T12,12,14,,HE2_T7C,ABCDOM
-ABC_177,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T12,Non-bleached + Ambient_T12,12,15,,HE3_T7C,ABCDOM
-ABC_178,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T12,Ambient Water Control_T12,12,16,,,ABCDOM
-ABC_179,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T12,Ambient Water Control_T12,12,17,,,ABCDOM
-ABC_180,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T12,Ambient Water Control_T12,12,18,,,ABCDOM
-ABC_181,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T16,Bleached + Heated_T16,16,1,,PB1_T7H,ABCDOM
-ABC_182,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T16,Bleached + Heated_T16,16,2,,PB2_T7H,ABCDOM
-ABC_183,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T16,Bleached + Heated_T16,16,3,,PB3_T7H,ABCDOM
-ABC_184,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T16,Non-bleached + Heated_T16,16,4,Not taken,HE1_T7H,ABCDOM
-ABC_185,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T16,Non-bleached + Heated_T16,16,5,,HE2_T7H,ABCDOM
-ABC_186,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T16,Non-bleached + Heated_T16,16,6,,HE3_T7H,ABCDOM
-ABC_187,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T16,Heated Water Control_T16,16,7,,,ABCDOM
-ABC_188,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T16,Heated Water Control_T16,16,8,,,ABCDOM
-ABC_189,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T16,Heated Water Control_T16,16,9,,,ABCDOM
-ABC_190,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T16,Bleached + Ambient_T16,16,10,,BL1_T7C,ABCDOM
-ABC_191,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T16,Bleached + Ambient_T16,16,11,,BL2_T7C,ABCDOM
-ABC_192,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T16,Bleached + Ambient_T16,16,12,,BL3_T7C,ABCDOM
-ABC_193,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T16,Non-bleached + Ambient_T16,16,13,,HE1_T7C,ABCDOM
-ABC_194,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T16,Non-bleached + Ambient_T16,16,14,,HE2_T7C,ABCDOM
-ABC_195,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T16,Non-bleached + Ambient_T16,16,15,,HE3_T7C,ABCDOM
-ABC_196,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T16,Ambient Water Control_T16,16,16,,,ABCDOM
-ABC_197,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T16,Ambient Water Control_T16,16,17,,,ABCDOM
-ABC_198,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T16,Ambient Water Control_T16,16,18,,,ABCDOM
-ABC_199,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T20,Bleached + Heated_T20,20,1,,PB1_T7H,ABCDOM
-ABC_200,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T20,Bleached + Heated_T20,20,2,,PB2_T7H,ABCDOM
-ABC_201,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T20,Bleached + Heated_T20,20,3,,PB3_T7H,ABCDOM
-ABC_202,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T20,Non-bleached + Heated_T20,20,4,Not taken,HE1_T7H,ABCDOM
-ABC_203,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T20,Non-bleached + Heated_T20,20,5,,HE2_T7H,ABCDOM
-ABC_204,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T20,Non-bleached + Heated_T20,20,6,,HE3_T7H,ABCDOM
-ABC_205,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T20,Heated Water Control_T20,20,7,,,ABCDOM
-ABC_206,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T20,Heated Water Control_T20,20,8,,,ABCDOM
-ABC_207,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T20,Heated Water Control_T20,20,9,,,ABCDOM
-ABC_208,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T20,Bleached + Ambient_T20,20,10,,BL1_T7C,ABCDOM
-ABC_209,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T20,Bleached + Ambient_T20,20,11,,BL2_T7C,ABCDOM
-ABC_210,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T20,Bleached + Ambient_T20,20,12,,BL3_T7C,ABCDOM
-ABC_211,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T20,Non-bleached + Ambient_T20,20,13,,HE1_T7C,ABCDOM
-ABC_212,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T20,Non-bleached + Ambient_T20,20,14,,HE2_T7C,ABCDOM
-ABC_213,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T20,Non-bleached + Ambient_T20,20,15,,HE3_T7C,ABCDOM
-ABC_214,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T20,Ambient Water Control_T20,20,16,,,ABCDOM
-ABC_215,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T20,Ambient Water Control_T20,20,17,,,ABCDOM
-ABC_216,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T20,Ambient Water Control_T20,20,18,,,ABCDOM
-ABC_217,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T24,Bleached + Heated_T24,24,1,,PB1_T7H,ABCDOM
-ABC_218,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T24,Bleached + Heated_T24,24,2,,PB2_T7H,ABCDOM
-ABC_219,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T24,Bleached + Heated_T24,24,3,,PB3_T7H,ABCDOM
-ABC_220,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T24,Non-bleached + Heated_T24,24,4,Not taken,HE1_T7H,ABCDOM
-ABC_221,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T24,Non-bleached + Heated_T24,24,5,,HE2_T7H,ABCDOM
-ABC_222,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T24,Non-bleached + Heated_T24,24,6,,HE3_T7H,ABCDOM
-ABC_223,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T24,Heated Water Control_T24,24,7,,,ABCDOM
-ABC_224,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T24,Heated Water Control_T24,24,8,,,ABCDOM
-ABC_225,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T24,Heated Water Control_T24,24,9,,,ABCDOM
-ABC_226,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T24,Bleached + Ambient_T24,24,10,,BL1_T7C,ABCDOM
-ABC_227,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T24,Bleached + Ambient_T24,24,11,,BL2_T7C,ABCDOM
-ABC_228,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T24,Bleached + Ambient_T24,24,12,,BL3_T7C,ABCDOM
-ABC_229,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T24,Non-bleached + Ambient_T24,24,13,,HE1_T7C,ABCDOM
-ABC_230,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T24,Non-bleached + Ambient_T24,24,14,,HE2_T7C,ABCDOM
-ABC_231,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T24,Non-bleached + Ambient_T24,24,15,,HE3_T7C,ABCDOM
-ABC_232,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T24,Ambient Water Control_T24,24,16,,,ABCDOM
-ABC_233,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T24,Ambient Water Control_T24,24,17,,,ABCDOM
-ABC_234,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T24,Ambient Water Control_T24,24,18,,,ABCDOM
-ABC_235,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T32,Bleached + Heated_T32,32,1,,PB1_T7H,ABCDOM
-ABC_236,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T32,Bleached + Heated_T32,32,2,,PB2_T7H,ABCDOM
-ABC_237,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,T32,Bleached + Heated_T32,32,3,,PB3_T7H,ABCDOM
-ABC_238,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T32,Non-bleached + Heated_T32,32,5,,HE2_T7H,ABCDOM
-ABC_239,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,T32,Non-bleached + Heated_T32,32,6,,HE3_T7H,ABCDOM
-ABC_240,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T32,Heated Water Control_T32,32,7,,,ABCDOM
-ABC_241,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T32,Heated Water Control_T32,32,8,,,ABCDOM
-ABC_242,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,T32,Heated Water Control_T32,32,9,,,ABCDOM
-ABC_243,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T32,Bleached + Ambient_T32,32,10,,BL1_T7C,ABCDOM
-ABC_244,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T32,Bleached + Ambient_T32,32,11,,BL2_T7C,ABCDOM
-ABC_245,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,T32,Bleached + Ambient_T32,32,12,,BL3_T7C,ABCDOM
-ABC_246,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T32,Non-bleached + Ambient_T32,32,13,,HE1_T7C,ABCDOM
-ABC_247,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T32,Non-bleached + Ambient_T32,32,14,,HE2_T7C,ABCDOM
-ABC_248,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,T32,Non-bleached + Ambient_T32,32,15,,HE3_T7C,ABCDOM
-ABC_249,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T32,Ambient Water Control_T32,32,16,,,ABCDOM
-ABC_250,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T32,Ambient Water Control_T32,32,17,,,ABCDOM
-ABC_251,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,T32,Ambient Water Control_T32,32,18,,,ABCDOM
-ABC_252,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,Tend,Bleached + Heated_Tend,36,1,,PB1_T7H,ABCDOM
-ABC_253,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,Tend,Bleached + Heated_Tend,36,2,,PB2_T7H,ABCDOM
-ABC_254,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,FCM,Tend,Bleached + Heated_Tend,36,3,,PB3_T7H,ABCDOM
-ABC_255,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,Tend,Non-bleached + Heated_Tend,36,5,,HE2_T7H,ABCDOM
-ABC_256,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,FCM,Tend,Non-bleached + Heated_Tend,36,6,,HE3_T7H,ABCDOM
-ABC_257,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,Tend,Heated Water Control_Tend,36,7,,,ABCDOM
-ABC_258,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,Tend,Heated Water Control_Tend,36,8,,,ABCDOM
-ABC_259,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,FCM,Tend,Heated Water Control_Tend,36,9,,,ABCDOM
-ABC_260,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,Tend,Bleached + Ambient_Tend,36,10,,BL1_T7C,ABCDOM
-ABC_261,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,Tend,Bleached + Ambient_Tend,36,11,,BL2_T7C,ABCDOM
-ABC_262,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,FCM,Tend,Bleached + Ambient_Tend,36,12,,BL3_T7C,ABCDOM
-ABC_263,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,Tend,Non-bleached + Ambient_Tend,36,13,,HE1_T7C,ABCDOM
-ABC_264,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,Tend,Non-bleached + Ambient_Tend,36,14,,HE2_T7C,ABCDOM
-ABC_265,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,FCM,Tend,Non-bleached + Ambient_Tend,36,15,,HE3_T7C,ABCDOM
-ABC_266,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,Tend,Ambient Water Control_Tend,36,16,,,ABCDOM
-ABC_267,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,Tend,Ambient Water Control_Tend,36,17,,,ABCDOM
-ABC_268,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,FCM,Tend,Ambient Water Control_Tend,36,18,,,ABCDOM
-ABC_inoculum B_T0,Ambient,Inoculum,Inoculum,Inoculum,Inoculum,Inoculum,Inoculum,Inoculum,PPL,T0,Inoculum_T0,0,19,,,ABCDOM
-PC_WA1_T7C,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,Ambient Water Control_T0,0,0,,,PLANC
-PC_WA2_T7C,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,Ambient Water Control_T0,0,0,,,PLANC
-PC_WA3_T7C,Ambient,control,Water Control,NA,NA,Ambient,Ambient Water Control,Ambient Water Control,PPL,T0,Ambient Water Control_T0,0,0,,,PLANC
-PC_HE1_T7C,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,T0,Non-bleached + Ambient_T0,0,13,,,PLANC
-PC_HE2_T7C,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,T0,Non-bleached + Ambient_T0,0,14,,,PLANC
-PC_HE3_T7C,Ambient,Healthy,Coral Control,Non Bleached,Resistant,Ambient,Control,Non-bleached + Ambient,PPL,T0,Non-bleached + Ambient_T0,0,15,,,PLANC
-PC_PB1_T7C,Ambient,Partially Bleached,Bleaching,,Susceptible,Ambient,,,PPL,T0,_T0,0,0,,,PLANC
-PC_PB2_T7C,Ambient,Partially Bleached,Bleaching,,Susceptible,Ambient,,,PPL,T0,_T0,0,0,,,PLANC
-PC_PB3_T7C,Ambient,Partially Bleached,Bleaching,,Susceptible,Ambient,,,PPL,T0,_T0,0,0,,,PLANC
-PC_BL1_T7C,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,T0,Bleached + Ambient_T0,0,10,,BL1_T7C,PLANC
-PC_BL2_T7C,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,T0,Bleached + Ambient_T0,0,11,,BL2_T7C,PLANC
-PC_BL3_T7C,Ambient,Bleached,Recovering,Bleached,Susceptible,Ambient,Bleached,Bleached + Ambient,PPL,T0,Bleached + Ambient_T0,0,12,,BL3_T7C,PLANC
-PC_Blank,Blank,Blank,Blank,Blank,Blank,Blank,Blank,Blank,PPL,T0,Blank_T0,0,0,,Blank,PLANC
-PC_WA1_T7H,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,T0,Heated Water Control_T0,0,0,,,PLANC
-PC_WA2_T7H,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,T0,Heated Water Control_T0,0,0,,,PLANC
-PC_WA3_T7H,Hot,control,Hot Water Control,NA,NA,Thermal Stress,Heated Water Control,Heated Water Control,PPL,T0,Heated Water Control_T0,0,0,,,PLANC
-PC_HE1_T7H,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,T0,Non-bleached + Heated_T0,0,0,,,PLANC
-PC_HE2_T7H,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,T0,Non-bleached + Heated_T0,0,5,,HE2_T7H,PLANC
-PC_HE3_T7H,Hot,Healthy,Bleaching,Non Bleached,Resistant,Thermal Stress,Heated,Non-bleached + Heated,PPL,T0,Non-bleached + Heated_T0,0,6,,HE3_T7H,PLANC
-PC_PB1_T7H,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,1,,PB1_T7H,PLANC
-PC_PB2_T7H,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,2,,PB2_T7H,PLANC
-PC_PB3_T7H,Hot,Partially Bleached,Dying,Bleached,SemiResistant,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,3,,PB3_T7H,PLANC
-PC_BL1_T7H,Hot,Bleached,Dead,Bleached,Susceptible,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,0,,,PLANC
-PC_BL2_T7H,Hot,Bleached,Dead,Bleached,Susceptible,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,0,,,PLANC
-PC_BL3_T7H,Hot,Bleached,Dead,Bleached,Susceptible,Thermal Stress,Bleached + Heated,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,0,,,PLANC
+Sample Name,Temp,Bleaching_Status,Stress_status,Treatment,Sample_Type,Timepoint_char,Timepoint,Bottle_NR,Notes,PLANC_aquaria,Experiment
+ABC_001,Hot,Bleached,Thermal Stress,Bleached + Heated,Sterivex,T0,0,1,,PB1_T7H,
+ABC_002,Hot,Bleached,Thermal Stress,Bleached + Heated,Sterivex,T0,0,2,,PB2_T7H,
+ABC_003,Hot,Bleached,Thermal Stress,Bleached + Heated,Sterivex,T0,0,3,,PB3_T7H,
+ABC_004,Hot,Non Bleached,Thermal Stress,Heated,Sterivex,T0,0,4,Not taken,HE1_T7H,ABCDOM
+ABC_005,Hot,Non Bleached,Thermal Stress,Heated,Sterivex,T0,0,5,,HE2_T7H,ABCDOM
+ABC_006,Hot,Non Bleached,Thermal Stress,Heated,Sterivex,T0,0,6,,HE3_T7H,ABCDOM
+ABC_007,Hot,NA,Thermal Stress,Negative Control + Heated,Sterivex,T0,0,7,,,ABCDOM
+ABC_008,Hot,NA,Thermal Stress,Negative Control + Heated,Sterivex,T0,0,8,,,ABCDOM
+ABC_009,Hot,NA,Thermal Stress,Negative Control + Heated,Sterivex,T0,0,9,,,ABCDOM
+ABC_010,Ambient,Bleached,Ambient,Bleached,Sterivex,T0,0,10,,BL1_T7C,ABCDOM
+ABC_011,Ambient,Bleached,Ambient,Bleached,Sterivex,T0,0,11,,BL2_T7C,ABCDOM
+ABC_012,Ambient,Bleached,Ambient,Bleached,Sterivex,T0,0,12,,BL3_T7C,ABCDOM
+ABC_013,Ambient,Non Bleached,Ambient,Control,Sterivex,T0,0,13,,HE1_T7C,ABCDOM
+ABC_014,Ambient,Non Bleached,Ambient,Control,Sterivex,T0,0,14,,HE2_T7C,ABCDOM
+ABC_015,Ambient,Non Bleached,Ambient,Control,Sterivex,T0,0,15,,HE3_T7C,ABCDOM
+ABC_016,Ambient,NA,Ambient,Negative Control,Sterivex,T0,0,16,,,ABCDOM
+ABC_017,Ambient,NA,Ambient,Negative Control,Sterivex,T0,0,17,,,ABCDOM
+ABC_018,Ambient,NA,Ambient,Negative Control,Sterivex,T0,0,18,,,ABCDOM
+ABC_019,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,0,1,,PB1_T7H,ABCDOM
+ABC_020,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,0,2,,PB2_T7H,ABCDOM
+ABC_021,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,0,3,,PB3_T7H,ABCDOM
+ABC_022,Hot,Non Bleached,Thermal Stress,Heated,PPL,T0,0,4,Not taken,HE1_T7H,ABCDOM
+ABC_023,Hot,Non Bleached,Thermal Stress,Heated,PPL,T0,0,5,,HE2_T7H,ABCDOM
+ABC_024,Hot,Non Bleached,Thermal Stress,Heated,PPL,T0,0,6,,HE3_T7H,ABCDOM
+ABC_025,Hot,NA,Thermal Stress,Negative Control + Heated,PPL,T0,0,7,,,ABCDOM
+ABC_026,Hot,NA,Thermal Stress,Negative Control + Heated,PPL,T0,0,8,,,ABCDOM
+ABC_027,Hot,NA,Thermal Stress,Negative Control + Heated,PPL,T0,0,9,,,ABCDOM
+ABC_028,Ambient,Bleached,Ambient,Bleached,PPL,T0,0,10,,BL1_T7C,ABCDOM
+ABC_029,Ambient,Bleached,Ambient,Bleached,PPL,T0,0,11,,BL2_T7C,ABCDOM
+ABC_030,Ambient,Bleached,Ambient,Bleached,PPL,T0,0,12,,BL3_T7C,ABCDOM
+ABC_031,Ambient,Non Bleached,Ambient,Control,PPL,T0,0,13,,HE1_T7C,ABCDOM
+ABC_032,Ambient,Non Bleached,Ambient,Control,PPL,T0,0,14,,HE2_T7C,ABCDOM
+ABC_033,Ambient,Non Bleached,Ambient,Control,PPL,T0,0,15,,HE3_T7C,ABCDOM
+ABC_034,Ambient,NA,Ambient,Negative Control,PPL,T0,0,16,,,ABCDOM
+ABC_035,Ambient,NA,Ambient,Negative Control,PPL,T0,0,17,,,ABCDOM
+ABC_036,Ambient,NA,Ambient,Negative Control,PPL,T0,0,18,,,ABCDOM
+ABC_037,Hot,Bleached,Thermal Stress,Bleached + Heated,DOC,T0,0,1,,PB1_T7H,ABCDOM
+ABC_038,Hot,Bleached,Thermal Stress,Bleached + Heated,DOC,T0,0,2,,PB2_T7H,ABCDOM
+ABC_039,Hot,Bleached,Thermal Stress,Bleached + Heated,DOC,T0,0,3,,PB3_T7H,ABCDOM
+ABC_040,Hot,Non Bleached,Thermal Stress,Heated,DOC,T0,0,4,Not taken,HE1_T7H,ABCDOM
+ABC_041,Hot,Non Bleached,Thermal Stress,Heated,DOC,T0,0,5,,HE2_T7H,ABCDOM
+ABC_042,Hot,Non Bleached,Thermal Stress,Heated,DOC,T0,0,6,,HE3_T7H,ABCDOM
+ABC_043,Hot,NA,Thermal Stress,Negative Control + Heated,DOC,T0,0,7,,,ABCDOM
+ABC_044,Hot,NA,Thermal Stress,Negative Control + Heated,DOC,T0,0,8,,,ABCDOM
+ABC_045,Hot,NA,Thermal Stress,Negative Control + Heated,DOC,T0,0,9,,,ABCDOM
+ABC_046,Ambient,Bleached,Ambient,Bleached,DOC,T0,0,10,,BL1_T7C,ABCDOM
+ABC_047,Ambient,Bleached,Ambient,Bleached,DOC,T0,0,11,,BL2_T7C,ABCDOM
+ABC_048,Ambient,Bleached,Ambient,Bleached,DOC,T0,0,12,,BL3_T7C,ABCDOM
+ABC_049,Ambient,Non Bleached,Ambient,Control,DOC,T0,0,13,,HE1_T7C,ABCDOM
+ABC_050,Ambient,Non Bleached,Ambient,Control,DOC,T0,0,14,,HE2_T7C,ABCDOM
+ABC_051,Ambient,Non Bleached,Ambient,Control,DOC,T0,0,15,,HE3_T7C,ABCDOM
+ABC_052,Ambient,NA,Ambient,Negative Control,DOC,T0,0,16,,,ABCDOM
+ABC_053,Ambient,NA,Ambient,Negative Control,DOC,T0,0,17,,,ABCDOM
+ABC_054,Ambient,NA,Ambient,Negative Control,DOC,T0,0,18,,,ABCDOM
+ABC_055,Hot,Bleached,Thermal Stress,Bleached + Heated,Sterivex,Tend,36,1,,PB1_T7H,ABCDOM
+ABC_056,Hot,Bleached,Thermal Stress,Bleached + Heated,Sterivex,Tend,36,2,,PB2_T7H,ABCDOM
+ABC_057,Hot,Bleached,Thermal Stress,Bleached + Heated,Sterivex,Tend,36,3,,PB3_T7H,ABCDOM
+ABC_058,Hot,Non Bleached,Thermal Stress,Heated,Sterivex,Tend,36,4,Not taken,HE1_T7H,ABCDOM
+ABC_059,Hot,Non Bleached,Thermal Stress,Heated,Sterivex,Tend,36,5,,HE2_T7H,ABCDOM
+ABC_060,Hot,Non Bleached,Thermal Stress,Heated,Sterivex,Tend,36,6,,HE3_T7H,ABCDOM
+ABC_061,Hot,NA,Thermal Stress,Negative Control + Heated,Sterivex,Tend,36,7,,,ABCDOM
+ABC_062,Hot,NA,Thermal Stress,Negative Control + Heated,Sterivex,Tend,36,8,,,ABCDOM
+ABC_063,Hot,NA,Thermal Stress,Negative Control + Heated,Sterivex,Tend,36,9,,,ABCDOM
+ABC_064,Ambient,Bleached,Ambient,Bleached,Sterivex,Tend,36,10,,BL1_T7C,ABCDOM
+ABC_065,Ambient,Bleached,Ambient,Bleached,Sterivex,Tend,36,11,,BL2_T7C,ABCDOM
+ABC_066,Ambient,Bleached,Ambient,Bleached,Sterivex,Tend,36,12,,BL3_T7C,ABCDOM
+ABC_067,Ambient,Non Bleached,Ambient,Control,Sterivex,Tend,36,13,,HE1_T7C,ABCDOM
+ABC_068,Ambient,Non Bleached,Ambient,Control,Sterivex,Tend,36,14,,HE2_T7C,ABCDOM
+ABC_069,Ambient,Non Bleached,Ambient,Control,Sterivex,Tend,36,15,,HE3_T7C,ABCDOM
+ABC_070,Ambient,NA,Ambient,Negative Control,Sterivex,Tend,36,16,,,ABCDOM
+ABC_071,Ambient,NA,Ambient,Negative Control,Sterivex,Tend,36,17,,,ABCDOM
+ABC_072,Ambient,NA,Ambient,Negative Control,Sterivex,Tend,36,18,,,ABCDOM
+ABC_073,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,Tend,36,1,,PB1_T7H,ABCDOM
+ABC_074,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,Tend,36,2,,PB2_T7H,ABCDOM
+ABC_075,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,Tend,36,3,,PB3_T7H,ABCDOM
+ABC_076,Hot,Non Bleached,Thermal Stress,Heated,PPL,Tend,36,4,Not taken,HE1_T7H,ABCDOM
+ABC_077,Hot,Non Bleached,Thermal Stress,Heated,PPL,Tend,36,5,,HE2_T7H,ABCDOM
+ABC_078,Hot,Non Bleached,Thermal Stress,Heated,PPL,Tend,36,6,,HE3_T7H,ABCDOM
+ABC_079,Hot,NA,Thermal Stress,Negative Control + Heated,PPL,Tend,36,7,,,ABCDOM
+ABC_080,Hot,NA,Thermal Stress,Negative Control + Heated,PPL,Tend,36,8,,,ABCDOM
+ABC_081,Hot,NA,Thermal Stress,Negative Control + Heated,PPL,Tend,36,9,,,ABCDOM
+ABC_082,Ambient,Bleached,Ambient,Bleached,PPL,Tend,36,10,,BL1_T7C,ABCDOM
+ABC_083,Ambient,Bleached,Ambient,Bleached,PPL,Tend,36,11,,BL2_T7C,ABCDOM
+ABC_084,Ambient,Bleached,Ambient,Bleached,PPL,Tend,36,12,,BL3_T7C,ABCDOM
+ABC_085,Ambient,Non Bleached,Ambient,Control,PPL,Tend,36,13,,HE1_T7C,ABCDOM
+ABC_086,Ambient,Non Bleached,Ambient,Control,PPL,Tend,36,14,,HE2_T7C,ABCDOM
+ABC_087,Ambient,Non Bleached,Ambient,Control,PPL,Tend,36,15,,HE3_T7C,ABCDOM
+ABC_088,Ambient,NA,Ambient,Negative Control,PPL,Tend,36,16,,,ABCDOM
+ABC_089,Ambient,NA,Ambient,Negative Control,PPL,Tend,36,17,,,ABCDOM
+ABC_090,Ambient,NA,Ambient,Negative Control,PPL,Tend,36,18,,,ABCDOM
+ABC_091,Hot,Bleached,Thermal Stress,Bleached + Heated,DOC,Tend,36,1,,PB1_T7H,ABCDOM
+ABC_092,Hot,Bleached,Thermal Stress,Bleached + Heated,DOC,Tend,36,2,,PB2_T7H,ABCDOM
+ABC_093,Hot,Bleached,Thermal Stress,Bleached + Heated,DOC,Tend,36,3,,PB3_T7H,ABCDOM
+ABC_094,Hot,Non Bleached,Thermal Stress,Heated,DOC,Tend,36,4,Not taken,HE1_T7H,ABCDOM
+ABC_095,Hot,Non Bleached,Thermal Stress,Heated,DOC,Tend,36,5,,HE2_T7H,ABCDOM
+ABC_096,Hot,Non Bleached,Thermal Stress,Heated,DOC,Tend,36,6,,HE3_T7H,ABCDOM
+ABC_097,Hot,NA,Thermal Stress,Negative Control + Heated,DOC,Tend,36,7,,,ABCDOM
+ABC_098,Hot,NA,Thermal Stress,Negative Control + Heated,DOC,Tend,36,8,,,ABCDOM
+ABC_099,Hot,NA,Thermal Stress,Negative Control + Heated,DOC,Tend,36,9,,,ABCDOM
+ABC_100,Ambient,Bleached,Ambient,Bleached,DOC,Tend,36,10,,BL1_T7C,ABCDOM
+ABC_101,Ambient,Bleached,Ambient,Bleached,DOC,Tend,36,11,,BL2_T7C,ABCDOM
+ABC_102,Ambient,Bleached,Ambient,Bleached,DOC,Tend,36,12,,BL3_T7C,ABCDOM
+ABC_103,Ambient,Non Bleached,Ambient,Control,DOC,Tend,36,13,,HE1_T7C,ABCDOM
+ABC_104,Ambient,Non Bleached,Ambient,Control,DOC,Tend,36,14,,HE2_T7C,ABCDOM
+ABC_105,Ambient,Non Bleached,Ambient,Control,DOC,Tend,36,15,,HE3_T7C,ABCDOM
+ABC_106,Ambient,NA,Ambient,Negative Control,DOC,Tend,36,16,,,ABCDOM
+ABC_107,Ambient,NA,Ambient,Negative Control,DOC,Tend,36,17,,,ABCDOM
+ABC_108,Ambient,NA,Ambient,Negative Control,DOC,Tend,36,18,,,ABCDOM
+ABC_109,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T0,0,1,,PB1_T7H,ABCDOM
+ABC_110,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T0,0,2,,PB2_T7H,ABCDOM
+ABC_111,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T0,0,3,,PB3_T7H,ABCDOM
+ABC_112,Hot,Non Bleached,Thermal Stress,Heated,FCM,T0,0,4,Not taken,HE1_T7H,ABCDOM
+ABC_113,Hot,Non Bleached,Thermal Stress,Heated,FCM,T0,0,5,,HE2_T7H,ABCDOM
+ABC_114,Hot,Non Bleached,Thermal Stress,Heated,FCM,T0,0,6,,HE3_T7H,ABCDOM
+ABC_115,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T0,0,7,,,ABCDOM
+ABC_116,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T0,0,8,,,ABCDOM
+ABC_117,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T0,0,9,,,ABCDOM
+ABC_118,Ambient,Bleached,Ambient,Bleached,FCM,T0,0,10,,BL1_T7C,ABCDOM
+ABC_119,Ambient,Bleached,Ambient,Bleached,FCM,T0,0,11,,BL2_T7C,ABCDOM
+ABC_120,Ambient,Bleached,Ambient,Bleached,FCM,T0,0,12,,BL3_T7C,ABCDOM
+ABC_121,Ambient,Non Bleached,Ambient,Control,FCM,T0,0,13,,HE1_T7C,ABCDOM
+ABC_122,Ambient,Non Bleached,Ambient,Control,FCM,T0,0,14,,HE2_T7C,ABCDOM
+ABC_123,Ambient,Non Bleached,Ambient,Control,FCM,T0,0,15,,HE3_T7C,ABCDOM
+ABC_124,Ambient,NA,Ambient,Negative Control,FCM,T0,0,16,,,ABCDOM
+ABC_125,Ambient,NA,Ambient,Negative Control,FCM,T0,0,17,,,ABCDOM
+ABC_126,Ambient,NA,Ambient,Negative Control,FCM,T0,0,18,,,ABCDOM
+ABC_127,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T2,2,1,,PB1_T7H,ABCDOM
+ABC_128,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T2,2,2,,PB2_T7H,ABCDOM
+ABC_129,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T2,2,3,,PB3_T7H,ABCDOM
+ABC_130,Hot,Non Bleached,Thermal Stress,Heated,FCM,T2,2,4,Not taken,HE1_T7H,ABCDOM
+ABC_131,Hot,Non Bleached,Thermal Stress,Heated,FCM,T2,2,5,,HE2_T7H,ABCDOM
+ABC_132,Hot,Non Bleached,Thermal Stress,Heated,FCM,T2,2,6,,HE3_T7H,ABCDOM
+ABC_133,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T2,2,7,,,ABCDOM
+ABC_134,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T2,2,8,,,ABCDOM
+ABC_135,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T2,2,9,,,ABCDOM
+ABC_136,Ambient,Bleached,Ambient,Bleached,FCM,T2,2,10,,BL1_T7C,ABCDOM
+ABC_137,Ambient,Bleached,Ambient,Bleached,FCM,T2,2,11,,BL2_T7C,ABCDOM
+ABC_138,Ambient,Bleached,Ambient,Bleached,FCM,T2,2,12,,BL3_T7C,ABCDOM
+ABC_139,Ambient,Non Bleached,Ambient,Control,FCM,T2,2,13,,HE1_T7C,ABCDOM
+ABC_140,Ambient,Non Bleached,Ambient,Control,FCM,T2,2,14,,HE2_T7C,ABCDOM
+ABC_141,Ambient,Non Bleached,Ambient,Control,FCM,T2,2,15,,HE3_T7C,ABCDOM
+ABC_142,Ambient,NA,Ambient,Negative Control,FCM,T2,2,16,,,ABCDOM
+ABC_143,Ambient,NA,Ambient,Negative Control,FCM,T2,2,17,,,ABCDOM
+ABC_144,Ambient,NA,Ambient,Negative Control,FCM,T2,2,18,,,ABCDOM
+ABC_145,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T8,8,1,,PB1_T7H,ABCDOM
+ABC_146,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T8,8,2,,PB2_T7H,ABCDOM
+ABC_147,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T8,8,3,,PB3_T7H,ABCDOM
+ABC_148,Hot,Non Bleached,Thermal Stress,Heated,FCM,T8,8,4,Not taken,HE1_T7H,ABCDOM
+ABC_149,Hot,Non Bleached,Thermal Stress,Heated,FCM,T8,8,5,,HE2_T7H,ABCDOM
+ABC_150,Hot,Non Bleached,Thermal Stress,Heated,FCM,T8,8,6,,HE3_T7H,ABCDOM
+ABC_151,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T8,8,7,,,ABCDOM
+ABC_152,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T8,8,8,,,ABCDOM
+ABC_153,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T8,8,9,,,ABCDOM
+ABC_154,Ambient,Bleached,Ambient,Bleached,FCM,T8,8,10,,BL1_T7C,ABCDOM
+ABC_155,Ambient,Bleached,Ambient,Bleached,FCM,T8,8,11,,BL2_T7C,ABCDOM
+ABC_156,Ambient,Bleached,Ambient,Bleached,FCM,T8,8,12,,BL3_T7C,ABCDOM
+ABC_157,Ambient,Non Bleached,Ambient,Control,FCM,T8,8,13,,HE1_T7C,ABCDOM
+ABC_158,Ambient,Non Bleached,Ambient,Control,FCM,T8,8,14,,HE2_T7C,ABCDOM
+ABC_159,Ambient,Non Bleached,Ambient,Control,FCM,T8,8,15,,HE3_T7C,ABCDOM
+ABC_160,Ambient,NA,Ambient,Negative Control,FCM,T8,8,16,,,ABCDOM
+ABC_161,Ambient,NA,Ambient,Negative Control,FCM,T8,8,17,,,ABCDOM
+ABC_162,Ambient,NA,Ambient,Negative Control,FCM,T8,8,18,,,ABCDOM
+ABC_163,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T12,12,1,,PB1_T7H,ABCDOM
+ABC_164,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T12,12,2,,PB2_T7H,ABCDOM
+ABC_165,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T12,12,3,,PB3_T7H,ABCDOM
+ABC_166,Hot,Non Bleached,Thermal Stress,Heated,FCM,T12,12,4,Not taken,HE1_T7H,ABCDOM
+ABC_167,Hot,Non Bleached,Thermal Stress,Heated,FCM,T12,12,5,,HE2_T7H,ABCDOM
+ABC_168,Hot,Non Bleached,Thermal Stress,Heated,FCM,T12,12,6,,HE3_T7H,ABCDOM
+ABC_169,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T12,12,7,,,ABCDOM
+ABC_170,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T12,12,8,,,ABCDOM
+ABC_171,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T12,12,9,,,ABCDOM
+ABC_172,Ambient,Bleached,Ambient,Bleached,FCM,T12,12,10,,BL1_T7C,ABCDOM
+ABC_173,Ambient,Bleached,Ambient,Bleached,FCM,T12,12,11,,BL2_T7C,ABCDOM
+ABC_174,Ambient,Bleached,Ambient,Bleached,FCM,T12,12,12,,BL3_T7C,ABCDOM
+ABC_175,Ambient,Non Bleached,Ambient,Control,FCM,T12,12,13,,HE1_T7C,ABCDOM
+ABC_176,Ambient,Non Bleached,Ambient,Control,FCM,T12,12,14,,HE2_T7C,ABCDOM
+ABC_177,Ambient,Non Bleached,Ambient,Control,FCM,T12,12,15,,HE3_T7C,ABCDOM
+ABC_178,Ambient,NA,Ambient,Negative Control,FCM,T12,12,16,,,ABCDOM
+ABC_179,Ambient,NA,Ambient,Negative Control,FCM,T12,12,17,,,ABCDOM
+ABC_180,Ambient,NA,Ambient,Negative Control,FCM,T12,12,18,,,ABCDOM
+ABC_181,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T16,16,1,,PB1_T7H,ABCDOM
+ABC_182,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T16,16,2,,PB2_T7H,ABCDOM
+ABC_183,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T16,16,3,,PB3_T7H,ABCDOM
+ABC_184,Hot,Non Bleached,Thermal Stress,Heated,FCM,T16,16,4,Not taken,HE1_T7H,ABCDOM
+ABC_185,Hot,Non Bleached,Thermal Stress,Heated,FCM,T16,16,5,,HE2_T7H,ABCDOM
+ABC_186,Hot,Non Bleached,Thermal Stress,Heated,FCM,T16,16,6,,HE3_T7H,ABCDOM
+ABC_187,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T16,16,7,,,ABCDOM
+ABC_188,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T16,16,8,,,ABCDOM
+ABC_189,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T16,16,9,,,ABCDOM
+ABC_190,Ambient,Bleached,Ambient,Bleached,FCM,T16,16,10,,BL1_T7C,ABCDOM
+ABC_191,Ambient,Bleached,Ambient,Bleached,FCM,T16,16,11,,BL2_T7C,ABCDOM
+ABC_192,Ambient,Bleached,Ambient,Bleached,FCM,T16,16,12,,BL3_T7C,ABCDOM
+ABC_193,Ambient,Non Bleached,Ambient,Control,FCM,T16,16,13,,HE1_T7C,ABCDOM
+ABC_194,Ambient,Non Bleached,Ambient,Control,FCM,T16,16,14,,HE2_T7C,ABCDOM
+ABC_195,Ambient,Non Bleached,Ambient,Control,FCM,T16,16,15,,HE3_T7C,ABCDOM
+ABC_196,Ambient,NA,Ambient,Negative Control,FCM,T16,16,16,,,ABCDOM
+ABC_197,Ambient,NA,Ambient,Negative Control,FCM,T16,16,17,,,ABCDOM
+ABC_198,Ambient,NA,Ambient,Negative Control,FCM,T16,16,18,,,ABCDOM
+ABC_199,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T20,20,1,,PB1_T7H,ABCDOM
+ABC_200,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T20,20,2,,PB2_T7H,ABCDOM
+ABC_201,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T20,20,3,,PB3_T7H,ABCDOM
+ABC_202,Hot,Non Bleached,Thermal Stress,Heated,FCM,T20,20,4,Not taken,HE1_T7H,ABCDOM
+ABC_203,Hot,Non Bleached,Thermal Stress,Heated,FCM,T20,20,5,,HE2_T7H,ABCDOM
+ABC_204,Hot,Non Bleached,Thermal Stress,Heated,FCM,T20,20,6,,HE3_T7H,ABCDOM
+ABC_205,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T20,20,7,,,ABCDOM
+ABC_206,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T20,20,8,,,ABCDOM
+ABC_207,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T20,20,9,,,ABCDOM
+ABC_208,Ambient,Bleached,Ambient,Bleached,FCM,T20,20,10,,BL1_T7C,ABCDOM
+ABC_209,Ambient,Bleached,Ambient,Bleached,FCM,T20,20,11,,BL2_T7C,ABCDOM
+ABC_210,Ambient,Bleached,Ambient,Bleached,FCM,T20,20,12,,BL3_T7C,ABCDOM
+ABC_211,Ambient,Non Bleached,Ambient,Control,FCM,T20,20,13,,HE1_T7C,ABCDOM
+ABC_212,Ambient,Non Bleached,Ambient,Control,FCM,T20,20,14,,HE2_T7C,ABCDOM
+ABC_213,Ambient,Non Bleached,Ambient,Control,FCM,T20,20,15,,HE3_T7C,ABCDOM
+ABC_214,Ambient,NA,Ambient,Negative Control,FCM,T20,20,16,,,ABCDOM
+ABC_215,Ambient,NA,Ambient,Negative Control,FCM,T20,20,17,,,ABCDOM
+ABC_216,Ambient,NA,Ambient,Negative Control,FCM,T20,20,18,,,ABCDOM
+ABC_217,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T24,24,1,,PB1_T7H,ABCDOM
+ABC_218,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T24,24,2,,PB2_T7H,ABCDOM
+ABC_219,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T24,24,3,,PB3_T7H,ABCDOM
+ABC_220,Hot,Non Bleached,Thermal Stress,Heated,FCM,T24,24,4,Not taken,HE1_T7H,ABCDOM
+ABC_221,Hot,Non Bleached,Thermal Stress,Heated,FCM,T24,24,5,,HE2_T7H,ABCDOM
+ABC_222,Hot,Non Bleached,Thermal Stress,Heated,FCM,T24,24,6,,HE3_T7H,ABCDOM
+ABC_223,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T24,24,7,,,ABCDOM
+ABC_224,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T24,24,8,,,ABCDOM
+ABC_225,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T24,24,9,,,ABCDOM
+ABC_226,Ambient,Bleached,Ambient,Bleached,FCM,T24,24,10,,BL1_T7C,ABCDOM
+ABC_227,Ambient,Bleached,Ambient,Bleached,FCM,T24,24,11,,BL2_T7C,ABCDOM
+ABC_228,Ambient,Bleached,Ambient,Bleached,FCM,T24,24,12,,BL3_T7C,ABCDOM
+ABC_229,Ambient,Non Bleached,Ambient,Control,FCM,T24,24,13,,HE1_T7C,ABCDOM
+ABC_230,Ambient,Non Bleached,Ambient,Control,FCM,T24,24,14,,HE2_T7C,ABCDOM
+ABC_231,Ambient,Non Bleached,Ambient,Control,FCM,T24,24,15,,HE3_T7C,ABCDOM
+ABC_232,Ambient,NA,Ambient,Negative Control,FCM,T24,24,16,,,ABCDOM
+ABC_233,Ambient,NA,Ambient,Negative Control,FCM,T24,24,17,,,ABCDOM
+ABC_234,Ambient,NA,Ambient,Negative Control,FCM,T24,24,18,,,ABCDOM
+ABC_235,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T32,32,1,,PB1_T7H,ABCDOM
+ABC_236,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T32,32,2,,PB2_T7H,ABCDOM
+ABC_237,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,T32,32,3,,PB3_T7H,ABCDOM
+ABC_238,Hot,Non Bleached,Thermal Stress,Heated,FCM,T32,32,5,,HE2_T7H,ABCDOM
+ABC_239,Hot,Non Bleached,Thermal Stress,Heated,FCM,T32,32,6,,HE3_T7H,ABCDOM
+ABC_240,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T32,32,7,,,ABCDOM
+ABC_241,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T32,32,8,,,ABCDOM
+ABC_242,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,T32,32,9,,,ABCDOM
+ABC_243,Ambient,Bleached,Ambient,Bleached,FCM,T32,32,10,,BL1_T7C,ABCDOM
+ABC_244,Ambient,Bleached,Ambient,Bleached,FCM,T32,32,11,,BL2_T7C,ABCDOM
+ABC_245,Ambient,Bleached,Ambient,Bleached,FCM,T32,32,12,,BL3_T7C,ABCDOM
+ABC_246,Ambient,Non Bleached,Ambient,Control,FCM,T32,32,13,,HE1_T7C,ABCDOM
+ABC_247,Ambient,Non Bleached,Ambient,Control,FCM,T32,32,14,,HE2_T7C,ABCDOM
+ABC_248,Ambient,Non Bleached,Ambient,Control,FCM,T32,32,15,,HE3_T7C,ABCDOM
+ABC_249,Ambient,NA,Ambient,Negative Control,FCM,T32,32,16,,,ABCDOM
+ABC_250,Ambient,NA,Ambient,Negative Control,FCM,T32,32,17,,,ABCDOM
+ABC_251,Ambient,NA,Ambient,Negative Control,FCM,T32,32,18,,,ABCDOM
+ABC_252,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,Tend,36,1,,PB1_T7H,ABCDOM
+ABC_253,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,Tend,36,2,,PB2_T7H,ABCDOM
+ABC_254,Hot,Bleached,Thermal Stress,Bleached + Heated,FCM,Tend,36,3,,PB3_T7H,ABCDOM
+ABC_255,Hot,Non Bleached,Thermal Stress,Heated,FCM,Tend,36,5,,HE2_T7H,ABCDOM
+ABC_256,Hot,Non Bleached,Thermal Stress,Heated,FCM,Tend,36,6,,HE3_T7H,ABCDOM
+ABC_257,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,Tend,36,7,,,ABCDOM
+ABC_258,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,Tend,36,8,,,ABCDOM
+ABC_259,Hot,NA,Thermal Stress,Negative Control + Heated,FCM,Tend,36,9,,,ABCDOM
+ABC_260,Ambient,Bleached,Ambient,Bleached,FCM,Tend,36,10,,BL1_T7C,ABCDOM
+ABC_261,Ambient,Bleached,Ambient,Bleached,FCM,Tend,36,11,,BL2_T7C,ABCDOM
+ABC_262,Ambient,Bleached,Ambient,Bleached,FCM,Tend,36,12,,BL3_T7C,ABCDOM
+ABC_263,Ambient,Non Bleached,Ambient,Control,FCM,Tend,36,13,,HE1_T7C,ABCDOM
+ABC_264,Ambient,Non Bleached,Ambient,Control,FCM,Tend,36,14,,HE2_T7C,ABCDOM
+ABC_265,Ambient,Non Bleached,Ambient,Control,FCM,Tend,36,15,,HE3_T7C,ABCDOM
+ABC_266,Ambient,NA,Ambient,Negative Control,FCM,Tend,36,16,,,ABCDOM
+ABC_267,Ambient,NA,Ambient,Negative Control,FCM,Tend,36,17,,,ABCDOM
+ABC_268,Ambient,NA,Ambient,Negative Control,FCM,Tend,36,18,,,ABCDOM
+ABC_inoculum B_T0,Ambient,Inoculum,Inoculum,Inoculum,PPL,T0,0,19,,,ABCDOM

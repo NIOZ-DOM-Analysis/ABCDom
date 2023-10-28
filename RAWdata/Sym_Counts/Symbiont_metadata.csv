@@ -1,0 +1,28 @@
+PLANC_aquaria,Timepoint_char_PlanC,Timepoint_PlanC,Temperature,Stress_status,Treatment
+PB1_T7H,T7,7,Heated,Bleached,Bleached + Heated
+PB2_T7H,T7,7,Heated,Bleached,Bleached + Heated
+PB3_T7H,T7,7,Heated,Bleached,Bleached + Heated
+HE1_T7H,T7,7,Heated,Non-Bleached,Heated
+HE2_T7H,T7,7,Heated,Non-Bleached,Heated
+HE3_T7H,T7,7,Heated,Non-Bleached,Heated
+BL1_T7C,T7,7,Ambient,Bleached,Bleached
+BL2_T7C,T7,7,Ambient,Bleached,Bleached
+BL3_T7C,T7,7,Ambient,Bleached,Bleached
+HE1_T7C,T7,7,Ambient,Non-Bleached,Control
+HE2_T7C,T7,7,Ambient,Non-Bleached,Control
+HE3_T7C,T7,7,Ambient,Non-Bleached,Control
+BL1_T0C,T0,0,Ambient,Bleached,Bleached
+BL1_T7H,T7,7,Heated,Bleached,Bleached + Heated
+BL2_T0C,T0,0,Ambient,Bleached,Bleached
+BL2_T7H,T7,7,Heated,Bleached,Bleached + Heated
+BL3_T0C,T0,0,Ambient,Bleached,Bleached
+BL3_T7H,T7,7,Heated,Bleached,Bleached + Heated
+HE1_T0C,T0,0,Ambient,Non-Bleached,Control
+HE2_T0C,T0,0,Ambient,Non-Bleached,Control
+HE3_T0C,T0,0,Ambient,Non-Bleached,Control
+PB1_T0C,T0,0,Ambient,Bleached,Bleached
+PB1_T7C,T7,7,Ambient,Bleached,Bleached
+PB2_T0C,T0,0,Ambient,Bleached,Bleached
+PB2_T7C,T7,7,Ambient,Bleached,Bleached
+PB3_T0C,T0,0,Ambient,Bleached,Bleached
+PB3_T7C,T7,7,Ambient,Bleached,Bleached

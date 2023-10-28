@@ -1,3 +1,7 @@
+#procrustus
+
+#first analyze 16S and metabolome data
+
 'Procrustes script'
 
 library(tibble)
@@ -5,11 +9,14 @@ library(tibble)
 # we first have to give the metabolomes and 16S data the same form/shape/samples etc.
 # define which dataframes we are using
 pro.16 <- unifrac.dist.matrix.tend
-pro.Meta <- df.area.ABCT0
+pro.Meta <- df.area %>%
+  filter(Timepoint_char == "T0")
 
 rownames(pro.16)[1]<-"ABC_055"
 rownames(pro.16)[4]<-"ABC_059"
-meta.pro.16<- metadata %>% dplyr::filter(`Sample Name` %in% rownames(pro.16)) %>% select(`Sample Name`, Bottle_NR)
+meta.pro.16<- metadata %>%
+  dplyr::filter(`Sample Name` %in% rownames(pro.16)) %>%
+  select(`Sample Name`, Bottle_NR)
 
 #give pro.16 the right name
 pro.16 <- pro.16 %>% rownames_to_column("Sample Name")
@@ -61,30 +68,7 @@ pro.16.bray<-as.matrix(vegdist(pro.16.bray, method = "bray"))
 rownames(pro.16.bray)<-pro.Meta$Treatment
 colnames(pro.16.bray)<-pro.Meta$Bottle_NR
 
-#pro<-procrustes(pro.16.bray, pro.Meta.dist, symmetric = FALSE)
-#pro
-#pro.m2<-procrustes(pro.16.bray, pro.Meta.dist, symmetric = TRUE)
-#pro.m2
 
-#plot(pro, kind = 1)
-#plot(pro, kind = 2)
-
-#plot(pro.m2, kind = 1)
-#plot(pro.m2, kind = 2)
-
-#protest(pro.16.bray, pro.Meta.dist, scores = "sites", permutations = 999)
-#there is significance!
-
-#nmds.pro16.bray<-monoMDS(pro.16.bray)
-#nmds.proMeta<-monoMDS(pro.Meta.dist)
-
-#nmds.procrus<-procrustes(nmds.pro16.bray, nmds.proMeta)
-#nmds.procrus
-#summary(nmds.procrus)
-#plot(nmds.procrus)
-#plot(nmds.procrus, kind=2)
-#residuals(nmds.procrus)
-#protest(nmds.pro16.bray, nmds.proMeta, scores = "sites", permutations = 999)
 
 #make the procrustus plot in GGplot!
 library(ggplot2)
@@ -138,7 +122,9 @@ fig4B<-ggplot(ctest) +
   scale_y_continuous(name = "Dimension 2")+
   coord_fixed(ratio=1.48)+
   theme_bw()
- fig4B
+fig4B
+
+write_csv(ctest, file.path(dirOutput, "Fig4B_data.csv"))
 
 fig4<-plot_grid(fig4A, fig4B, labels="AUTO", nrow =2, rel_heights = c(1, 1), align = c("hv"), axis = "l")
 fig4
