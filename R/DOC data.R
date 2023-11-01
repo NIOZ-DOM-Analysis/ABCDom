@@ -3,6 +3,7 @@ library(tidyverse)
 
 DOC_raw <- read_csv(file.path(dirRAW, "DOC", "DOC_with_SampleName.csv"))
 
+# remove the following samples based on Carlson lab instructions because septa upside down
 filter.out <- c("ABC_037", "ABC_048", "ABC_051", "ABC_054", "ABC_092", "ABC_097", "ABC_108")
 
 DOC_dat <- right_join( full_metadata, DOC_raw, by = "Sample Name" )%>%
@@ -52,8 +53,8 @@ tmp %>%
 
 #visualize
 figS2<-ggplot(tmp, aes(x=Treatment.x,y=uMC,color=Treatment.x,fill=Treatment.x))+
-  stat_boxplot(geom = 'errorbar', size = 2)+
-  geom_boxplot(size = 1.2)+
+  stat_boxplot(geom = 'errorbar', linewidth = 2)+
+  geom_boxplot(linewidth = 1.2)+
   # geom_point(size = 3)+
   scale_color_manual(values=cost.col.line)+
   # scale_fill_manual(values=cost.col.fill, guide = guide_legend(override.aes = list(size = 1)))+
@@ -108,4 +109,10 @@ tmp %>%
 tmp %>%
   kruskal_test(Control_Corrected_DOC_flux_SA_Normalized_dm2~Treatment.x)
 #marginally significant
+
+#summary results
+tmp %>%
+  group_by(Treatment.x)%>%
+  summarise(mean(Control_Corrected_DOC_flux_SA_Normalized_dm2))
+
 

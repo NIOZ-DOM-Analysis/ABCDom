@@ -1,18 +1,18 @@
-File Name,Sample Name,Injection_Type,Bleaching_Status,Stress_status,Treatment,Sample_Type,Timepoint_char,Treatment_Time,Timepoint,Bottle_NR,Notes,PLANC_aquaria,MDS1,MDS2,stress_status_v1
-Mo_2019_320,ABC_019,Sample,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,1,not applicable,PB1_T7H,-0.029125354653956093,-0.015983179060431087,Stressed
-Mo_2019_321,ABC_020,Sample,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,2,not applicable,PB2_T7H,-0.025586249725918338,-0.00767314016950375,Stressed
-Mo_2019_322,ABC_021,Sample,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,Bleached + Heated_T0,0,3,not applicable,PB3_T7H,-0.02564072672996584,-0.023015200519016378,Stressed
-Mo_2019_323,ABC_023,Sample,Non Bleached,Thermal Stress,Heated,PPL,T0,Heated_T0,0,5,not applicable,HE2_T7H,-0.13310884533598186,-0.025446137156200924,Stressed
-Mo_2019_324_B,ABC_024,Sample,Non Bleached,Thermal Stress,Heated,PPL,T0,Heated_T0,0,6,not applicable,HE3_T7H,-0.03713566929887049,0.004387342935749172,Stressed
-Mo_2019_325,ABC_025,Sample,not applicable,Thermal Stress,Negative Control + Heated,PPL,T0,Negative Control + Heated_T0,0,7,not applicable,not applicable,0.050508547304958205,0.030962731580456614,NA
-Mo_2019_326,ABC_026,Sample,not applicable,Thermal Stress,Negative Control + Heated,PPL,T0,Negative Control + Heated_T0,0,8,not applicable,not applicable,0.049339159582258575,0.027609200029520893,NA
-Mo_2019_327,ABC_027,Sample,not applicable,Thermal Stress,Negative Control + Heated,PPL,T0,Negative Control + Heated_T0,0,9,not applicable,not applicable,0.049458331240619956,0.015305061219698645,NA
-Mo_2019_328,ABC_028,Sample,Bleached,Ambient,Bleached,PPL,T0,Bleached_T0,0,10,not applicable,BL1_T7C,0.006946501266939744,-0.008331502389635153,Stressed
-Mo_2019_329,ABC_029,Sample,Bleached,Ambient,Bleached,PPL,T0,Bleached_T0,0,11,not applicable,BL2_T7C,-0.004699008864068375,0.028908092952385264,Stressed
-Mo_2019_330,ABC_030,Sample,Bleached,Ambient,Bleached,PPL,T0,Bleached_T0,0,12,not applicable,BL3_T7C,-0.08973546594243616,0.07310717447274365,Stressed
-Mo_2019_331,ABC_031,Sample,Non Bleached,Ambient,Control,PPL,T0,Control_T0,0,13,not applicable,HE1_T7C,0.03448464036234627,-0.07371544575523833,Control
-Mo_2019_332,ABC_032,Sample,Non Bleached,Ambient,Control,PPL,T0,Control_T0,0,14,not applicable,HE2_T7C,0.01163383227190748,-0.04611606037720959,Control
-Mo_2019_333,ABC_033,Sample,Non Bleached,Ambient,Control,PPL,T0,Control_T0,0,15,not applicable,HE3_T7C,0.011525063580752164,-0.024024420515941426,Control
-Mo_2019_334,ABC_034,Sample,not applicable,Ambient,Negative Control,PPL,T0,Negative Control_T0,0,16,not applicable,not applicable,0.04351296584499189,0.006992684885053461,NA
-Mo_2019_335,ABC_035,Sample,not applicable,Ambient,Negative Control,PPL,T0,Negative Control_T0,0,17,not applicable,not applicable,0.04808858554078349,0.021266976985020634,NA
-Mo_2019_336,ABC_036,Sample,not applicable,Ambient,Negative Control,PPL,T0,Negative Control_T0,0,18,not applicable,not applicable,0.039533693555639376,0.01576582088254832,NA
+File Name,Sample Name,Injection_Type,Temp,Bleaching_Status,Stress_status,Treatment,Sample_Type,Timepoint_char,Timepoint,Bottle_NR,Notes,PLANC_aquaria,Experiment,MDS1,MDS2,stress_status_v1
+Mo_2019_320,ABC_019,Sample,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,0,1,not applicable,PB1_T7H,ABCDOM,-0.02912531145578698,-0.015982675793353673,Stressed
+Mo_2019_321,ABC_020,Sample,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,0,2,not applicable,PB2_T7H,ABCDOM,-0.025586131978615846,-0.0076726932101236715,Stressed
+Mo_2019_322,ABC_021,Sample,Hot,Bleached,Thermal Stress,Bleached + Heated,PPL,T0,0,3,not applicable,PB3_T7H,ABCDOM,-0.025640811423874234,-0.023014687750891834,Stressed
+Mo_2019_323,ABC_023,Sample,Hot,Non Bleached,Thermal Stress,Heated,PPL,T0,0,5,not applicable,HE2_T7H,ABCDOM,-0.13310911350827392,-0.02544613265723069,Stressed
+Mo_2019_324_B,ABC_024,Sample,Hot,Non Bleached,Thermal Stress,Heated,PPL,T0,0,6,not applicable,HE3_T7H,ABCDOM,-0.0371356159888419,0.004387987054058461,Stressed
+Mo_2019_325,ABC_025,Sample,Hot,not applicable,Thermal Stress,Negative Control + Heated,PPL,T0,0,7,not applicable,not applicable,ABCDOM,0.05050898063566041,0.03096237701922018,NA
+Mo_2019_326,ABC_026,Sample,Hot,not applicable,Thermal Stress,Negative Control + Heated,PPL,T0,0,8,not applicable,not applicable,ABCDOM,0.049339414936926576,0.027608632884159677,NA
+Mo_2019_327,ABC_027,Sample,Hot,not applicable,Thermal Stress,Negative Control + Heated,PPL,T0,0,9,not applicable,not applicable,ABCDOM,0.04945846243745888,0.015304507626151233,NA
+Mo_2019_328,ABC_028,Sample,Ambient,Bleached,Ambient,Bleached,PPL,T0,0,10,not applicable,BL1_T7C,ABCDOM,0.006946534917824635,-0.008331434176126267,Stressed
+Mo_2019_329,ABC_029,Sample,Ambient,Bleached,Ambient,Bleached,PPL,T0,0,11,not applicable,BL2_T7C,ABCDOM,-0.004698571554216165,0.028908322610085652,Stressed
+Mo_2019_330,ABC_030,Sample,Ambient,Bleached,Ambient,Bleached,PPL,T0,0,12,not applicable,BL3_T7C,ABCDOM,-0.08973541537595571,0.07310713220471132,Stressed
+Mo_2019_331,ABC_031,Sample,Ambient,Non Bleached,Ambient,Control,PPL,T0,0,13,not applicable,HE1_T7C,ABCDOM,0.03448323140381412,-0.07371516797634978,Control
+Mo_2019_332,ABC_032,Sample,Ambient,Non Bleached,Ambient,Control,PPL,T0,0,14,not applicable,HE2_T7C,ABCDOM,0.011633582591722601,-0.04611612536984531,Control
+Mo_2019_333,ABC_033,Sample,Ambient,Non Bleached,Ambient,Control,PPL,T0,0,15,not applicable,HE3_T7C,ABCDOM,0.011524952137942987,-0.024024420809480605,Control
+Mo_2019_334,ABC_034,Sample,Ambient,not applicable,Ambient,Negative Control,PPL,T0,0,16,not applicable,not applicable,ABCDOM,0.04351305091927683,0.006992279504194966,NA
+Mo_2019_335,ABC_035,Sample,Ambient,not applicable,Ambient,Negative Control,PPL,T0,0,17,not applicable,not applicable,ABCDOM,0.04808891237802491,0.02126654487988641,NA
+Mo_2019_336,ABC_036,Sample,Ambient,not applicable,Ambient,Negative Control,PPL,T0,0,18,not applicable,not applicable,ABCDOM,0.03953384892691281,0.015765553960933945,NA

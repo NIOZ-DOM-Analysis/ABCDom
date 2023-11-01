@@ -2,13 +2,14 @@
 library(readr)
 library(tidyverse)
 
-
+getwd()
 #change depending on your working directory
-wd.project <- "D:/Milou/Github/Projects/MGIA/2019/ABCDOM/R"
+wd.project <- "D:/Milou/Github/ABCDom/R"
 
 
 #define folder references
 dirCyto <- "../Cytoscape"
+dir_analogs_on <- file.path(dirCyto, "Analogs_on")
 dirDoc <- "../doc"
 dirFigs <- "../figures"
 dirOutput <- "../output"
@@ -28,8 +29,9 @@ if( "Sample Name" %in% colnames(metadata) ){
   stop("No column with \"Sample Name\" as columnname. check metadata.csv ")}
 
 
-# Scripts to run:
+# Scripts to run in order:
 # Temperature
+# Metabolomics_cleanup_analysis   <- this will create the full_metadata object needed later
 # Symbiont data
 # FCM Microbial growth
 # DOC data
@@ -37,6 +39,7 @@ if( "Sample Name" %in% colnames(metadata) ){
 # 16S_ASV_Analysis
 # 16S_multivariate_Analysis
 # 16S_multivariate_technical_replicate_Analysis ??
-# Metabolomics_cleanup_analysis
+
 # Procrustes
+
 

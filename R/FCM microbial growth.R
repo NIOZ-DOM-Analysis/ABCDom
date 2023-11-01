@@ -98,14 +98,19 @@ TukeyHSD(tmp2, "Treatment:as.factor(Timepoint)")
 
 #only 0 and 24 hours
 #ANOVA
+FCM.dat %>%
+  filter(Timepoint_char == "T0" | Timepoint_char == "T24")  %>%
+  group_by(Timepoint_char, Treatment) %>%
+  summarise(mean(Concentration), sd(Concentration), )
 
 FCM.dat %>%
   filter(Timepoint_char == "T0" | Timepoint_char == "T24")  %>%
   anova_test(Concentration ~ Treatment * as.factor(Timepoint) )
+
 FCM.dat %>%
   filter(Timepoint_char == "T0" | Timepoint_char == "T24")%>%
   anova_test(Concentration ~ as.factor(Timepoint) )
-# p =0.004
+
 
 #tukey HSD
 FCM.dat %>%
@@ -118,6 +123,10 @@ FCM.dat %>%
   filter(!is.na(Bleaching_Status)) %>%
   anova_test(Concentration ~ Treatment * as.factor(Timepoint))
 
+FCM.dat %>%
+  filter(Timepoint_char == "T0" | Timepoint_char == "T24")  %>%
+  filter(!is.na(Bleaching_Status)) %>%
+  anova_test(Concentration ~ Treatment)
 
 #tukey HSD
 FCM.dat %>%
@@ -172,6 +181,7 @@ FCM.dat_growth <- FCM.dat %>%
 
 FCM.dat_growth$Treatment <- factor(FCM.dat_growth$Treatment, levels = c("Control", "Heated", "Bleached","Bleached + Heated","Negative Control", "Negative Control + Heated"))
 
+# in paper:
 FCM.dat_growth %>%
   anova_test(Specific_Growth_rate ~ Treatment )
 
