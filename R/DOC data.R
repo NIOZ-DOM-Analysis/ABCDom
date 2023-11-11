@@ -65,9 +65,9 @@ figS2<-ggplot(tmp, aes(x=Treatment.x,y=uMC,color=Treatment.x,fill=Treatment.x))+
   ylab("DOC (µM)")+
   xlab("")
 #use this figure for a potential supplement
-ggsave('FigS2_DOC_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, units = "in", dpi = 320)
+#ggsave('FigS2_DOC_per treatment.jpeg', path = dirFigs, width = 9, height = 5.5, units = "in", dpi = 320)
 
-write_csv(tmp, file.path(dirOutput, "FigS2_data.csv"))
+#write_csv(tmp, file.path(dirOutput, "FigS2_data.csv"))
 
 
 tmp <- DOC_dat %>%
@@ -84,10 +84,10 @@ fig2A<-ggplot(tmp,aes(x=Treatment.x,y=Control_Corrected_DOC_flux_SA_Normalized_d
   theme(legend.position = "none")+
   ylab (expression("Surface Area Normalized DOC flux (µM (dm"^2*")"^-1*"h"^-1*")"))+
   xlab("")
-ggsave('fig2A_DOC_flux Surface area normalized_control corrected_per treatment barplot.jpeg', path = dirFigs, width = 3, height = 5, dpi = 300)
+#FIX DIMENSIONS ggsave('fig2A_DOC_flux Surface area normalized_control corrected_per treatment barplot.jpeg', path = dirFigs, width = 3, height = 5, dpi = 300)
 #Use as panel A for Figure 2
 
-write_csv(tmp, file = file.path(dirOutput, "Fig2A_data.csv"))
+#write_csv(tmp, file = file.path(dirOutput, "Fig2A_data.csv"))
 
 tmp <- DOC_dat %>%
   filter(Timepoint_char == "T0")

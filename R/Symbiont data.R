@@ -73,9 +73,9 @@ Fig1C <- ggplot(tmp,(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Coll
   # theme(text=element_text(size=45), plot.margin=unit(c(1,1,1,1), units = "in"), strip.text.x=element_text(size=45))+
   theme_classic()
 Fig1C
-ggsave('Fig1C_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=5, height=3, units = "in")
+#FIX DIMENSIONS ggsave('Fig1C_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=5, height=3, units = "in")
 
-write_csv(tmp, file.path(dirOutput,  "Fig1C_data.csv"))
+#write_csv(tmp, file.path(dirOutput,  "Fig1C_data.csv"))
 
 tmp %>%
   anova_test(log10.sym.SA ~ Collection_Bleaching_Level1 * Species)
@@ -117,9 +117,9 @@ Fig1D <-ggplot(tmp,aes(x=Treatment,y=log10(sym_SA_norm_no_outliers),color=Treatm
   ylab(expression(paste("Log10 Symbiodiniaceae\ncells per cm^2")))+
   labs(color="Treatment",fill="Treatment")
 Fig1D
-ggsave('fig1D_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=5, height=3, units = "in")
+#FIX DIMENSIONS ggsave('fig1D_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=5, height=3, units = "in")
 
-write_csv(tmp, file.path(dirOutput,  "Fig1D_data.csv"))
+#write_csv(tmp, file.path(dirOutput,  "Fig1D_data.csv"))
 
 tmp %>%
   anova_test(sym_SA_norm_no_outliers ~ Treatment)

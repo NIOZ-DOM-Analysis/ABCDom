@@ -59,6 +59,6 @@ Fig1B<-ggplot(tmp, aes(x=time_local, y=mean_temp))+
   scale_x_datetime(name = "Date", date_breaks = "2 months", date_labels = "%b %Y")+
   scale_y_continuous(name = "mean seawater \n Temperature °C ")
 Fig1B
-ggsave("Fig1B_temperature2018-2019.png", path = dirFigs, units = "in", dpi = 320, width = 20, height = 8.5)
+#ggsave("Fig1B_temperature2018-2019.png", path = dirFigs, units = "in", dpi = 320, width = 20, height = 8.5)
 
-write_csv(tmp, file.path(dirOutput, "fig1B_data.csv"))
+#write_csv(tmp, file.path(dirOutput, "fig1B_data.csv"))

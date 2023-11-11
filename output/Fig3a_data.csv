@@ -1,0 +1,16 @@
+"","Sample","NMDS1","NMDS2","Sample_Name","PCR_setting","Experiment.x","Replicate","Temp","Bleaching_Status","Stress_status","Treatment","Sample_Type","Timepoint_char","Timepoint","Bottle_NR","Notes","PLANC_aquaria","Experiment.y","Treatment_Timepoint","stress_status_v1"
+"1","ABC_055_v1",-0.0759621418748277,-0.001051718407021,"ABC_055","Standard","ABC","II","Hot","Bleached","Thermal Stress","Bleached + Heated","Sterivex","Tend",36,1,NA,"PB1_T7H","ABCDOM","Bleached + Heated_36","Stressed"
+"2","ABC_056",-0.119555694351975,-0.00382605901261325,"ABC_056","Standard","ABC","I","Hot","Bleached","Thermal Stress","Bleached + Heated","Sterivex","Tend",36,2,NA,"PB2_T7H","ABCDOM","Bleached + Heated_36","Stressed"
+"3","ABC_057",-0.047273372964868,-0.0065718107953533,"ABC_057","Standard","ABC","I","Hot","Bleached","Thermal Stress","Bleached + Heated","Sterivex","Tend",36,3,NA,"PB3_T7H","ABCDOM","Bleached + Heated_36","Stressed"
+"4","ABC_059_v1",-0.273493856750405,0.0394100268508023,"ABC_059","Standard","ABC","II","Hot","Non Bleached","Thermal Stress","Heated","Sterivex","Tend",36,5,NA,"HE2_T7H","ABCDOM","Heated_36","Stressed"
+"5","ABC_060",-0.124421033589043,0.0048663495942303,"ABC_060","Dil","ABC","I","Hot","Non Bleached","Thermal Stress","Heated","Sterivex","Tend",36,6,NA,"HE3_T7H","ABCDOM","Heated_36","Stressed"
+"6","ABC_061",0.167955063925875,-0.0257473889949696,"ABC_061","Standard","ABC","I","Hot",NA,"Thermal Stress","Negative Control + Heated","Sterivex","Tend",36,7,NA,NA,"ABCDOM","Negative Control + Heated_36",NA
+"7","ABC_062",0.198229603618492,-0.0718609259789845,"ABC_062","Standard","ABC","I","Hot",NA,"Thermal Stress","Negative Control + Heated","Sterivex","Tend",36,8,NA,NA,"ABCDOM","Negative Control + Heated_36",NA
+"8","ABC_063",0.222075287729275,0.0540722516369067,"ABC_063","Dil","ABC","I","Hot",NA,"Thermal Stress","Negative Control + Heated","Sterivex","Tend",36,9,NA,NA,"ABCDOM","Negative Control + Heated_36",NA
+"9","ABC_065",-0.171406982768307,-0.0451971342846425,"ABC_065","Standard","ABC","I","Ambient","Bleached","Ambient","Bleached","Sterivex","Tend",36,11,NA,"BL2_T7C","ABCDOM","Bleached_36","Stressed"
+"10","ABC_066",-0.155074644583329,0.116401530474712,"ABC_066","Standard","ABC","I","Ambient","Bleached","Ambient","Bleached","Sterivex","Tend",36,12,NA,"BL3_T7C","ABCDOM","Bleached_36","Stressed"
+"11","ABC_067",-0.0174931352446276,-0.0824728896779964,"ABC_067","Standard","ABC","I","Ambient","Non Bleached","Ambient","Control","Sterivex","Tend",36,13,NA,"HE1_T7C","ABCDOM","Control_36","Ambient"
+"12","ABC_068",0.0227799072713609,-0.0533158561220116,"ABC_068","Standard","ABC","I","Ambient","Non Bleached","Ambient","Control","Sterivex","Tend",36,14,NA,"HE2_T7C","ABCDOM","Control_36","Ambient"
+"13","ABC_069",0.046393433652234,-0.133829300293533,"ABC_069","Standard","ABC","I","Ambient","Non Bleached","Ambient","Control","Sterivex","Tend",36,15,NA,"HE3_T7C","ABCDOM","Control_36","Ambient"
+"14","ABC_070",0.188915886863854,0.0880365888590722,"ABC_070","Standard","ABC","I","Ambient",NA,"Ambient","Negative Control","Sterivex","Tend",36,16,NA,NA,"ABCDOM","Negative Control_36",NA
+"15","ABC_071",0.138331679066292,0.121086336151401,"ABC_071","Standard","ABC","I","Ambient",NA,"Ambient","Negative Control","Sterivex","Tend",36,17,NA,NA,"ABCDOM","Negative Control_36",NA

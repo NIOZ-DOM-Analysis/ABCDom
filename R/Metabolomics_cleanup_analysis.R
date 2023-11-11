@@ -539,9 +539,9 @@ fig4A<-ggplot() +
   coord_fixed(ratio=1.2)+
   ggforce::geom_mark_ellipse(data=NMDS.ABCDom.T0, aes(x=MDS1, y=MDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)
 fig4A
-ggsave("4A_NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+#ggsave("Fig4A_NMDS_ABCDom_T0.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
-write_csv(NMDS.ABCDom.T0, file = file.path(dirOutput, "fig4A_data.csv"))
+#write_csv(NMDS.ABCDom.T0, file = file.path(dirOutput, "fig4A_data.csv"))
 
 #PERMANOVA // ADONIS
 # all treatments incl. water controls

@@ -30,16 +30,16 @@ if( "Sample Name" %in% colnames(metadata) ){
 
 
 # Scripts to run in order:
-# Temperature
-# Metabolomics_cleanup_analysis   <- this will create the full_metadata object needed later
-# Symbiont data
-# FCM Microbial growth
-# DOC data
-# 16S_ASV_fasta_workup
-# 16S_ASV_Analysis
-# 16S_multivariate_Analysis
-# 16S_multivariate_technical_replicate_Analysis ??
-
-# Procrustes
+# 1. Temperature
+# 2. Metabolomics_cleanup_analysis   <- this will create the full_metadata object needed later
+# 3. Symbiont data
+# 4. FCM Microbial growth
+# 5. DOC data
+# 6. DO WE NEED THIS 16S_ASV_fasta_workup
+# 6. 16S_multivariate_technical_replicate_Analysis
+# 7. 16S_multivariate_Analysis
+# 8. 16S_ASV_Analysis
+# 9. 16S_multivariate_technical_replicate_Analysis ??
+# 10. Procrustes
 
 

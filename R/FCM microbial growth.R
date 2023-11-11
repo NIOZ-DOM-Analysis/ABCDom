@@ -61,9 +61,10 @@ fig2B<-ggplot(FCM.summ,aes(x=Timepoint,y=mean, fill=Treatment,shape=Treatment,co
   ylab(label="Concentration (cells/µL)")+
   xlab(label="Time (hours)")
 fig2B
+#NEED TO ADD FIGURE OUTPUT
 
-write_csv(FCM.summ, file = file.path(dirOutput, "fig2B_summ_data.csv"))
-write_csv(FCM.dat, file = file.path(dirOutput, "fig2B_data.csv"))
+#write_csv(FCM.summ, file = file.path(dirOutput, "fig2B_summ_data.csv"))
+#write_csv(FCM.dat, file = file.path(dirOutput, "fig2B_data.csv"))
 
 
 # Stats
@@ -204,6 +205,7 @@ figS3<-ggplot(FCM.dat_growth, aes(Treatment, Specific_Growth_rate, color=Treatme
   ylab ("Specific Growth Rate (log10 cells per hour)")+
   xlab("")+
   geom_text(data=tmp, aes(x=Treatment, y=0.118, label=letters), color="black", size=5)
+#NEED TO EXPORT GRAPH
 
 write_csv(FCM.dat_growth, file.path(dirOutput, "figS3_data.csv"))
 
