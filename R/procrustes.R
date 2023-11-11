@@ -3,7 +3,7 @@
 #first analyze 16S and metabolome data
 
 'Procrustes script'
-
+library(cowplot)
 library(tibble)
 
 # we first have to give the metabolomes and 16S data the same form/shape/samples etc.
@@ -85,7 +85,8 @@ rot <- nmds.procrus$rotation
 
 cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70", "grey70")
 cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "lightgrey")
-fact.all.treat<-factor(ctest$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
+fact.all.treat<-factor(ctest$Treatment, levels = c("Control", "Heated", "Bleached","Bleached + Heated","Negative Control", "Negative Control + Heated"))
+
 
 
 
@@ -105,7 +106,7 @@ ggplot(ctest) +
   theme_bw()
 ggsave("16S_metabolome_nmds_procrustes.jpeg", path = dirFigs,  width = 9, height = 5.5, units = "in", dpi = 320)
 
-fact.all.treat.proc<-factor(ctest$Treatment, levels = c("Non-bleached + Ambient", "Non-bleached + Heated", "Bleached + Ambient", "Bleached + Heated", "Ambient Water Control", "Heated Water Control"))
+fact.all.treat.proc<-factor(ctest$Treatment, levels = c("Control", "Heated", "Bleached","Bleached + Heated","Negative Control", "Negative Control + Heated"))
 
 fig4B<-ggplot(ctest) +
   geom_hline(aes(yintercept = 0), linetype = 2)+
@@ -128,7 +129,7 @@ write_csv(ctest, file.path(dirOutput, "Fig4B_data.csv"))
 
 fig4<-plot_grid(fig4A, fig4B, labels="AUTO", nrow =2, rel_heights = c(1, 1), align = c("hv"), axis = "l")
 fig4
-ggsave("figure4.jpg", plot = fig4, path = dirFigs, width = 8, height = 10, units = "in", dpi = 320)
+ggsave("fig4.jpg", plot = fig4, path = dirFigs, width = 8, height = 10, units = "in", dpi = 320)
 
 #Next, run a mantel test between pro.16 and pro.Meta
 mantel.results <- mantel(pro.16, pro.Meta.dist)

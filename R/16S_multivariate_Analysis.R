@@ -118,9 +118,9 @@ ggplot() +
   scale_color_manual(values = c("black", "orange"), name = "Timepoint")+
   ggtitle("abcDOM 16S T0-Tfinal")+
   coord_fixed(ratio=1)
-#ggsave("Figure_S4.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
+ggsave("FigS4.jpg", path = dirFigs, width = 6.75, height = 5, units = "in", dpi = 320)
 
-#write.csv(nmds.16S.scores1, file=file.path(dirOutput, "FigS4_data.csv"))
+write.csv(nmds.16S.scores1, file=file.path(dirOutput, "FigS4_data.csv"))
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #plot nmds of tend samples for supplement
@@ -151,10 +151,12 @@ fig3A<-ggplot() +
   theme_bw()+
   ggforce::geom_mark_ellipse(data=nmds.16S.tend.scores1, aes(x=NMDS1, y=NMDS2, linetype=stress_status_v1, label=stress_status_v1), con.type="none", label.buffer=unit(4,'mm'), show.legend=F)+
   annotate("text", label="p > 0.001 \n stress = 0.082", x=-.225, y=-.125)
+ggsave("fig3A.jpg", plot = fig3A, path = dirFigs, dpi  = 300, width = 8, height = 6)
+
 #NEED TO FIGURE OUT DIMENSIONSggsave("figure_3A.png", )
 
 #export data used in figure 3a
-#write.csv(nmds.16S.tend.scores1, file=file.path(dirOutput, "Fig3a_data.csv"))
+write_csv(nmds.16S.tend.scores1, file=file.path(dirOutput, "Fig3a_data.csv"))
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #Test statistical effects using permanova.

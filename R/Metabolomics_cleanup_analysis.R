@@ -512,7 +512,7 @@ stress <- paste0("ABCDom T0 bray curtis dissimilarity k=2 \nstress = ", stress)
 
 cost.col.fill<-c("dodgerblue1","firebrick1", "white", "white", "grey70", "grey70")
 cost.col.line<-c("dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3", "dodgerblue3", "firebrick3")
-fact.all.treat<-factor(NMDS.ABCDom.T0$Treatment, levels = c("Control", "Heated", "Bleached", 'Bleached + Heated', "Negative Control", "Negative Control + Heated"))
+fact.all.treat.NMDS.Metab<-factor(NMDS.ABCDom.T0$Treatment, levels = c("Control", "Heated", "Bleached", 'Bleached + Heated', "Negative Control", "Negative Control + Heated"))
 treat.labels <- c("Control", "Heated", "Bleached", 'Bleached + Heated', "Negative Control", "Negative Control + Heated")
 
 NMDS.ABCDom.T0 <- NMDS.ABCDom.T0 %>%
@@ -529,7 +529,7 @@ fig4A<-ggplot() +
   scale_x_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   geom_point(data=NMDS.ABCDom.T0,
-             aes(x=MDS1, y=MDS2, fill = fact.all.treat, colour=fact.all.treat),
+             aes(x=MDS1, y=MDS2, fill = fact.all.treat.NMDS.Metab, colour=fact.all.treat.NMDS.Metab),
              size=5, stroke=1.5, shape = 21) +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
