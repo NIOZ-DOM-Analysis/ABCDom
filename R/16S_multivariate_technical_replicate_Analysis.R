@@ -123,8 +123,5 @@ mean_lower_tri <- mean(lower_tri_abc_replicate_tend_unifrac.dist.matrix) #calcul
 mean_lower_tri + 3*sd_lower_tri #cutoff will be a maximum unifrac dist between tech replicates of mean(pairwise unifrac distances) + 3*SD(pairwise unifrac distances). This cutoff is .7227101. ABC_055 and ABC_059 fall above this cutoff.
 #rerun 16S pipeline merging all tech replicates except ABC_055 and ABC_059
 
-#-----------------------------------------------------------------------------------------------------------------------------
-#clean up
-#CONSIDER REMOVINGrm(list=ls())
 
 

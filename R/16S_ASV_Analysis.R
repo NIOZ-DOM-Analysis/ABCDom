@@ -10,13 +10,11 @@ library(DESeq2)
 library(pheatmap)
 library(cowplot)
 library(MetBrewer)
-library(SpiecEasi)
 library(igraph)
 library(phyloseq)
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #load custom functions
-source(file="generate.square.dist.R")
 source(file="generate.long.format.OTU.R")
 source(file="cull.otu.script.R")
 source(file="log.2.fold.change.calculation.05272021.R")
@@ -36,7 +34,6 @@ nosub.taxonomy <- read.csv(file.path(dirRAW, "16S", "all_multipletonsFilter_100.
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #work up the relabund data
-#CONSIDER REMOVING THIS WHOL SECTION UNLESS WE DO SOMETHING W IT
 rownames(relabund) <- relabund$OTUNumber #add rownames corresponding to OTUs
 
 #subset relabund data for only desired samples
@@ -48,12 +45,6 @@ relabund.tend.t <- as.data.frame(t(relabund.tend)) #transpose
 relabund.tend.t.cull <- cull.otu(relabund.tend.t, 3, .001, .01)
 relabund.tend.cull <- as.data.frame(t(relabund.tend.t.cull)) #153 ASVs remain
 
-#export CONSIDER REMOVING
-#write.csv(relabund.tend.t.cull, file.path(dirOutput, "relabund.tend.t.cull.csv"))
-#write.csv(relabund.tend.cull, file.path(dirOutput, "relabund.tend.cull.csv"))
-
-#generate otu taxonomy data for relabund.tend.t.cull for network constuction
-
 #-----------------------------------------------------------------------------------------------------------------------------
 #Work up raw abund data
 rownames(abund) <- abund$OTUNumber #add ASV names for rownames
@@ -62,7 +53,6 @@ abund.coral.tend <- abund[, colnames(abund) %in% metadata.coral.tend$Sample_Name
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #work up and cull raw abundance ASV data
-#CONSIDER REMOVING THIS SECTION UNLESS WE DO SOMETHING W IT
 #work up raw abund ASV data
 nosub.asv.info <- merge(nosub.asv.list, nosub.taxonomy, by.x="ESV", by.y="ESV") #merge asv list and taxonomy
 abund.nosub1 <- merge(abund.nosub, nosub.asv.info, by.x="Representative_Sequence", by.y="ESV") #merge abund.nosub and the nosub.asv.list
@@ -70,7 +60,6 @@ abund.nosub2 <- abund.nosub1[,-1:-2] #remove unnecessary columns
 
 #Next, workup abund.nosub.cull so that it only contains the relevant samples.
 rownames(abund.nosub2) <- abund.nosub2$OTU #update rownames
-#write.csv(abund.nosub2, file="abund.nosub2.csv") #export
 abund.nosub.coral.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.coral.tend$Sample_Name_Unique] #subset for relevant samples.
 
 #Next, convert to relabund for later boxplots
@@ -90,10 +79,9 @@ relabund.nosub.coral.tend <- as.data.frame(apply(abund.nosub.coral.tend, 2, FUN=
 rownames(relabund.nosub.coral.tend) <- rownames(abund.nosub.coral.tend) #update rownames
 
 #Cull low abundance ASVs
-#hist(unlist(abund.nosub.coral.tend)[unlist(abund.nosub.coral.tend)!=0], xlim=c(0,5000), breaks=10000) #visualize distribution of abundance values. After removing zeros, it looks like most ASVs have an abundance < 1000.
 abund.nosub.coral.tend.t <- as.data.frame(t(abund.nosub.coral.tend)) #transpose.
 
-cull.otu(abund.nosub.coral.tend.t,3,50,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 187 ASVs remain.
+cull.otu(abund.nosub.coral.tend.t,3,50,1000) #minimum number of reads = 50 in 3 samples or 1000 in 1 sample. 255 ASVs remain.
 abund.nosub.coral.tend.t.cull <- relabund.df.cull #save as new df
 abund.nosub.coral.tend.cull <- as.data.frame(t(abund.nosub.coral.tend.t.cull)) #transpose
 
@@ -126,16 +114,15 @@ abund.nosub.coral.tend.cull1 <- as.data.frame(t(abund.nosub.coral.tend.t.cull1))
 taxonomy.cull <- nosub.asv.info[nosub.asv.info$OTU %in% colnames(abund.nosub.coral.tend.t.cull1),] #subset taxonomy for only culled ASVs.
 rownames(taxonomy.cull) <- taxonomy.cull$OTU #adjust rownames
 colnames(taxonomy.cull)[2] <- "OTUNumber" #adjust colnames
-write.csv(taxonomy.cull, file="taxonomy.cull.csv") #export
+#write.csv(taxonomy.cull, file="taxonomy.cull.csv") #export
 
 #generat longformat of abund data
 colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
 
-rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_ID #prep rownames
-#CONSIDER REMOVING
+rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_Name_Unique #prep rownames
+
 abund.nosub.longformat <- generate.long.format.OTUs(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy.cull) #generate longformat for abund data
 
-#CONSIDER REMOVING
 relabund.nosub.longformat <- generate.long.format.OTUs(relabund.nosub.coral.tend,metadata.coral.tend,taxonomy.cull) #generate longformat for relabund data
 
 #Convert to phyloseq object for use in DESeq2.
@@ -158,9 +145,9 @@ mod.deseq4 <- estimateDispersions(mod.deseq4)
 mod.deseq4 <- nbinomWaldTest(mod.deseq4)
 
 #extract pairwise model results
-mod.deseq4.heated <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Non-bleached + Heated", "Non-bleached + Ambient")))
-mod.deseq4.bleached <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Bleached + Ambient", "Non-bleached + Ambient")))
-mod.deseq4.bleach.heated <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Bleached + Heated","Non-bleached + Ambient")))
+mod.deseq4.heated <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Heated", "Control")))
+mod.deseq4.bleached <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Bleached", "Control")))
+mod.deseq4.bleach.heated <- as.data.frame(results(mod.deseq4,pAdjustMethod="BH",alpha=0.05,contrast=c("Treatment", "Bleached + Heated","Control")))
 
 #extract pvalues and add to new df
 sig.asvs.v1 <- as.data.frame(rownames(as.data.frame(mod.deseq4.bleached))) #add asv names
@@ -198,7 +185,6 @@ sig.asvs.v1$bleached.heated.sig[sig.asvs.v1$bleached.heated.padj <=.05] <- "Y"
 sig.asvs.v2 <- cbind(sig.asvs.v1, taxonomy.cull[,1:8])
 
 #add a "differentially abundant in" column
-#CONSIDER REMOVING IF WE DONT NEED THIS
 sig.asvs.v2$DA_in <- paste(sig.asvs.v2$heated.sig, sig.asvs.v2$bleached.sig, sig.asvs.v2$bleached.heated.sig, sep="") #paste the individual significance Y/N characters
 #replace three character string with full description
 sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YNN"] <- "Non-bleached + Heated"
@@ -209,15 +195,12 @@ sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YNY"] <- "Non-bleached + Heated and Bleach
 sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="NYY" | sig.asvs.v2$DA_in=="NAYY"] <- "Bleached + Ambient and Bleached + Heated"
 sig.asvs.v2$DA_in[sig.asvs.v2$DA_in=="YYY"] <- "Non-bleached + Heated and Bleached + Ambient and Bleached + Heated"
 
-#export.
-#write.csv(sig.asvs.v2, "sig.asvs.v2.csv")
-
 #-----------------------------------------------------------------------------------------------------------------------------
 #work up abund data for visualization with deseq2 results
 #calculate mean abundance for each treatment
 abund.nosub.coral.tend.t.cull2 <- abund.nosub.coral.tend.t.cull1 #duplicate df
 abund.nosub.coral.tend.t.cull2$SampleID <- rownames(abund.nosub.coral.tend.t.cull2) #add sample ID column
-abund.nosub.coral.tend.t.cull3 <- merge(abund.nosub.coral.tend.t.cull2, metadata.coral.tend, by.x="SampleID", by.y="Sample_ID") #add in metadata
+abund.nosub.coral.tend.t.cull3 <- merge(abund.nosub.coral.tend.t.cull2, metadata.coral.tend, by.x="SampleID", by.y="Sample_Name_Unique") #add in metadata
 abund.nosub.coral.tend.mean <- as.data.frame(aggregate(abund.nosub.coral.tend.t.cull3[,c(2:160,174)], by=list(abund.nosub.coral.tend.t.cull3$Treatment), FUN=mean)) #calculate mean
 
 #work up for combining with sig.asvs.v2

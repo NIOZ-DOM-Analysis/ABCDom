@@ -73,7 +73,7 @@ metadata.t0 <- metadata_16S_2[metadata_16S_2$Timepoint_char=="T0",] #subset for 
 
 metadata.tend <- metadata_16S_2[metadata_16S_2$Timepoint_char=="Tend",] #subset for only the tend samples
 
-metadata.coral.tend <- subset(metadata.tend, Treatment!="Heated Water Control" & Treatment!="Ambient Water Control") #subset for only tend coral samples.
+metadata.coral.tend <- subset(metadata.tend, Treatment!="Negative Control" & Treatment!="Negative Control + Heated") #subset for only tend coral samples.
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #Work up unifrac.
