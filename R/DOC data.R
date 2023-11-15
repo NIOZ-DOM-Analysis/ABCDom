@@ -84,7 +84,7 @@ fig2A<-ggplot(tmp,aes(x=Treatment.x,y=Control_Corrected_DOC_flux_SA_Normalized_d
   theme(legend.position = "none")+
   ylab (expression("Surface Area Normalized DOC flux (µM (dm"^2*")"^-1*"h"^-1*")"))+
   xlab("")
-#FIX DIMENSIONS ggsave('fig2A_DOC_flux Surface area normalized_control corrected_per treatment barplot.jpeg', path = dirFigs, width = 3, height = 5, dpi = 300)
+#ggsave('fig2A_DOC_flux Surface area normalized_control corrected_per treatment barplot.jpeg', path = dirFigs, width = 7.5, height = 5.5, dpi = 300)
 #Use as panel A for Figure 2
 
 #write_csv(tmp, file = file.path(dirOutput, "Fig2A_data.csv"))

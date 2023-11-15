@@ -117,13 +117,13 @@ colnames(taxonomy.cull)[2] <- "OTUNumber" #adjust colnames
 #write.csv(taxonomy.cull, file="taxonomy.cull.csv") #export
 
 #generat longformat of abund data
-colnames(metadata.coral.tend)[4] <- "Sample_ID" #prep colnames
+metadata.coral.tend$Sample_ID <- metadata.coral.tend$Sample_Name_Unique #prep colnames
 
 rownames(metadata.coral.tend) <- metadata.coral.tend$Sample_Name_Unique #prep rownames
 
 abund.nosub.longformat <- generate.long.format.OTUs(abund.nosub.coral.tend.cull1,metadata.coral.tend,taxonomy.cull) #generate longformat for abund data
 
-relabund.nosub.longformat <- generate.long.format.OTUs(relabund.nosub.coral.tend,metadata.coral.tend,taxonomy.cull) #generate longformat for relabund data
+relabund.nosub.longformat <- generate.long.format.OTUs(relabund.nosub.coral.tend, metadata.coral.tend, taxonomy.cull) #generate longformat for relabund data
 
 #Convert to phyloseq object for use in DESeq2.
 physeq.abund.nosub <- otu_table(abund.nosub.coral.tend.cull1,taxa_are_rows=TRUE) #convert abund df to phyloseq object
@@ -256,8 +256,6 @@ abund.nosub.asv1 <- abund.nosub.asv[lfc.clustering$tree_row$order,]
 #Visualize significant ASVs
 #subset abund.nosub.asv.longformat1 to remove unnecessary Classes and lump "Other taxa
 abund.nosub.asv.longformat2 <- subset(abund.nosub.asv.longformat1, Class!="Bacteria_unclassified" & Class!="Acidimicrobiia" & Class!="Proteobacteria_unclassified" & Class!="Oxyphotobacteria")
-#abund.nosub.asv.longformat2$Class1 <- factor(abund.nosub.asv.longformat2$Class, levels=c(levels(abund.nosub.asv.longformat2$Class), "Other")) #duplicate calss, add new "Other" Class
-#abund.nosub.asv.longformat2$Class1[abund.nosub.asv.longformat2$Class1=="Deltaproteobacteria" | abund.nosub.asv.longformat2$Class1=="Thermoplasmata"] = "Other" #rename Thermoplasmata an deltaprot as "other"
 abund.nosub.asv.longformat2$Treatment[abund.nosub.asv.longformat2$Treatment=="Bleached + Ambient"] <- "Bleached"
 abund.nosub.asv.longformat2$Treatment[abund.nosub.asv.longformat2$Treatment=="Non-bleached + Heated"] <- "Heated"
 
@@ -292,9 +290,12 @@ bact.bubbleplot <- ggplot(subset(abund.nosub.asv.longformat2, Class=="Bacteroidi
   ggtitle(label="Bacteroidia")
 
 #plot and export, use for supplemental figure 6
-#png("ASV bubbleplot class v2.png", width=21, height=19, units="in", res=600)
-#plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
-#dev.off()
+png(file=file.path(dirFigs,"Fig_S6.png"), width=21, height=19, units="in", res=600)
+plot_grid(alpha.bubbleplot, gamma.bubbleplot, bact.bubbleplot, nrow=1, rel_widths = c(1, 1, 1.2))
+dev.off()
+
+#export data
+#write.csv(abund.nosub.asv.longformat2, file=file.path(dirOutput, "FigS6_data.csv"))
 
 #subset for just significant asvs
 abund.nosub.asv.longformat2.sig <- subset(abund.nosub.asv.longformat2, significant1=="Y")
@@ -313,10 +314,10 @@ ggplot(abund.nosub.asv.longformat2.sig, aes(x=Genus_OTU, y=l2fc, fill=l2fc, size
   ylab(label="log2 fold change")+
   xlab("")+
   geom_hline(yintercept=0, linetype="dashed")
-#ggsave("Figure 3C.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
+#ggsave("Fig3C.jpeg", path = dirFigs, width = 20, height = 15, dpi = 600)
 
 #export data used to make figure 3C
-#write.csv(abund.nosub.asv.longformat2.sig, file="figure.3c.data")
+#write.csv(abund.nosub.asv.longformat2.sig, file=file.path(dirOutput, "Fig3c_data.csv"))
 
 #visualize relabund data as 2 way heatmaps at the family level
 #work up taxonomy data from relabund data frame
@@ -360,10 +361,7 @@ metadata.tend$Sample_ID <- metadata.tend$Sample_Name_Unique #add Sample_ID colum
 
 #work up taxonomy for longformat
 taxonomy.tend.family.cull <- as.data.frame(rownames(relabund.tend.family.cull1)) #extract culled family names
-#colnames(taxonomy.tend.family.cull) <- "Family" #update colnames
-#taxonomy.tend.family.cull1 <- merge(taxonomy.tend.family.cull, taxonomy[,1:5], by.x="Family", by.y="Family", all.x=T, all.y=F)
 taxonomy.tend.family.cull$OTUNumber <- taxonomy.tend.family.cull$Family #create otunumber column for long format generation
-#taxonomy.tend.family.cull2 <- taxonomy.tend.family.cull1[duplicated(taxonomy.tend.family.cull1)==FALSE,]
 
 #generate summed family clustering heatmap, mean for each treatment
 #work up relabund data
@@ -373,7 +371,6 @@ relabund.tend.family.cull1.t$Treatment <- metadata.tend$Treatment #add treatment
 relabund.tend.family.cull1.t.mean <- aggregate(relabund.tend.family.cull1.t[,-25], by=list(relabund.tend.family.cull1.t$Treatment), FUN=mean) #calculate mean relabund for each family in each treatment
 colnames(relabund.tend.family.cull1.t.mean)[1] <- "Treatment" #update colnames
 rownames(relabund.tend.family.cull1.t.mean) <- relabund.tend.family.cull1.t.mean$Treatment #update rownames
-rownames(relabund.tend.family.cull1.t.mean)[c(1:2,4:6)] <- c("Negative Control", "Bleached", "Negative Control + Heated", "Control", "Heated") #update rownames
 
 relabund.tend.family.cull1.t.mean1 <- relabund.tend.family.cull1.t.mean[,-1] #remove treatment column
 
@@ -384,7 +381,10 @@ relabund.tend.family.cull1.t.mean.zscore <- apply(relabund.tend.family.cull1.t.m
 
 #visualize and save as figure 3B
 family.cull.heatmap <- pheatmap(relabund.tend.family.cull1.t.mean.zscore)
-#ggsave("Figure 3B.png", family.cull.heatmap, dpi=600, width=6, height=4) #UPDATE DIRECTORY IN FINAL REPO
+#ggsave("Fig3B.png", path=dirFigs, family.cull.heatmap, dpi=600, width=6, height=4)
+
+#export data
+#write.csv(relabund.tend.family.cull1.t.mean.zscore, file=file.path(dirOutput, "Fig3B_data.csv"))
 
 #generate longformat of the family aggregated relabund data
 colnames(taxonomy.tend.family.cull) <- "OTUNumber" #work up taxonomy data
@@ -394,29 +394,29 @@ family.relabund.tend.longformat <- abund.longformat #save as new output
 colnames(family.relabund.tend.longformat)[2] <- "Family" #change colnames
 
 #generate pie charts for figure 5
-ggplot(subset(family.relabund.tend.longformat, Treatment=="Non-bleached + Ambient"), aes(x="", y=abund, fill=Family))+
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Control"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
   coord_polar("y", start=0)+
   scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
-#FIX DIRECTORIES FOR FINAL SCRIPTggsave("Figure 5 piechart control.png", path=dirFigs, height=6, width=6, dpi=600)
+#ggsave("Fig5_piechart_control.png", path=dirFigs, height=6, width=6, dpi=600)
 
-ggplot(subset(family.relabund.tend.longformat, Treatment=="Non-bleached + Heated"), aes(x="", y=abund, fill=Family))+
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Heated"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
   coord_polar("y", start=0)+
   scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
-#FIX DIRECTORIES FOR FINAL SCRIPTggsave("Figure 5 piechart heated.png", path=dirFigs, height=6, width=6, dpi=600)
+#ggsave("Fig5_piechart_heated.png", path=dirFigs, height=6, width=6, dpi=600)
 
-ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Ambient"), aes(x="", y=abund, fill=Family))+
+ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
   theme_void()+
   theme(legend.position="none")+
   coord_polar("y", start=0)+
   scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
-#FIX DIRECTORIES FOR FINAL SCRIPTggsave("Figure 5 piechart bleached.png", path=dirFigs, height=6, width=6, dpi=600)
+#ggsave("Fig5_piechart_bleached.png", path=dirFigs, height=6, width=6, dpi=600)
 
 ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Heated"), aes(x="", y=abund, fill=Family))+
   geom_bar(stat="summary", fun.y="mean", color="black")+
@@ -424,10 +424,10 @@ ggplot(subset(family.relabund.tend.longformat, Treatment=="Bleached + Heated"), 
   theme(legend.position="none")+
   coord_polar("y", start=0)+
   scale_fill_manual(values=c("gold", met.brewer(name="Signac",n=12,type="discrete",direction=-1), met.brewer(name="Renoir",n=4,type="discrete",direction=-1), "gray", "orange", "firebrick1", "darkolivegreen3", met.brewer(name="Juarez",n=6,type="discrete",direction=1)))
-#FIX DIRECTORIES FOR FINAL SCRIPTggsave("Figure 5 piechart bleached and heated.png", path=dirFigs, height=6, width=6, dpi=600)
+#ggsave("Fig5_piechart_bleached_and_heated.png", path=dirFigs, height=6, width=6, dpi=600)
 
 #export data
-#FIX OUTPUT DIRECTORY write.csv(family.relabund.tend.longformat, file="figure.5.relativeabundance.data.csv")
+#write.csv(family.relabund.tend.longformat, file=file.path(dirOutput, "Fig5_relativeabundance_data.csv"))
 
 #work up supplemental figure 7
 #add a column to sig asvs that includes if it's enriched or depleted.
@@ -470,7 +470,9 @@ DA_names <- c(
   `Bleached + Ambient and Bleached + Heated` = "Bleached, Bleached + Heated",
   `Non-bleached + Heated and Bleached + Ambient` = "Heated, Bleached",
   `Non-bleached + Heated and Bleached + Ambient and Bleached + Heated` = "Heated, Bleached, Bleached + Heated",
-  `Non-bleached + Heated and Bleached + Heated` = "Heated, Bleached + Heated"
+  `Non-bleached + Heated and Bleached + Heated` = "Heated, Bleached + Heated",
+  `depleted` = "Depleted",
+  `enriched` = "Enriched"
 )
 
 ggplot(subset(relabund.nosub.longformat.sig, sig=="Y"), aes(y=abund, x=Treatment, fill=Family, group=OTU))+
@@ -480,7 +482,10 @@ ggplot(subset(relabund.nosub.longformat.sig, sig=="Y"), aes(y=abund, x=Treatment
   ylab("Relative Abundance")+
   theme(strip.text.y = element_text(size = 8))+
   scale_x_discrete(labels = c("Control", "Heated", "Bleached", "Bleached + Heated"))
-#ggsave("Figure S7.png", path=dirFigs, width=9, height=15, dpi=600)
+#ggsave("FigS7.png", path=dirFigs, width=9, height=15, dpi=600)
+
+#export data
+#write.csv(relabund.nosub.longformat.sig, file=file.path(dirOutput, "FigS7_data.csv"))
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #work up relabund.tend.family.cull.t to use as a supplemental table S1
@@ -494,74 +499,4 @@ relabund.tend.family.cull.t2.mean <- as.data.frame(aggregate(relabund.tend.famil
 
 colnames(relabund.tend.family.cull.t2.mean)[1] <- "Treatment" #update colnames
 
-#write.csv(relabund.tend.family.cull.t2.mean, "table.s1.dat.csv") #export FIX DIRECTORY
-
-#-----------------------------------------------------------------------------------------------------------------------------
-#generate network for supplement
-#Work up abund.nosub.coral.tend.cull1 to include water samples for network visualization.
-abund.nosub.tend <- abund.nosub2[,colnames(abund.nosub2) %in% metadata.tend$Sample_Name_Unique] #subset for just tend samples
-
-
-
-
-#DO THIS IN SEPERATE R SCRIPT, EXPORT ABUND NOSUB 2 AND WORK UP.
-
-
-
-
-
-
-abund.nosub.tend.cull <- abund.nosub.tend[rownames(abund.nosub.tend) %in% rownames(abund.nosub.coral.tend.cull1),] #subset for just 159 ASVs run thru DESEQ2
-
-#Construct network using spiec.easi on a phyloseq object.
-taxonomy.cull.physeq <- tax_table(as.matrix(taxonomy.cull))
-abund.nosub.tend.cull.physeq <- otu_table(abund.nosub.tend.cull, taxa_are_rows=T)
-rownames(metadata.tend) <- metadata.tend$Sample_Name_Unique
-metadata.tend.physeq <- sample_data(metadata.tend)
-physeq.cull.tend <- phyloseq(taxonomy.cull.physeq, abund.nosub.tend.cull.physeq, metadata.tend.physeq)
-
-#Construct network using spiec.easi.
-#net.c <- spiec.easi(as.matrix(t(abund.nosub.tend.cull)), method='mb') #construct the network
-net.c <- spiec.easi(physeq.cull.tend, method='mb')
-net.c1 <- spiec.easi(as.matrix(t(abund.nosub.tend.cull)), method='mb')
-
-net.c.ig <- adj2igraph(getRefit(net.c), vertex.attr=list(name=taxa_names(physeq.cull.tend))) #fit the network for igraph
-net.c.ig <- adj2igraph(net.c) #fit the network for igraph
-
-
-
-
-
-
-
-net.c <- spiec.easi(as.matrix(t(abund.nosub.tend.cull)), method='mb')
->>>>>>> 1fb7be5ce0ab88fa4b40924424051f048e0d757a
-
-net.c$lambda
-net.c$select$stars$summary
-
-<<<<<<< HEAD
-net.c.ig <- adj2igraph(getRefit(net.c), vertex.attr=list(name=taxa_names(physeq.cull.tend)))
-
-plot(net.c.ig, vertex.size=8, type="taxa", main="MB")
-
-#export
-write.graph(net.c.ig, file=file.path(dirOutput,"net.c.ig.txt"),format="ncol")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#clear workspace
-rm(list=ls())
+#write.csv(relabund.tend.family.cull.t2.mean, "table.s1.dat.csv") #export

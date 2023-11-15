@@ -35,11 +35,9 @@ if( "Sample Name" %in% colnames(metadata) ){
 # 3. Symbiont data
 # 4. FCM Microbial growth
 # 5. DOC data
-# 6. DO WE NEED THIS 16S_ASV_fasta_workup
 # 6. 16S_multivariate_technical_replicate_Analysis
 # 7. 16S_multivariate_Analysis
 # 8. 16S_ASV_Analysis
-# 9. 16S_multivariate_technical_replicate_Analysis ??
-# 10. Procrustes
-
+# 9. Procrustes
+#11. 16S_cytoscape_network.cys (run in cytoscape)
 

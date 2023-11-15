@@ -3,6 +3,7 @@ library(vegan)
 library(rstatix)
 library(tidyverse)
 library(multcomp)
+library(dplyr)
 
 mutate <- dplyr::mutate
 select <- dplyr::select
@@ -17,7 +18,7 @@ PLANC_metadata <- read_csv(file.path(dirRAW,"Sym_Counts","Symbiont_metadata.csv"
 # Merge the three data frames.
 
 sym_dat<- full_join(PLANC_Blastate_FCM_Sample_Map, PLANC_Blastate_FCM, by = c("Plate", "Well"))
-sym_dat<- full_join(sym_dat, PLANC_nubbin_sizing_notes, by = join_by("Sample"== "Code"))
+sym_dat<- merge(sym_dat, PLANC_nubbin_sizing_notes, by = join_by("Sample"== "Code"))
 
 #make two columns concentration and events based on  if we have to use Sym-SCC data
 sym_dat <- sym_dat %>%
@@ -73,7 +74,7 @@ Fig1C <- ggplot(tmp,(aes(x=Collection_Bleaching_Level1,y=log10.sym.SA,color=Coll
   # theme(text=element_text(size=45), plot.margin=unit(c(1,1,1,1), units = "in"), strip.text.x=element_text(size=45))+
   theme_classic()
 Fig1C
-#FIX DIMENSIONS ggsave('Fig1C_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=5, height=3, units = "in")
+#ggsave('Fig1C_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=6, height=3.5, units = "in")
 
 #write_csv(tmp, file.path(dirOutput,  "Fig1C_data.csv"))
 
@@ -117,7 +118,7 @@ Fig1D <-ggplot(tmp,aes(x=Treatment,y=log10(sym_SA_norm_no_outliers),color=Treatm
   ylab(expression(paste("Log10 Symbiodiniaceae\ncells per cm^2")))+
   labs(color="Treatment",fill="Treatment")
 Fig1D
-#FIX DIMENSIONS ggsave('fig1D_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=5, height=3, units = "in")
+#ggsave('fig1D_Symbiont cells per cm2_per treatment vMARCH barplot.jpeg', path = dirFigs, dpi = 300, width=15, height=9, units = "in")
 
 #write_csv(tmp, file.path(dirOutput,  "Fig1D_data.csv"))
 

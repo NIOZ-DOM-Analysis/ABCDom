@@ -233,9 +233,12 @@ adiv.tend.shannoneven <- ggplot(adiv.tend, aes(x=Treatment, y=shannoneven, fill=
   ggtitle("Shannon's Eveness")
 
 #export for supplemental figure 5
-jpeg(file=file.path(dirFigs, "Fig_S5.jpg"),width=5000, height=2800, res=300)
-plot_grid(adiv.tend.sobs, adiv.tend.chao, adiv.tend.shannon, adiv.tend.shannoneven, nrow=2, ncol=2, rel_widths=c(1,1.3), align = c("hv"), axis = "lt" )
-dev.off()
+#jpeg(file=file.path(dirFigs, "Fig_S5.jpg"),width=5000, height=2800, res=300)
+#plot_grid(adiv.tend.sobs, adiv.tend.chao, adiv.tend.shannon, adiv.tend.shannoneven, nrow=2, ncol=2, rel_widths=c(1,1.3), align = c("hv"), axis = "lt" )
+#dev.off()
+
+#export supplemental figure 5 data
+#write.csv(adiv.tend, file=file.path(dirOutput, "FigS5_data.csv"))
 
 #-----------------------------------------------------------------------------------------------------------------------------
 #run stats on adiv data
