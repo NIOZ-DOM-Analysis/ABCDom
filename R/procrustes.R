@@ -100,7 +100,7 @@ ggplot(ctest) +
   geom_segment(aes(x=xstart,y=ystart,xend=rda1,yend=rda2,colour=fact.all.treat),arrow=arrow(length=unit(0.2,"cm")), show.legend = FALSE)+
   scale_color_manual(values=cost.col.line, name = "Treatment", labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)), labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
-  scale_shape_manual(values = c(24, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
+  scale_shape_manual(values = c(21, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
   scale_x_continuous(name = "Dimension 1")+
   scale_y_continuous(name = "Dimension 2")+
   theme_bw()
@@ -118,7 +118,7 @@ fig4B<-ggplot(ctest) +
   geom_segment(aes(x=xstart,y=ystart,xend=rda1,yend=rda2,colour=fact.all.treat.proc),arrow=arrow(length=unit(0.2,"cm")), show.legend = FALSE)+
   scale_color_manual(values=cost.col.line, name = "Treatment", labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
   scale_fill_manual(values=cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)), labels=c("Control", "Heated", "Bleached", "Bleached + Heated", "Negative Control", "Negative Control + Heated"))+
-  scale_shape_manual(values = c(24, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
+  scale_shape_manual(values = c(21, 22), name = "Dataset", labels = c("16S", "Metabolome"))+
   scale_x_continuous(name = "Dimension 1")+
   scale_y_continuous(name = "Dimension 2")+
   coord_fixed(ratio=1.48)+
@@ -127,9 +127,9 @@ fig4B
 
 write_csv(ctest, file.path(dirOutput, "Fig4B_data.csv"))
 
-fig4<-plot_grid(fig4A, fig4B, labels="AUTO", nrow =2, rel_heights = c(1, 1), align = c("hv"), axis = "l")
+fig4<-plot_grid(fig4A, fig4B, labels="AUTO", nrow =1, rel_heights = c(1, 1), align = c("hv"), axis = "l")
 fig4
-ggsave("fig4.jpg", plot = fig4, path = dirFigs, width = 8, height = 10, units = "in", dpi = 320)
+ggsave("fig4.jpg", plot = fig4, path = dirFigs, width = 14, height = 5, units = "in", dpi = 320)
 
 #Next, run a mantel test between pro.16 and pro.Meta
 mantel.results <- mantel(pro.16, pro.Meta.dist)

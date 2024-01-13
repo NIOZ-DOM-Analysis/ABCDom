@@ -530,7 +530,7 @@ fig4A<-ggplot() +
   scale_y_continuous(sec.axis = dup_axis(labels=NULL, name=NULL)) +
   geom_point(data=NMDS.ABCDom.T0,
              aes(x=MDS1, y=MDS2, fill = fact.all.treat.NMDS.Metab, colour=fact.all.treat.NMDS.Metab),
-             size=5, stroke=1.5, shape = 21) +
+             size=5, stroke=1.5, shape = 22) +
   scale_color_manual(labels = treat.labels, values = cost.col.line, name = "Treatment")+
   scale_fill_manual(labels = treat.labels, values = cost.col.fill, name = "Treatment", guide = guide_legend(override.aes = list(shape = 21)))+
   annotate("text", label="p > 0.001 \n stress = 0.0467", x=-.11, y=.05)+
