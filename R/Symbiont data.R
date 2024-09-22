@@ -18,18 +18,19 @@ PLANC_metadata <- read_csv(file.path(dirRAW,"Sym_Counts","Symbiont_metadata.csv"
 # Merge the three data frames.
 
 sym_dat<- full_join(PLANC_Blastate_FCM_Sample_Map, PLANC_Blastate_FCM, by = c("Plate", "Well"))
-sym_dat<- merge(sym_dat, PLANC_nubbin_sizing_notes, by = join_by("Sample"== "Code"))
+sym_dat<- merge(sym_dat, PLANC_nubbin_sizing_notes, by.x = "Sample", by.y = "Code")
 
 #make two columns concentration and events based on  if we have to use Sym-SCC data
+sym_dat$sym.con <- ifelse(is.na(sym_dat$Notes.x), sym_dat$`Sym-FSC Events/μL(V)_corrected`, sym_dat$`Sym-SSC Events/μL(V)_corrected`)
+sym_dat$events <- ifelse(is.na(sym_dat$Notes.x), sym_dat$`Sym-FSC Events`, sym_dat$`Sym-SSC Events`)
+
+
 sym_dat <- sym_dat %>%
-  mutate(sym.con = case_when(is.na(Notes.x) ~  `Sym-FSC Events/μL(V)`,
-                             .default = `Sym-SSC Events/μL(V)`), .before = Notes.x) %>%
-  mutate(sym.events = case_when(is.na(Notes.x) ~  `Sym-FSC Events`,
-                             .default = `Sym-SSC Events`), .before = Notes.x) %>%
   mutate(sym.total = sym.con*Vol*1000) %>%
   mutate(sym.SA = sym.total/SA) %>%
   mutate(log10.sym.SA = log10(sym.SA))
 
+write.csv(sym_dat, paste(dirOutput, "sym_dat.csv", sep="/")) #export
 
 # sum the sym counts and SA values by aquaria and timepoint, without outlier1
 tmp <- sym_dat %>%
@@ -51,7 +52,7 @@ tmp2 <- sym_dat %>%
 
 sym_dat_aquaria <- full_join(tmp, tmp2, by = "Aquaria_Timepoint_Heat", suffix = c("_no_outliers1", "_no_outliers"))
 
-sym_dat_aquaria <- right_join(PLANC_metadata, sym_dat_aquaria, by = join_by(PLANC_aquaria == Aquaria_Timepoint_Heat))
+sym_dat_aquaria <- right_join(PLANC_metadata, sym_dat_aquaria, by = c("PLANC_aquaria" = "Aquaria_Timepoint_Heat"))
 
 # visualize Symbiont at collection and do stats with stringent outliers (outlier)
 tmp <- sym_dat %>%
